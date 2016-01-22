@@ -11,6 +11,10 @@ class ASTM30ColorVectorViewController: UIViewController {
 
     var coordinateRange = ASTM30ColorVectorCoordinateRange()
 
+    var isBackgroundHasMask: Bool {
+        return _backgroundView.layer.mask != nil
+    }
+
     override func viewDidLoad() {
         view.backgroundColor = UIColor.blackColor()
     }
@@ -19,8 +23,6 @@ class ASTM30ColorVectorViewController: UIViewController {
         super.viewWillLayoutSubviews()
         _setBackgroundView()
         _setPointsView()
-
-        __testAction()
     }
 
     func addPointsInfo(info: ASTM30ColorVectorPointsInfo) {
@@ -28,19 +30,34 @@ class ASTM30ColorVectorViewController: UIViewController {
         _pointsInfos[info] = _shapeLayerWithPointsInfo(info)
     }
 
-    func clipBackgroundWithPointsInfoName(name: String) {
-        let pointsInfo = _pointsInfos.filter {
+    func setBackgroundMaskWithPointsInfoName(name: String) {
+        let pointsInfoKeyValue = _pointsInfos.filter {
             (info, _) in return info.name == name
         }.first
 
-        guard let layer = pointsInfo?.1 else { return }
+        MZ.Debugs.assert(pointsInfoKeyValue != nil, "pointsInfo not found with name: \(name)")
 
-        let maskLayer = _maskLayerFromLayer(layer)
-        _backgroundView.layer.mask = maskLayer
+        guard let layer = pointsInfoKeyValue?.1 else {
+            MZ.Debugs.assertAlwayFalse("layer not found")
+            return
+        }
 
-        maskLayer.transform = CATransform3DScale(
-            maskLayer.transform, 1.3, 1.3, 0.0
-        )
+        _backgroundMaskLayer = _maskLayerFromLayer(layer)
+    }
+
+    func enableBackgroundMask(enable: Bool, animated: Bool = true) {
+        if animated {
+            let duration = 0.25
+            _animateBackgroundMaskWithEnable(enable, duration: duration)
+            performSelector("_setBackgroundMaskWithEnable:", withObject: enable, afterDelay: duration)
+        } else {
+            _setBackgroundMaskWithEnable(enable)
+        }
+    }
+
+    private func _setBackgroundMaskWithEnable(enableValue: AnyObject) {
+        let enable = enableValue as! Bool
+        _backgroundView.layer.mask = enable ? _backgroundMaskLayer : nil
     }
 
 
@@ -49,6 +66,8 @@ class ASTM30ColorVectorViewController: UIViewController {
     private var _pointsInfos = [ASTM30ColorVectorPointsInfo: CAShapeLayer]()
 
     private var _backgroundView: UIImageView!
+
+    private var _backgroundMaskLayer: CAShapeLayer!
 
     private var _pointsView: UIView!
 
@@ -92,18 +111,64 @@ class ASTM30ColorVectorViewController: UIViewController {
 
         _pointsView.layer.addSublayer(layer)
 
-//        layer.transform = CATransform3DMakeScale(1.3, 1.3, 0)
+        return layer
+    }
+
+    private func _maskLayerFromLayer(layer: CAShapeLayer) -> CAShapeLayer {
+        let maskLayer = CAShapeLayer(layer: layer)
+        maskLayer.frame.size = view.frame.size
+        maskLayer.path = layer.path
+
+        return maskLayer
+    }
+
+    private func _maskLayerFromPointsInfo(pointsInfo: ASTM30ColorVectorPointsInfo) -> CAShapeLayer {
+        func modifyPoint(point: CGPoint,
+            inCoordinateRange coordinateRange: ASTM30ColorVectorCoordinateRange)
+            -> CGPoint {
+                let realX = view.frame.width*((point.x - coordinateRange.xMin)/coordinateRange.xLength)
+                let realY = view.frame.height - view.frame.height*((point.y - coordinateRange.yMin)/coordinateRange.yLength)
+
+                return CGPoint(x: realX, y: realY)
+        }
+
+        let points = pointsInfo.points.map { p in return modifyPoint(p.value, inCoordinateRange: self.coordinateRange) }
+
+        let path = UIBezierPath()
+        path.moveToPoint(points[0])
+        points[1..<points.endIndex].forEach { point in path.addLineToPoint(point) }
+
+        if pointsInfo.closePath { path.closePath() }
+
+        let layer = CAShapeLayer()
+        layer.frame.size = view.frame.size
+        layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        layer.path = path.CGPath
 
         return layer
     }
 
-    private func _maskLayerFromLayer(layer: CAShapeLayer) -> CALayer {
-        let maskLayer = CAShapeLayer()
-        maskLayer.path = layer.path
+    private func _animateBackgroundMaskWithEnable(enable: Bool, duration: NSTimeInterval) {
+        if _backgroundView.layer.mask == nil {
+            _backgroundView.layer.mask = _backgroundMaskLayer
+        }
 
+        let maxScale = 10.0
+        let minScale = 1.0
 
+        let scale = CAKeyframeAnimation(keyPath: "transform.scale")
+        scale.duration = duration
+        scale.keyTimes = [0.0, 1.0]
+        scale.values = [
+            (enable ? maxScale : minScale),
+            (enable ? minScale : maxScale),
+        ]
+        scale.timingFunctions = [CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)]
+        scale.fillMode = kCAFillModeForwards
+        scale.removedOnCompletion = false
 
-        return maskLayer
+        _backgroundMaskLayer.removeAllAnimations()
+        _backgroundMaskLayer.addAnimation(scale, forKey: "animation")
     }
 
     private func _colorAtPoint(point:CGPoint) -> UIColor {
@@ -122,119 +187,5 @@ class ASTM30ColorVectorViewController: UIViewController {
 
         let color:UIColor = UIColor(red: red, green: green, blue: blue, alpha: alpha)
         return color
-    }
-
-
-    // MARK: Test
-
-    private func __testPointsViewCenter() {
-        let centerPointLayer = CAShapeLayer()
-        centerPointLayer.path = UIBezierPath(
-            arcCenter: CGPoint.zero,
-            radius: 4,
-            startAngle: 0,
-            endAngle: CGFloat(2*M_PI),
-            clockwise: false
-        ).CGPath
-        centerPointLayer.fillColor = UIColor.greenColor().CGColor
-
-        let ref2PointLayer = CAShapeLayer()
-        ref2PointLayer.path = UIBezierPath(
-            arcCenter: CGPoint(x: -50, y: -50),
-            radius: 4,
-            startAngle: 0,
-            endAngle: CGFloat(2*M_PI),
-            clockwise: false
-        ).CGPath
-        ref2PointLayer.fillColor = UIColor.redColor().CGColor
-
-        let ref3PointLayer = CAShapeLayer()
-        ref3PointLayer.path = UIBezierPath(
-            arcCenter: CGPoint(x: 50, y: 50),
-            radius: 4,
-            startAngle: 0,
-            endAngle: CGFloat(2*M_PI),
-            clockwise: false
-        ).CGPath
-        ref3PointLayer.fillColor = UIColor.blueColor().CGColor
-
-        func addLayers(layers: [CALayer]) {
-            layers.forEach {
-                layer in
-                _pointsView.layer.addSublayer(layer)
-                layer.position = _pointsView.center
-            }
-        }
-
-        addLayers([centerPointLayer, ref2PointLayer, ref3PointLayer])
-    }
-
-    private func __testAction() {
-        coordinateRange = ASTM30ColorVectorCoordinateRange(xMin: -400, yMin: -400, xMax: 400, yMax: 400)
-        __addTestDataAsCircle2()
-        __addTestDataAsCircle1()
-
-//        __addTestDataAsLines()
-
-//        __testPointsViewCenter()
-
-//        _pointsView.layer.transform = CATransform3DScale(_pointsView.layer.transform, 2.0, 2.0, 0.0)
-    }
-
-    private func __addTestDataAsCircle1() {
-        let info = ASTM30ColorVectorPointsInfo(name: "Hello")
-        info.color = UIColor.redColor()
-        info.lineWidth = 4
-        info.points = [
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: -150, y: 0)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: -100, y: 140)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: -50, y: 160)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 0, y: 200)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 50, y: 100)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 100, y: 10)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 150, y: -75)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 110, y: -134)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: -10, y: -200)),
-        ]
-
-        addPointsInfo(info)
-    }
-
-    private func __addTestDataAsCircle2() {
-        let info = ASTM30ColorVectorPointsInfo(name: "Oops")
-        info.color = UIColor.whiteColor()
-        info.lineWidth = 4
-        info.points = [
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: -170, y: 0)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: -130, y: 140)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: -60, y: 160)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 8, y: 260)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 55, y: 100)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 100, y: 10)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 150, y: -85)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 119, y: -134)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: -10, y: -200)),        ]
-
-        addPointsInfo(info)
-    }
-
-    private func __addTestDataAsLines() {
-        coordinateRange = ASTM30ColorVectorCoordinateRange(
-            xMin: -100, xMax: 100, yMin: 0, yMax: 100
-        )
-
-        let info = ASTM30ColorVectorPointsInfo(name: "Hello")
-        info.color = UIColor.redColor()
-        info.lineWidth = 4
-        info.points = [
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 0, y: 0)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 25, y: 40)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 50, y: 20)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 75, y: 35)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 100, y: 10)),
-        ]
-        info.closePath = false
-
-        addPointsInfo(info)
     }
 }
