@@ -1,0 +1,407 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8E751A561C51FA8B00B41ABA /* ASTM30ColorVectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E751A551C51FA8B00B41ABA /* ASTM30ColorVectorViewController.swift */; };
+		8E751A5A1C51FAC900B41ABA /* ASTM30ColorVectorPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E751A591C51FAC900B41ABA /* ASTM30ColorVectorPoint.swift */; };
+		8E751A5C1C51FC2800B41ABA /* ASTM30ColorVectorCoordinateRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E751A5B1C51FC2800B41ABA /* ASTM30ColorVectorCoordinateRange.swift */; };
+		8EB982901C51FD9700593591 /* MZ.InAppPurchaseManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB982811C51FD9700593591 /* MZ.InAppPurchaseManger.swift */; };
+		8EB982911C51FD9700593591 /* MZ.CGExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB982831C51FD9700593591 /* MZ.CGExtensions.swift */; };
+		8EB982921C51FD9700593591 /* MZ.SceneWithQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB982841C51FD9700593591 /* MZ.SceneWithQueue.swift */; };
+		8EB982931C51FD9700593591 /* MZ.Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB982851C51FD9700593591 /* MZ.Shapes.swift */; };
+		8EB982941C51FD9700593591 /* MZ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB982861C51FD9700593591 /* MZ.swift */; };
+		8EB982951C51FD9700593591 /* MZ.TypeDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB982871C51FD9700593591 /* MZ.TypeDefines.swift */; };
+		8EB982961C51FD9700593591 /* MZ.TouchDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB982891C51FD9700593591 /* MZ.TouchDefines.swift */; };
+		8EB982971C51FD9700593591 /* MZ.Debugs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB9828B1C51FD9700593591 /* MZ.Debugs.swift */; };
+		8EB982981C51FD9700593591 /* MZ.Degrees.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB9828C1C51FD9700593591 /* MZ.Degrees.swift */; };
+		8EB982991C51FD9700593591 /* MZ.Maths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB9828D1C51FD9700593591 /* MZ.Maths.swift */; };
+		8EB9829A1C51FD9700593591 /* MZ.Ranges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB9828E1C51FD9700593591 /* MZ.Ranges.swift */; };
+		8EB9829B1C51FD9700593591 /* MZ.Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB9828F1C51FD9700593591 /* MZ.Types.swift */; };
+		8EB9829D1C5202B100593591 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB9829C1C5202B100593591 /* ViewController.swift */; };
+		8EF8D5EC1C50BB0B00D09733 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF8D5EB1C50BB0B00D09733 /* AppDelegate.swift */; };
+		8EF8D5F11C50BB0B00D09733 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EF8D5EF1C50BB0B00D09733 /* Main.storyboard */; };
+		8EF8D5F31C50BB0B00D09733 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EF8D5F21C50BB0B00D09733 /* Assets.xcassets */; };
+		8EF8D5F61C50BB0B00D09733 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EF8D5F41C50BB0B00D09733 /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		8E751A551C51FA8B00B41ABA /* ASTM30ColorVectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTM30ColorVectorViewController.swift; sourceTree = "<group>"; };
+		8E751A591C51FAC900B41ABA /* ASTM30ColorVectorPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTM30ColorVectorPoint.swift; sourceTree = "<group>"; };
+		8E751A5B1C51FC2800B41ABA /* ASTM30ColorVectorCoordinateRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTM30ColorVectorCoordinateRange.swift; sourceTree = "<group>"; };
+		8EB982811C51FD9700593591 /* MZ.InAppPurchaseManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.InAppPurchaseManger.swift; sourceTree = "<group>"; };
+		8EB982831C51FD9700593591 /* MZ.CGExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.CGExtensions.swift; sourceTree = "<group>"; };
+		8EB982841C51FD9700593591 /* MZ.SceneWithQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.SceneWithQueue.swift; sourceTree = "<group>"; };
+		8EB982851C51FD9700593591 /* MZ.Shapes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.Shapes.swift; sourceTree = "<group>"; };
+		8EB982861C51FD9700593591 /* MZ.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.swift; sourceTree = "<group>"; };
+		8EB982871C51FD9700593591 /* MZ.TypeDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.TypeDefines.swift; sourceTree = "<group>"; };
+		8EB982891C51FD9700593591 /* MZ.TouchDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.TouchDefines.swift; sourceTree = "<group>"; };
+		8EB9828B1C51FD9700593591 /* MZ.Debugs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.Debugs.swift; sourceTree = "<group>"; };
+		8EB9828C1C51FD9700593591 /* MZ.Degrees.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.Degrees.swift; sourceTree = "<group>"; };
+		8EB9828D1C51FD9700593591 /* MZ.Maths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.Maths.swift; sourceTree = "<group>"; };
+		8EB9828E1C51FD9700593591 /* MZ.Ranges.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.Ranges.swift; sourceTree = "<group>"; };
+		8EB9828F1C51FD9700593591 /* MZ.Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.Types.swift; sourceTree = "<group>"; };
+		8EB9829C1C5202B100593591 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8EF8D5E81C50BB0B00D09733 /* ASTM30View-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ASTM30View-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8EF8D5EB1C50BB0B00D09733 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		8EF8D5F01C50BB0B00D09733 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8EF8D5F21C50BB0B00D09733 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8EF8D5F51C50BB0B00D09733 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8EF8D5F71C50BB0B00D09733 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8EF8D5E51C50BB0B00D09733 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8E751A541C51FA8B00B41ABA /* ASTM30View */ = {
+			isa = PBXGroup;
+			children = (
+				8E751A551C51FA8B00B41ABA /* ASTM30ColorVectorViewController.swift */,
+				8E751A591C51FAC900B41ABA /* ASTM30ColorVectorPoint.swift */,
+				8E751A5B1C51FC2800B41ABA /* ASTM30ColorVectorCoordinateRange.swift */,
+			);
+			path = ASTM30View;
+			sourceTree = "<group>";
+		};
+		8EB9827F1C51FD9700593591 /* MZ-Swifts */ = {
+			isa = PBXGroup;
+			children = (
+				8EB982801C51FD9700593591 /* Capabilities */,
+				8EB982821C51FD9700593591 /* CGExtensions */,
+				8EB982841C51FD9700593591 /* MZ.SceneWithQueue.swift */,
+				8EB982851C51FD9700593591 /* MZ.Shapes.swift */,
+				8EB982861C51FD9700593591 /* MZ.swift */,
+				8EB982871C51FD9700593591 /* MZ.TypeDefines.swift */,
+				8EB982881C51FD9700593591 /* TouchExtensions */,
+				8EB9828A1C51FD9700593591 /* Utilities */,
+			);
+			name = "MZ-Swifts";
+			path = "../../../../iOS/src/lolimizuki/Projects/MZ-Swifts/MZ-Swifts/MZ-Swifts";
+			sourceTree = "<group>";
+		};
+		8EB982801C51FD9700593591 /* Capabilities */ = {
+			isa = PBXGroup;
+			children = (
+				8EB982811C51FD9700593591 /* MZ.InAppPurchaseManger.swift */,
+			);
+			path = Capabilities;
+			sourceTree = "<group>";
+		};
+		8EB982821C51FD9700593591 /* CGExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				8EB982831C51FD9700593591 /* MZ.CGExtensions.swift */,
+			);
+			path = CGExtensions;
+			sourceTree = "<group>";
+		};
+		8EB982881C51FD9700593591 /* TouchExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				8EB982891C51FD9700593591 /* MZ.TouchDefines.swift */,
+			);
+			path = TouchExtensions;
+			sourceTree = "<group>";
+		};
+		8EB9828A1C51FD9700593591 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				8EB9828B1C51FD9700593591 /* MZ.Debugs.swift */,
+				8EB9828C1C51FD9700593591 /* MZ.Degrees.swift */,
+				8EB9828D1C51FD9700593591 /* MZ.Maths.swift */,
+				8EB9828E1C51FD9700593591 /* MZ.Ranges.swift */,
+				8EB9828F1C51FD9700593591 /* MZ.Types.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		8EF8D5DF1C50BB0B00D09733 = {
+			isa = PBXGroup;
+			children = (
+				8EF8D5EA1C50BB0B00D09733 /* ASColorVectorViewProj */,
+				8EF8D5E91C50BB0B00D09733 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8EF8D5E91C50BB0B00D09733 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8EF8D5E81C50BB0B00D09733 /* ASTM30View-Swift.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8EF8D5EA1C50BB0B00D09733 /* ASColorVectorViewProj */ = {
+			isa = PBXGroup;
+			children = (
+				8EF8D5EB1C50BB0B00D09733 /* AppDelegate.swift */,
+				8EB9829C1C5202B100593591 /* ViewController.swift */,
+				8E751A541C51FA8B00B41ABA /* ASTM30View */,
+				8EF8D5EF1C50BB0B00D09733 /* Main.storyboard */,
+				8EF8D5F21C50BB0B00D09733 /* Assets.xcassets */,
+				8EF8D5F41C50BB0B00D09733 /* LaunchScreen.storyboard */,
+				8EF8D5F71C50BB0B00D09733 /* Info.plist */,
+				8EB9827F1C51FD9700593591 /* MZ-Swifts */,
+			);
+			path = ASColorVectorViewProj;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8EF8D5E71C50BB0B00D09733 /* ASTM30View-Swift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8EF8D5FA1C50BB0B00D09733 /* Build configuration list for PBXNativeTarget "ASTM30View-Swift" */;
+			buildPhases = (
+				8EF8D5E41C50BB0B00D09733 /* Sources */,
+				8EF8D5E51C50BB0B00D09733 /* Frameworks */,
+				8EF8D5E61C50BB0B00D09733 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ASTM30View-Swift";
+			productName = ASColorVectorViewProj;
+			productReference = 8EF8D5E81C50BB0B00D09733 /* ASTM30View-Swift.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8EF8D5E01C50BB0B00D09733 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = "Inaba Mizuki";
+				TargetAttributes = {
+					8EF8D5E71C50BB0B00D09733 = {
+						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = XZ6C2H52ZS;
+					};
+				};
+			};
+			buildConfigurationList = 8EF8D5E31C50BB0B00D09733 /* Build configuration list for PBXProject "ASTM30View-Swift" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8EF8D5DF1C50BB0B00D09733;
+			productRefGroup = 8EF8D5E91C50BB0B00D09733 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8EF8D5E71C50BB0B00D09733 /* ASTM30View-Swift */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8EF8D5E61C50BB0B00D09733 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EF8D5F61C50BB0B00D09733 /* LaunchScreen.storyboard in Resources */,
+				8EF8D5F31C50BB0B00D09733 /* Assets.xcassets in Resources */,
+				8EF8D5F11C50BB0B00D09733 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8EF8D5E41C50BB0B00D09733 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EB982991C51FD9700593591 /* MZ.Maths.swift in Sources */,
+				8EB982931C51FD9700593591 /* MZ.Shapes.swift in Sources */,
+				8EF8D5EC1C50BB0B00D09733 /* AppDelegate.swift in Sources */,
+				8E751A5C1C51FC2800B41ABA /* ASTM30ColorVectorCoordinateRange.swift in Sources */,
+				8EB982951C51FD9700593591 /* MZ.TypeDefines.swift in Sources */,
+				8E751A5A1C51FAC900B41ABA /* ASTM30ColorVectorPoint.swift in Sources */,
+				8E751A561C51FA8B00B41ABA /* ASTM30ColorVectorViewController.swift in Sources */,
+				8EB982901C51FD9700593591 /* MZ.InAppPurchaseManger.swift in Sources */,
+				8EB982921C51FD9700593591 /* MZ.SceneWithQueue.swift in Sources */,
+				8EB9829D1C5202B100593591 /* ViewController.swift in Sources */,
+				8EB982981C51FD9700593591 /* MZ.Degrees.swift in Sources */,
+				8EB982971C51FD9700593591 /* MZ.Debugs.swift in Sources */,
+				8EB982941C51FD9700593591 /* MZ.swift in Sources */,
+				8EB9829B1C51FD9700593591 /* MZ.Types.swift in Sources */,
+				8EB982961C51FD9700593591 /* MZ.TouchDefines.swift in Sources */,
+				8EB982911C51FD9700593591 /* MZ.CGExtensions.swift in Sources */,
+				8EB9829A1C51FD9700593591 /* MZ.Ranges.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		8EF8D5EF1C50BB0B00D09733 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8EF8D5F01C50BB0B00D09733 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		8EF8D5F41C50BB0B00D09733 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8EF8D5F51C50BB0B00D09733 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8EF8D5F81C50BB0B00D09733 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8EF8D5F91C50BB0B00D09733 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8EF8D5FB1C50BB0B00D09733 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = ASColorVectorViewProj/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-D MZDEBUG";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mizuclub.ASColorVectorViewProj;
+				PRODUCT_NAME = "ASTM30View-Swift";
+			};
+			name = Debug;
+		};
+		8EF8D5FC1C50BB0B00D09733 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = ASColorVectorViewProj/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mizuclub.ASColorVectorViewProj;
+				PRODUCT_NAME = "ASTM30View-Swift";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8EF8D5E31C50BB0B00D09733 /* Build configuration list for PBXProject "ASTM30View-Swift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8EF8D5F81C50BB0B00D09733 /* Debug */,
+				8EF8D5F91C50BB0B00D09733 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8EF8D5FA1C50BB0B00D09733 /* Build configuration list for PBXNativeTarget "ASTM30View-Swift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8EF8D5FB1C50BB0B00D09733 /* Debug */,
+				8EF8D5FC1C50BB0B00D09733 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8EF8D5E01C50BB0B00D09733 /* Project object */;
+}
