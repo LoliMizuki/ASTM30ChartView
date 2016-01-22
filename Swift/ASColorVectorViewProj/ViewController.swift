@@ -30,6 +30,11 @@ class ViewController: UIViewController {
         _tm30ViewController = segue.destinationViewController as! ASTM30ColorVectorViewController
     }
 
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        _tm30ViewController.refresh()
+    }
+
 
     // MARK: Private
 
@@ -42,7 +47,7 @@ class ViewController: UIViewController {
 extension ViewController {
 
     @IBAction func didTouchUpInsideMaskButton(button: UIButton) {
-        _tm30ViewController.enableBackgroundMask(_tm30ViewController.isBackgroundHasMask, animated: true)
+        _tm30ViewController.enableBackgroundMask(!_tm30ViewController.hasBackgroundMasked, animated: true)
     }
 }
 
@@ -53,7 +58,7 @@ extension ViewController {
     // MARK: Private Test
 
     private func __testSetting() {
-        _tm30ViewController.coordinateRange = ASTM30ColorVectorCoordinateRange(
+        _tm30ViewController.coordinateRange = ASTM30ColorVectorCoordinateSpace(
             xMin: -400, yMin: -400, xMax: 400, yMax: 400
         )
         __addTestDataAsCircle2()
@@ -106,7 +111,7 @@ extension ViewController {
     }
 
     private func __addTestDataAsLines() {
-        _tm30ViewController.coordinateRange = ASTM30ColorVectorCoordinateRange(
+        _tm30ViewController.coordinateRange = ASTM30ColorVectorCoordinateSpace(
             xMin: -100, xMax: 100, yMin: 0, yMax: 100
         )
 

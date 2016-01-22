@@ -9,9 +9,11 @@ import UIKit
 
 class ASTM30ColorVectorViewController: UIViewController {
 
-    var coordinateRange = ASTM30ColorVectorCoordinateRange()
+    var coordinateRange = ASTM30ColorVectorCoordinateSpace()
 
-    var isBackgroundHasMask: Bool {
+    private(set) var currentMaskPointsName: String? = nil
+
+    var hasBackgroundMasked: Bool {
         return _backgroundView.layer.mask != nil
     }
 
@@ -21,8 +23,7 @@ class ASTM30ColorVectorViewController: UIViewController {
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        _setBackgroundView()
-        _setPointsView()
+        refresh()
     }
 
     func addPointsInfo(info: ASTM30ColorVectorPointsInfo) {
@@ -30,7 +31,21 @@ class ASTM30ColorVectorViewController: UIViewController {
         _pointsInfos[info] = _shapeLayerWithPointsInfo(info)
     }
 
-    func setBackgroundMaskWithPointsInfoName(name: String) {
+    func refresh() {
+        _setBackgroundView()
+        _setPointsView()
+        setBackgroundMaskWithPointsInfoName(currentMaskPointsName)
+
+        _pointsInfos.keys.forEach {
+            info in
+            _pointsInfos.removeValueForKey(info)
+            _pointsInfos[info] = _shapeLayerWithPointsInfo(info)
+        }
+    }
+
+    func setBackgroundMaskWithPointsInfoName(name: String?) {
+        guard let name = name else { return }
+
         let pointsInfoKeyValue = _pointsInfos.filter {
             (info, _) in return info.name == name
         }.first
@@ -42,20 +57,24 @@ class ASTM30ColorVectorViewController: UIViewController {
             return
         }
 
+        _backgroundView.layer.mask = nil
+
         _backgroundMaskLayer = _maskLayerFromLayer(layer)
+
+        currentMaskPointsName = name
     }
 
     func enableBackgroundMask(enable: Bool, animated: Bool = true) {
         if animated {
             let duration = 0.25
             _animateBackgroundMaskWithEnable(enable, duration: duration)
-            performSelector("_setBackgroundMaskWithEnable:", withObject: enable, afterDelay: duration)
+            performSelector("setBackgroundMaskWithEnable:", withObject: enable, afterDelay: duration)
         } else {
-            _setBackgroundMaskWithEnable(enable)
+            setBackgroundMaskWithEnable(enable)
         }
     }
 
-    private func _setBackgroundMaskWithEnable(enableValue: AnyObject) {
+    func setBackgroundMaskWithEnable(enableValue: AnyObject) {
         let enable = enableValue as! Bool
         _backgroundView.layer.mask = enable ? _backgroundMaskLayer : nil
     }
@@ -72,6 +91,8 @@ class ASTM30ColorVectorViewController: UIViewController {
     private var _pointsView: UIView!
 
     private func _setBackgroundView() {
+        if _backgroundView != nil { _backgroundView.removeFromSuperview() }
+
         _backgroundView = UIImageView(image: UIImage(named: "ColorVectorBackground"))
         _backgroundView.frame = view.frame
         _backgroundView.contentMode = .ScaleToFill
@@ -80,6 +101,8 @@ class ASTM30ColorVectorViewController: UIViewController {
     }
 
     private func _setPointsView() {
+        if _pointsView != nil { _pointsView.removeFromSuperview() }
+
         _pointsView = UIView(frame: view.frame)
 
         view.addSubview(_pointsView)
@@ -87,15 +110,15 @@ class ASTM30ColorVectorViewController: UIViewController {
 
     private func _shapeLayerWithPointsInfo(pointsInfo: ASTM30ColorVectorPointsInfo) -> CAShapeLayer {
         func modifyPoint(point: CGPoint,
-            inCoordinateRange coordinateRange: ASTM30ColorVectorCoordinateRange)
+            inCoordinateSpace coordinateSpace: ASTM30ColorVectorCoordinateSpace)
         -> CGPoint {
-            let realX = view.frame.width*((point.x - coordinateRange.xMin)/coordinateRange.xLength)
-            let realY = view.frame.height - view.frame.height*((point.y - coordinateRange.yMin)/coordinateRange.yLength)
+            let realX = view.frame.width*((point.x - coordinateSpace.xMin)/coordinateSpace.xLength)
+            let realY = view.frame.height - view.frame.height*((point.y - coordinateSpace.yMin)/coordinateSpace.yLength)
 
             return CGPoint(x: realX, y: realY)
         }
 
-        let points = pointsInfo.points.map { p in return modifyPoint(p.value, inCoordinateRange: self.coordinateRange) }
+        let points = pointsInfo.points.map { p in return modifyPoint(p.value, inCoordinateSpace: self.coordinateRange) }
 
         let path = UIBezierPath()
         path.moveToPoint(points[0])
@@ -120,32 +143,6 @@ class ASTM30ColorVectorViewController: UIViewController {
         maskLayer.path = layer.path
 
         return maskLayer
-    }
-
-    private func _maskLayerFromPointsInfo(pointsInfo: ASTM30ColorVectorPointsInfo) -> CAShapeLayer {
-        func modifyPoint(point: CGPoint,
-            inCoordinateRange coordinateRange: ASTM30ColorVectorCoordinateRange)
-            -> CGPoint {
-                let realX = view.frame.width*((point.x - coordinateRange.xMin)/coordinateRange.xLength)
-                let realY = view.frame.height - view.frame.height*((point.y - coordinateRange.yMin)/coordinateRange.yLength)
-
-                return CGPoint(x: realX, y: realY)
-        }
-
-        let points = pointsInfo.points.map { p in return modifyPoint(p.value, inCoordinateRange: self.coordinateRange) }
-
-        let path = UIBezierPath()
-        path.moveToPoint(points[0])
-        points[1..<points.endIndex].forEach { point in path.addLineToPoint(point) }
-
-        if pointsInfo.closePath { path.closePath() }
-
-        let layer = CAShapeLayer()
-        layer.frame.size = view.frame.size
-        layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        layer.path = path.CGPath
-
-        return layer
     }
 
     private func _animateBackgroundMaskWithEnable(enable: Bool, duration: NSTimeInterval) {
