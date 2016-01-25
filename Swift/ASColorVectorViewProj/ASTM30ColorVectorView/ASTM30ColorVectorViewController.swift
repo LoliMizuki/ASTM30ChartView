@@ -58,20 +58,18 @@ class ASTM30ColorVectorViewController: UIViewController {
 
     func enableBackgroundMask(enable: Bool, animated: Bool = true) {
         if animated {
-            let duration = 0.25
+            let duration = 1.0
             _animateColorVectorBackgroundMaskWithEnable(enable, duration: duration)
-            performSelector("enableBackgroundMaskWithEnable:", withObject: enable, afterDelay: duration)
         } else {
             enableBackgroundMaskWithEnable(enable)
         }
     }
 
-    func enableBackgroundMaskWithEnable(enableValue: AnyObject) {
-        guard let colorVectorBackgroundView = _colorVectorBackgroundView else { return }
+    func enableBackgroundMaskWithEnable(enable: Bool) {
+        guard let backgroundView = _colorVectorBackgroundView else { return }
         guard let backgroundMaskLayer = _colorVectorBackgroundMaskLayer else { return }
 
-        let enable = enableValue as! Bool
-        colorVectorBackgroundView.layer.mask = enable ? backgroundMaskLayer : nil
+        backgroundView.layer.mask = enable ? backgroundMaskLayer : nil
 
         _pointsInfoToLayersDict.forEach {
             (info, shapeLayer) in
@@ -81,6 +79,8 @@ class ASTM30ColorVectorViewController: UIViewController {
 
             shapeLayer.strokeColor = nextColor.CGColor
         }
+
+        _colorVectorBackgroundForFadeView?.hidden = enable
     }
 
 
@@ -92,18 +92,27 @@ class ASTM30ColorVectorViewController: UIViewController {
 
     private var _colorVectorBackgroundView: UIImageView? = nil
 
+    private var _colorVectorBackgroundForFadeView: UIImageView? = nil
+
     private var _colorVectorBackgroundMaskLayer: CAShapeLayer? = nil
 
     private func _setAndAddColorVectorBackgroundViewToView(view: UIView) {
         _colorVectorBackgroundView?.removeFromSuperview()
+        _colorVectorBackgroundForFadeView?.removeFromSuperview()
 
-        let colorVectorBackgroundView = UIImageView(image: UIImage(named: "ColorVectorBackground"))
-        colorVectorBackgroundView.frame = view.frame
-        colorVectorBackgroundView.contentMode = .ScaleToFill
+        func newImageView() -> UIImageView {
+            let imageView = UIImageView(image: UIImage(named: "ColorVectorBackground"))
+            imageView.frame = view.frame
+            imageView.contentMode = .ScaleToFill
 
-        view.addSubview(colorVectorBackgroundView)
+            return imageView
+        }
 
-        _colorVectorBackgroundView = colorVectorBackgroundView
+        _colorVectorBackgroundView = newImageView()
+        _colorVectorBackgroundForFadeView = newImageView()
+
+        view.addSubview(_colorVectorBackgroundForFadeView!)
+        view.addSubview(_colorVectorBackgroundView!)
     }
 
     private func _setAndAddPointsLayersLayerViewToView(view: UIView) {
@@ -199,7 +208,7 @@ class ASTM30ColorVectorViewController: UIViewController {
             colorVectorBackgroundView.layer.mask = colorVectorBackgroundMaskLayer
         }
 
-        let maxScale = 10.0
+        let maxScale = 5.0
         let minScale = 1.0
 
         let scale = CAKeyframeAnimation(keyPath: "transform.scale")
@@ -214,12 +223,32 @@ class ASTM30ColorVectorViewController: UIViewController {
         scale.removedOnCompletion = false
 
         colorVectorBackgroundMaskLayer.removeAllAnimations()
-        colorVectorBackgroundMaskLayer.addAnimation(scale, forKey: "animation")
+        colorVectorBackgroundMaskLayer.addAnimation(scale, forKey: "scale")
+
+        _pointsInfoToLayersDict.forEach {
+            (info, shapeLayer) in
+            let nextColorValue = enable == true ? info.colorInMasked : info.color
+
+            guard let nextColor = nextColorValue else { return }
+
+            let color = CABasicAnimation(keyPath: "strokeColor")
+            color.fromValue = shapeLayer.strokeColor
+            color.toValue = nextColor.CGColor
+            color.duration = duration
+
+            shapeLayer.addAnimation(color, forKey: "color")
+        }
+
+        guard let colorVectorBackgroundForFadeView = _colorVectorBackgroundForFadeView else { return }
+        colorVectorBackgroundForFadeView.alpha = enable ? 1 : 0
+        UIView.animateWithDuration(duration,
+            animations: { colorVectorBackgroundForFadeView.alpha = enable ? 0 : 1 },
+            completion: { _ in self.enableBackgroundMaskWithEnable(enable) }
+        )
     }
 
 
     // useless now
-
     private func _colorAtPoint(point:CGPoint) -> UIColor {
         let colorSpace:CGColorSpace = CGColorSpaceCreateDeviceRGB()!
         let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.PremultipliedLast.rawValue)
