@@ -17,11 +17,7 @@ class ASTM30GraphicViewController: UIViewController {
 
     var coordinateSpace = ASTM30CoordinateSpace()
 
-    var maskPointsInfoName: String? = nil
-
-    var hasBackgroundMasked: Bool {
-        return _colorVectorBackgroundView?.layer.mask != nil
-    }
+    var testSourcePointsInfoName: String? = nil
 
     private (set) var graphicType: ASTM30GraphicType = .ColorVector
 
@@ -58,11 +54,11 @@ class ASTM30GraphicViewController: UIViewController {
     }
 
     func refresh() {
-        _setAndAddColorVectorBackgroundViewToView(view)
-        _setAndAddGridLayerToView(_colorVectorBackgroundView!)
-        _setAndAddPointsLayersLayerViewToView(view)
+        _setAndAddGraphicBackgroundViewToView(view)
+        _setAndAddGridLayerToView(_graphicBackgroundView!)
+        _setAndAddPointsLayersViewToView(view)
         _setAndAddAllPoinsInfoLayersToView(_pointsLinesLayerView!)
-        _setColorVectorBackgroundMaskWithPointsInfoName(maskPointsInfoName)
+        _setGraphicBackgroundMaskWithPointsInfoName(testSourcePointsInfoName)
     }
 
     func setGraphicType(type: ASTM30GraphicType, animated: Bool = false, duration: CFTimeInterval = 0.25) {
@@ -72,7 +68,7 @@ class ASTM30GraphicViewController: UIViewController {
         if animated {
             _animateMaskEnable(enableMask, duration: duration)
         } else {
-            _setColorVectorBackgroundWithMaskEnable(enableMask)
+            _setGraphicBackgroundWithMaskEnable(enableMask)
         }
     }
 
@@ -83,35 +79,58 @@ class ASTM30GraphicViewController: UIViewController {
 
     private var _pointsLinesLayerView: UIView? = nil
 
-    private var _colorVectorBackgroundView: UIImageView? = nil
+    private var _graphicBackgroundView: UIImageView? = nil
 
-    private var _colorVectorBackgroundGridLayer: CAShapeLayer? = nil
+    private var _graphicBackgroundGridLayer: CAShapeLayer? = nil
 
-    private var _colorVectorBackgroundForFadeView: UIImageView? = nil
+    private var _graphicBackgroundForFadeView: UIImageView? = nil
 
-    private var _colorVectorBackgroundMaskLayer: CAShapeLayer? = nil
+    private var _graphicBackgroundMaskLayer: CAShapeLayer? = nil
 
-    private func _setAndAddColorVectorBackgroundViewToView(view: UIView) {
-        _colorVectorBackgroundView?.removeFromSuperview()
-        _colorVectorBackgroundForFadeView?.removeFromSuperview()
+    private func _setGraphicBackgroundWithMaskEnable(maskEnable: Bool) {
+        guard let backgroundView = _graphicBackgroundView else { return }
+        guard let backgroundMaskLayer = _graphicBackgroundMaskLayer else { return }
 
-        func newImageView() -> UIImageView {
-            let imageView = UIImageView(image: UIImage(named: "ColorVectorBackground"))
+        backgroundView.layer.mask = maskEnable ? backgroundMaskLayer : nil
+
+        _pointsInfoToLayersDict.forEach {
+            (info, shapeLayer) in
+            let nextColorValue = maskEnable == true ? info.colorInMasked : info.color
+
+            guard let nextColor = nextColorValue else { return }
+
+            shapeLayer.strokeColor = nextColor.CGColor
+        }
+
+        _graphicBackgroundForFadeView?.hidden = maskEnable
+    }
+}
+
+
+//  MARK: Set present views and layers
+extension ASTM30GraphicViewController {
+
+    private func _setAndAddGraphicBackgroundViewToView(view: UIView) {
+        _graphicBackgroundView?.removeFromSuperview()
+        _graphicBackgroundForFadeView?.removeFromSuperview()
+
+        func newGraphicView() -> UIImageView {
+            let imageView = UIImageView(image: UIImage(named: "GraphicBackground"))
             imageView.frame = view.frame
             imageView.contentMode = .ScaleToFill
 
             return imageView
         }
 
-        _colorVectorBackgroundView = newImageView()
-        _colorVectorBackgroundForFadeView = newImageView()
+        _graphicBackgroundView = newGraphicView()
+        _graphicBackgroundForFadeView = newGraphicView()
 
-        view.addSubview(_colorVectorBackgroundForFadeView!)
-        view.addSubview(_colorVectorBackgroundView!)
+        view.addSubview(_graphicBackgroundForFadeView!)
+        view.addSubview(_graphicBackgroundView!)
     }
 
     private func _setAndAddGridLayerToView(view: UIView) {
-        _colorVectorBackgroundGridLayer?.removeFromSuperlayer()
+        _graphicBackgroundGridLayer?.removeFromSuperlayer()
 
         let numberOfGrid: CGFloat = 5
 
@@ -148,10 +167,10 @@ class ASTM30GraphicViewController: UIViewController {
 
         view.layer.addSublayer(gridLayer)
 
-        _colorVectorBackgroundGridLayer = gridLayer
+        _graphicBackgroundGridLayer = gridLayer
     }
 
-    private func _setAndAddPointsLayersLayerViewToView(view: UIView) {
+    private func _setAndAddPointsLayersViewToView(view: UIView) {
         _pointsLinesLayerView?.removeFromSuperview()
 
         let pointsView = UIView(frame: view.frame)
@@ -176,9 +195,9 @@ class ASTM30GraphicViewController: UIViewController {
         }
     }
 
-    private func _setColorVectorBackgroundMaskWithPointsInfoName(name: String?) {
+    private func _setGraphicBackgroundMaskWithPointsInfoName(name: String?) {
         guard let name = name else { return }
-        guard let colorVectorBackgroundView = _colorVectorBackgroundView else { return }
+        guard let graphicBackgroundView = _graphicBackgroundView else { return }
 
         let pointsInfoKeyValue = _pointsInfoToLayersDict.filter {
             (info, _) in return info.name == name
@@ -191,21 +210,21 @@ class ASTM30GraphicViewController: UIViewController {
             return
         }
 
-        colorVectorBackgroundView.layer.mask = nil
+        graphicBackgroundView.layer.mask = nil
 
-        _colorVectorBackgroundMaskLayer = _maskLayerFromLayer(layer)
+        _graphicBackgroundMaskLayer = _maskLayerFromLayer(layer)
 
-        maskPointsInfoName = name
+        testSourcePointsInfoName = name
     }
 
     private func _shapeLayerWithPointsInfo(pointsInfo: ASTM30PointsInfo) -> CAShapeLayer {
         func modifyPoint(point: CGPoint,
             inCoordinateSpace coordinateSpace: ASTM30CoordinateSpace)
-        -> CGPoint {
-            let realX = view.frame.width*((point.x - coordinateSpace.xMin)/coordinateSpace.xLength)
-            let realY = view.frame.height - view.frame.height*((point.y - coordinateSpace.yMin)/coordinateSpace.yLength)
+            -> CGPoint {
+                let realX = view.frame.width*((point.x - coordinateSpace.xMin)/coordinateSpace.xLength)
+                let realY = view.frame.height - view.frame.height*((point.y - coordinateSpace.yMin)/coordinateSpace.yLength)
 
-            return CGPoint(x: realX, y: realY)
+                return CGPoint(x: realX, y: realY)
         }
 
         let points = pointsInfo.points.map { p in return modifyPoint(p.value, inCoordinateSpace: self.coordinateSpace) }
@@ -235,35 +254,22 @@ class ASTM30GraphicViewController: UIViewController {
 
         return maskLayer
     }
+}
 
-    private func _setColorVectorBackgroundWithMaskEnable(maskEnable: Bool) {
-        guard let backgroundView = _colorVectorBackgroundView else { return }
-        guard let backgroundMaskLayer = _colorVectorBackgroundMaskLayer else { return }
 
-        backgroundView.layer.mask = maskEnable ? backgroundMaskLayer : nil
-
-        _pointsInfoToLayersDict.forEach {
-            (info, shapeLayer) in
-            let nextColorValue = maskEnable == true ? info.colorInMasked : info.color
-
-            guard let nextColor = nextColorValue else { return }
-
-            shapeLayer.strokeColor = nextColor.CGColor
-        }
-
-        _colorVectorBackgroundForFadeView?.hidden = maskEnable
-    }
+// MARK: ASTM30GraphicType switch animations
+extension ASTM30GraphicViewController {
 
     private func _animateMaskEnable(maskEnable: Bool, duration: NSTimeInterval) {
-        _animateMaskEnableToColorVectorBackground(maskEnable, duration: duration)
-        _animateMaskEnableToColorVectorBackgroundForFade(maskEnable, duration: duration)
-        _animateMaskEnableToColorVectorBackgroundGridLayer(maskEnable, duration: duration)
+        _animateMaskEnableToGraphicBackground(maskEnable, duration: duration)
+        _animateMaskEnableToGraphicBackgroundForFade(maskEnable, duration: duration)
+        _animateMaskEnableToGraphicBackgroundGridLayer(maskEnable, duration: duration)
         _animateMaskEnableToPointsLinesLayer(maskEnable, duration: duration)
     }
 
-    private func _animateMaskEnableToColorVectorBackground(maskEnable: Bool, duration: NSTimeInterval) {
-        guard let view = _colorVectorBackgroundView else { return }
-        guard let maskLayer = _colorVectorBackgroundMaskLayer else { return }
+    private func _animateMaskEnableToGraphicBackground(maskEnable: Bool, duration: NSTimeInterval) {
+        guard let view = _graphicBackgroundView else { return }
+        guard let maskLayer = _graphicBackgroundMaskLayer else { return }
 
         if view.layer.mask == nil {
             view.layer.mask = maskLayer
@@ -287,17 +293,17 @@ class ASTM30GraphicViewController: UIViewController {
         maskLayer.addAnimation(scale, forKey: "scale")
     }
 
-    private func _animateMaskEnableToColorVectorBackgroundForFade(maskEnable: Bool, duration: NSTimeInterval) {
-        guard let view = _colorVectorBackgroundForFadeView else { return }
+    private func _animateMaskEnableToGraphicBackgroundForFade(maskEnable: Bool, duration: NSTimeInterval) {
+        guard let view = _graphicBackgroundForFadeView else { return }
         view.alpha = maskEnable ? 1 : 0
         UIView.animateWithDuration(duration,
             animations: { view.alpha = maskEnable ? 0 : 1 },
-            completion: { _ in self._setColorVectorBackgroundWithMaskEnable(maskEnable) }
+            completion: { _ in self._setGraphicBackgroundWithMaskEnable(maskEnable) }
         )
     }
 
-    private func _animateMaskEnableToColorVectorBackgroundGridLayer(maskEnable: Bool, duration: NSTimeInterval) {
-        guard let layer = _colorVectorBackgroundGridLayer else { return }
+    private func _animateMaskEnableToGraphicBackgroundGridLayer(maskEnable: Bool, duration: NSTimeInterval) {
+        guard let layer = _graphicBackgroundGridLayer else { return }
 
         let fade = CABasicAnimation(keyPath: "opacity")
         fade.fromValue = maskEnable ? 1 : 0
@@ -321,11 +327,15 @@ class ASTM30GraphicViewController: UIViewController {
             color.fromValue = shapeLayer.strokeColor
             color.toValue = nextColor.CGColor
             color.duration = duration
-
+            
             shapeLayer.addAnimation(color, forKey: "color")
         }
     }
+}
 
+
+// MARK: Utilities
+extension ASTM30GraphicViewController {
 
     // useless now
     private func _colorAtPoint(point:CGPoint) -> UIColor {

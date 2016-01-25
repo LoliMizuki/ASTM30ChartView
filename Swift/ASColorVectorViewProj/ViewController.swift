@@ -69,15 +69,11 @@ extension ViewController {
         )
         __addTestDataAsCircle2()
         __addTestDataAsCircle1()
-        _tm30ViewController.maskPointsInfoName = "Hello"
-//        _tm30ViewController.setBackgroundMaskWithPointsInfoName("Hello")
-//        _tm30ViewController.enableBackgroundMask(true, animated: true)
+        _tm30ViewController.testSourcePointsInfoName = "Hello"
 
-        //        __addTestDataAsLines()
+//        __addTestDataAsLines()
 
-        //        __testPointsViewCenter()
-
-        //        _pointsView.layer.transform = CATransform3DScale(_pointsView.layer.transform, 2.0, 2.0, 0.0)
+//        __testPointsViewCenter()
     }
 
     private func __addTestDataAsCircle1() {
