@@ -17,7 +17,9 @@ class ASTM30GraphicViewController: UIViewController {
 
     var coordinateSpace = ASTM30CoordinateSpace()
 
-    var testSourcePointsInfoName: String? = nil
+    var testSourceName: String? = nil
+
+    var referenceName: String? = nil
 
     private (set) var graphicType: ASTM30GraphicType = .ColorVector
 
@@ -38,12 +40,14 @@ class ASTM30GraphicViewController: UIViewController {
         _pointsInfoToLayersDict[info] = CAShapeLayer()
     }
 
-    func removePointsInfoWithName(name: String) {
-        let target = _pointsInfoToLayersDict.keys.filter {
+    func poinsInfoWithName(name: String) -> ASTM30PointsInfo? {
+        return _pointsInfoToLayersDict.keys.filter {
             info in info.name == name
         }.first
+    }
 
-        guard let targetKey = target else { return }
+    func removePointsInfoWithName(name: String) {
+        guard let targetKey = poinsInfoWithName(name) else { return }
 
         _pointsInfoToLayersDict.removeValueForKey(targetKey)
     }
@@ -58,7 +62,8 @@ class ASTM30GraphicViewController: UIViewController {
         _setAndAddGridLayerToView(_graphicBackgroundView!)
         _setAndAddPointsLayersViewToView(view)
         _setAndAddAllPoinsInfoLayersToView(_pointsLinesLayerView!)
-        _setGraphicBackgroundMaskWithPointsInfoName(testSourcePointsInfoName)
+        _setGraphicBackgroundMaskWithPointsInfoName(testSourceName)
+        _setAndAddReferenceToTestSourceArrowsLayerToView(_pointsLinesLayerView!)
     }
 
     func setGraphicType(type: ASTM30GraphicType, animated: Bool = false, duration: CFTimeInterval = 0.25) {
@@ -78,6 +83,8 @@ class ASTM30GraphicViewController: UIViewController {
     private var _pointsInfoToLayersDict = [ASTM30PointsInfo: CAShapeLayer]()
 
     private var _pointsLinesLayerView: UIView? = nil
+
+    private var _sourceToReferenceArrowsLayer: CAShapeLayer? = nil
 
     private var _graphicBackgroundView: UIImageView? = nil
 
@@ -107,7 +114,7 @@ class ASTM30GraphicViewController: UIViewController {
 }
 
 
-//  MARK: Set present views and layers
+//  MARK: Present views and layers
 extension ASTM30GraphicViewController {
 
     private func _setAndAddGraphicBackgroundViewToView(view: UIView) {
@@ -139,7 +146,7 @@ extension ASTM30GraphicViewController {
             y: view.frame.size.height/numberOfGrid
         )
 
-        var paths = [UIBezierPath]()
+        let path = UIBezierPath()
 
         for i in 1..<Int(numberOfGrid) {
             let linePath = UIBezierPath()
@@ -151,16 +158,12 @@ extension ASTM30GraphicViewController {
             linePath.addLineToPoint(CGPoint(x: i.cgFloatValue*interval.x, y: view.frame.size.height))
 
 
-            paths.append(linePath)
+            path.appendPath(linePath)
         }
-
-        let resultPath = CGPathCreateMutable()
-
-        paths.forEach { path in CGPathAddPath(resultPath, nil, path.CGPath) }
 
         let gridLayer = CAShapeLayer()
         gridLayer.frame = view.frame
-        gridLayer.path = resultPath
+        gridLayer.path = path.CGPath
 
         gridLayer.lineWidth = 2
         gridLayer.strokeColor = UIColor.grayColor().CGColor
@@ -178,6 +181,41 @@ extension ASTM30GraphicViewController {
         view.addSubview(pointsView)
 
         _pointsLinesLayerView = pointsView
+    }
+
+    private func _setAndAddReferenceToTestSourceArrowsLayerToView(view: UIView) {
+        _sourceToReferenceArrowsLayer?.removeFromSuperlayer()
+
+        guard let testSourceName = testSourceName else { return }
+        guard let referenceName = referenceName else { return }
+
+        guard let toInfo = poinsInfoWithName(testSourceName) else { return }
+        guard let fromInfo = poinsInfoWithName(referenceName) else { return }
+
+        let path = UIBezierPath()
+
+        for fromPoint in fromInfo.points {
+            guard let toPoint = toInfo.pointWithKey(fromPoint.key) else {
+                MZ.Debugs.assertAlwayFalse("Can not found point with key: \(fromPoint.key)")
+                return
+            }
+
+            let modifiedFromPoint = _modifyPoint(fromPoint.value, inCoordinateSpace: coordinateSpace)
+            let modifiedToPoint = _modifyPoint(toPoint.value, inCoordinateSpace: coordinateSpace)
+
+            path.appendPath(_arrowPathFromPoint(modifiedFromPoint, toPoint: modifiedToPoint))
+        }
+
+        let layer = CAShapeLayer()
+        layer.frame = view.frame
+        layer.path = path.CGPath
+        layer.strokeColor = UIColor.greenColor().CGColor
+        layer.lineWidth = 1
+        layer.lineCap = "round"
+        layer.lineJoin = "bevel"
+        view.layer.addSublayer(layer)
+
+        _sourceToReferenceArrowsLayer = layer
     }
 
     private func _setAndAddAllPoinsInfoLayersToView(view: UIView) {
@@ -214,20 +252,11 @@ extension ASTM30GraphicViewController {
 
         _graphicBackgroundMaskLayer = _maskLayerFromLayer(layer)
 
-        testSourcePointsInfoName = name
+        testSourceName = name
     }
 
     private func _shapeLayerWithPointsInfo(pointsInfo: ASTM30PointsInfo) -> CAShapeLayer {
-        func modifyPoint(point: CGPoint,
-            inCoordinateSpace coordinateSpace: ASTM30CoordinateSpace)
-            -> CGPoint {
-                let realX = view.frame.width*((point.x - coordinateSpace.xMin)/coordinateSpace.xLength)
-                let realY = view.frame.height - view.frame.height*((point.y - coordinateSpace.yMin)/coordinateSpace.yLength)
-
-                return CGPoint(x: realX, y: realY)
-        }
-
-        let points = pointsInfo.points.map { p in return modifyPoint(p.value, inCoordinateSpace: self.coordinateSpace) }
+        let points = pointsInfo.points.map { p in return _modifyPoint(p.value, inCoordinateSpace: self.coordinateSpace) }
 
         let path = UIBezierPath()
         path.moveToPoint(points[0])
@@ -254,6 +283,36 @@ extension ASTM30GraphicViewController {
 
         return maskLayer
     }
+
+    private func _arrowPathFromPoint(from: CGPoint, toPoint to: CGPoint) -> UIBezierPath {
+        let lengthOfFromTo = MZ.Maths.distance(p1: from, p2: to)
+        let degreesOfFromTo = MZ.Degrees.degressFromP1(from, toP2: to)
+        let maxWingsLength = 10.cgFloatValue
+        let wingsIntervalDegrees = 30.mzFloatValue
+
+        let path = UIBezierPath()
+        let zeroLeft = CGPoint(x: -lengthOfFromTo/2, y: 0)
+        let zeroRight = CGPoint(x: lengthOfFromTo/2, y: 0)
+
+        path.moveToPoint(zeroLeft)
+        path.addLineToPoint(zeroRight)
+
+        let wingsLength = min(maxWingsLength, lengthOfFromTo/3)
+        let wingPoint1 = MZ.Maths.unitVectorFromDegrees(180-wingsIntervalDegrees)*wingsLength
+        let wingPoint2 = MZ.Maths.unitVectorFromDegrees(180+wingsIntervalDegrees)*wingsLength
+
+        path.moveToPoint(zeroRight)
+        path.addLineToPoint(zeroRight + wingPoint1)
+        path.moveToPoint(zeroRight)
+        path.addLineToPoint(zeroRight + wingPoint2)
+
+        let centerOfFromTo = CGPoint(x: (to.x + from.x)/2, y: (to.y + from.y)/2)
+        let rotationAngle = MZ.Degrees.radiansFromDegrees(degreesOfFromTo).cgFloatValue
+        path.applyTransform(CGAffineTransformMakeRotation(rotationAngle))
+        path.applyTransform(CGAffineTransformMakeTranslation(centerOfFromTo.x, centerOfFromTo.y))
+
+        return path
+    }
 }
 
 
@@ -263,7 +322,8 @@ extension ASTM30GraphicViewController {
     private func _animateMaskEnable(maskEnable: Bool, duration: NSTimeInterval) {
         _animateMaskEnableToGraphicBackground(maskEnable, duration: duration)
         _animateMaskEnableToGraphicBackgroundForFade(maskEnable, duration: duration)
-        _animateMaskEnableToGraphicBackgroundGridLayer(maskEnable, duration: duration)
+        _animateFadeMaskEnableToLayer(_graphicBackgroundGridLayer, maskEnable: maskEnable, duration: duration)
+        _animateFadeMaskEnableToLayer(_sourceToReferenceArrowsLayer, maskEnable: maskEnable, duration: duration)
         _animateMaskEnableToPointsLinesLayer(maskEnable, duration: duration)
     }
 
@@ -302,8 +362,8 @@ extension ASTM30GraphicViewController {
         )
     }
 
-    private func _animateMaskEnableToGraphicBackgroundGridLayer(maskEnable: Bool, duration: NSTimeInterval) {
-        guard let layer = _graphicBackgroundGridLayer else { return }
+    private func _animateFadeMaskEnableToLayer(layer: CAShapeLayer?, maskEnable: Bool, duration: NSTimeInterval) {
+        guard let layer = layer else { return }
 
         let fade = CABasicAnimation(keyPath: "opacity")
         fade.fromValue = maskEnable ? 1 : 0
@@ -336,6 +396,14 @@ extension ASTM30GraphicViewController {
 
 // MARK: Utilities
 extension ASTM30GraphicViewController {
+
+    private func _modifyPoint(point: CGPoint, inCoordinateSpace coordinateSpace: ASTM30CoordinateSpace)
+    -> CGPoint {
+        let realX = view.frame.width*((point.x - coordinateSpace.xMin)/coordinateSpace.xLength)
+        let realY = view.frame.height - view.frame.height*((point.y - coordinateSpace.yMin)/coordinateSpace.yLength)
+
+        return CGPoint(x: realX, y: realY)
+    }
 
     // useless now
     private func _colorAtPoint(point:CGPoint) -> UIColor {

@@ -43,4 +43,8 @@ class ASTM30PointsInfo: NSObject {
 
         self.name = name
     }
+
+    func pointWithKey(key: String) -> ASTM30Point? {
+        return points.filter { point in point.key == key }.first
+    }
 }

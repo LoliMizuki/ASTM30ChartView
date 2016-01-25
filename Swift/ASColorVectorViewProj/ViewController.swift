@@ -69,7 +69,8 @@ extension ViewController {
         )
         __addTestDataAsCircle2()
         __addTestDataAsCircle1()
-        _tm30ViewController.testSourcePointsInfoName = "Hello"
+        _tm30ViewController.testSourceName = "TestSource"
+        _tm30ViewController.referenceName = "Reference"
 
 //        __addTestDataAsLines()
 
@@ -77,12 +78,12 @@ extension ViewController {
     }
 
     private func __addTestDataAsCircle1() {
-        let info = ASTM30PointsInfo(name: "Hello")
+        let info = ASTM30PointsInfo(name: "TestSource")
         info.color = UIColor.redColor()
         info.colorInMasked = UIColor.greenColor()
         info.lineWidth = 4
         info.points = [
-            ASTM30Point(key: "A1", value: CGPoint(x: -150, y: 0)),
+            ASTM30Point(key: "A1", value: CGPoint(x: -100, y: 30)),
             ASTM30Point(key: "A2", value: CGPoint(x: -100, y: 140)),
             ASTM30Point(key: "A3", value: CGPoint(x: -50, y: 160)),
             ASTM30Point(key: "A4", value: CGPoint(x: 0, y: 200)),
@@ -97,20 +98,20 @@ extension ViewController {
     }
 
     private func __addTestDataAsCircle2() {
-        let info = ASTM30PointsInfo(name: "Oops")
-        info.color = UIColor.whiteColor()
+        let info = ASTM30PointsInfo(name: "Reference")
+        info.color = UIColor.blackColor()
         info.colorInMasked = UIColor.redColor()
         info.lineWidth = 4
         info.points = [
-            ASTM30Point(key: "A1", value: CGPoint(x: -170, y: 0)),
-            ASTM30Point(key: "A2", value: CGPoint(x: -130, y: 140)),
-            ASTM30Point(key: "A3", value: CGPoint(x: -60, y: 160)),
-            ASTM30Point(key: "A4", value: CGPoint(x: 8, y: 260)),
-            ASTM30Point(key: "A5", value: CGPoint(x: 55, y: 100)),
-            ASTM30Point(key: "A6", value: CGPoint(x: 100, y: 10)),
-            ASTM30Point(key: "A7", value: CGPoint(x: 150, y: -85)),
-            ASTM30Point(key: "A8", value: CGPoint(x: 119, y: -134)),
-            ASTM30Point(key: "A9", value: CGPoint(x: -10, y: -200)),
+            ASTM30Point(key: "A1", value: CGPoint(x: -170, y: 170)),
+            ASTM30Point(key: "A2", value: CGPoint(x: -130, y: 160)),
+            ASTM30Point(key: "A3", value: CGPoint(x: -60, y: 180)),
+            ASTM30Point(key: "A4", value: CGPoint(x: 8, y: 280)),
+            ASTM30Point(key: "A5", value: CGPoint(x: 55, y: 120)),
+            ASTM30Point(key: "A6", value: CGPoint(x: 100, y: 30)),
+            ASTM30Point(key: "A7", value: CGPoint(x: 150, y: -105)),
+            ASTM30Point(key: "A8", value: CGPoint(x: 119, y: -154)),
+            ASTM30Point(key: "A9", value: CGPoint(x: -10, y: -220)),
         ]
 
         _tm30ViewController.addPointsInfo(info)
