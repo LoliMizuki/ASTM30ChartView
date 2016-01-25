@@ -28,16 +28,31 @@ class ASTM30ColorVectorViewController: UIViewController {
     }
 
     func addPointsInfo(info: ASTM30ColorVectorPointsInfo) {
-        _pointsInfos[info]?.removeFromSuperlayer()
-        _pointsInfos.removeValueForKey(info)
+        _pointsInfoToLayersDict[info]?.removeFromSuperlayer()
+        _pointsInfoToLayersDict.removeValueForKey(info)
 
-        _pointsInfos[info] = CAShapeLayer()
+        _pointsInfoToLayersDict[info] = CAShapeLayer()
+    }
+
+    func removePointsInfoWithName(name: String) {
+        let target = _pointsInfoToLayersDict.keys.filter {
+            info in info.name == name
+        }.first
+
+        guard let targetKey = target else { return }
+
+        _pointsInfoToLayersDict.removeValueForKey(targetKey)
+    }
+
+    func removeAllPointsInfo() {
+        _pointsInfoToLayersDict.values.forEach { layer in layer.removeFromSuperlayer() }
+        _pointsInfoToLayersDict.removeAll()
     }
 
     func refresh() {
-        _setColorVectorBackgroundViewToView(view)
-        _setPointsLayerViewToView(view)
-        _setAllPoinsInfoLayersToView(_pointsView!)
+        _setAndAddColorVectorBackgroundViewToView(view)
+        _setAndAddPointsLayersLayerViewToView(view)
+        _setAndAddAllPoinsInfoLayersToView(_pointsLinesLayerView!)
         _setColorVectorBackgroundMaskWithPointsInfoName(maskPointsInfoName)
     }
 
@@ -58,7 +73,7 @@ class ASTM30ColorVectorViewController: UIViewController {
         let enable = enableValue as! Bool
         colorVectorBackgroundView.layer.mask = enable ? backgroundMaskLayer : nil
 
-        _pointsInfos.forEach {
+        _pointsInfoToLayersDict.forEach {
             (info, shapeLayer) in
             let nextColorValue = enable == true ? info.colorInMasked : info.color
 
@@ -71,15 +86,15 @@ class ASTM30ColorVectorViewController: UIViewController {
 
     // MARK: Private
 
-    private var _pointsInfos = [ASTM30ColorVectorPointsInfo: CAShapeLayer]()
+    private var _pointsInfoToLayersDict = [ASTM30ColorVectorPointsInfo: CAShapeLayer]()
+
+    private var _pointsLinesLayerView: UIView? = nil
 
     private var _colorVectorBackgroundView: UIImageView? = nil
 
     private var _colorVectorBackgroundMaskLayer: CAShapeLayer? = nil
 
-    private var _pointsView: UIView? = nil
-
-    private func _setColorVectorBackgroundViewToView(view: UIView) {
+    private func _setAndAddColorVectorBackgroundViewToView(view: UIView) {
         _colorVectorBackgroundView?.removeFromSuperview()
 
         let colorVectorBackgroundView = UIImageView(image: UIImage(named: "ColorVectorBackground"))
@@ -91,24 +106,27 @@ class ASTM30ColorVectorViewController: UIViewController {
         _colorVectorBackgroundView = colorVectorBackgroundView
     }
 
-    private func _setPointsLayerViewToView(view: UIView) {
-        _pointsView?.removeFromSuperview()
+    private func _setAndAddPointsLayersLayerViewToView(view: UIView) {
+        _pointsLinesLayerView?.removeFromSuperview()
 
         let pointsView = UIView(frame: view.frame)
 
         view.addSubview(pointsView)
 
-        _pointsView = pointsView
+        _pointsLinesLayerView = pointsView
     }
 
-    private func _setAllPoinsInfoLayersToView(view: UIView) {
-        _pointsInfos.keys.forEach {
+    private func _setAndAddAllPoinsInfoLayersToView(view: UIView) {
+        _pointsInfoToLayersDict.values.forEach { layer in layer.removeFromSuperlayer() }
+        let allInfos = _pointsInfoToLayersDict.keys
+        _pointsInfoToLayersDict.removeAll(keepCapacity: true)
+
+        allInfos.forEach {
             info in
-            _pointsInfos.removeValueForKey(info)
 
             let shapeLayer = _shapeLayerWithPointsInfo(info)
 
-            _pointsInfos[info] = shapeLayer
+            _pointsInfoToLayersDict[info] = shapeLayer
             view.layer.addSublayer(shapeLayer)
         }
     }
@@ -117,7 +135,7 @@ class ASTM30ColorVectorViewController: UIViewController {
         guard let name = name else { return }
         guard let colorVectorBackgroundView = _colorVectorBackgroundView else { return }
 
-        let pointsInfoKeyValue = _pointsInfos.filter {
+        let pointsInfoKeyValue = _pointsInfoToLayersDict.filter {
             (info, _) in return info.name == name
         }.first
 
