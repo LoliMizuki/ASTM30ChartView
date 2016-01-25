@@ -51,6 +51,7 @@ class ASTM30ColorVectorViewController: UIViewController {
 
     func refresh() {
         _setAndAddColorVectorBackgroundViewToView(view)
+        _setAndAddGridLayerToView(_colorVectorBackgroundView!)
         _setAndAddPointsLayersLayerViewToView(view)
         _setAndAddAllPoinsInfoLayersToView(_pointsLinesLayerView!)
         _setColorVectorBackgroundMaskWithPointsInfoName(maskPointsInfoName)
@@ -59,30 +60,11 @@ class ASTM30ColorVectorViewController: UIViewController {
     func enableBackgroundMask(enable: Bool, animated: Bool = true) {
         if animated {
             let duration = 1.0
-            _animateColorVectorBackgroundMaskWithEnable(enable, duration: duration)
+            _animateMaskEnable(enable, duration: duration)
         } else {
-            enableBackgroundMaskWithEnable(enable)
+            _setColorVectorBackgroundWithMaskEnable(enable)
         }
     }
-
-    func enableBackgroundMaskWithEnable(enable: Bool) {
-        guard let backgroundView = _colorVectorBackgroundView else { return }
-        guard let backgroundMaskLayer = _colorVectorBackgroundMaskLayer else { return }
-
-        backgroundView.layer.mask = enable ? backgroundMaskLayer : nil
-
-        _pointsInfoToLayersDict.forEach {
-            (info, shapeLayer) in
-            let nextColorValue = enable == true ? info.colorInMasked : info.color
-
-            guard let nextColor = nextColorValue else { return }
-
-            shapeLayer.strokeColor = nextColor.CGColor
-        }
-
-        _colorVectorBackgroundForFadeView?.hidden = enable
-    }
-
 
     // MARK: Private
 
@@ -91,6 +73,8 @@ class ASTM30ColorVectorViewController: UIViewController {
     private var _pointsLinesLayerView: UIView? = nil
 
     private var _colorVectorBackgroundView: UIImageView? = nil
+
+    private var _colorVectorBackgroundGridLayer: CAShapeLayer? = nil
 
     private var _colorVectorBackgroundForFadeView: UIImageView? = nil
 
@@ -113,6 +97,47 @@ class ASTM30ColorVectorViewController: UIViewController {
 
         view.addSubview(_colorVectorBackgroundForFadeView!)
         view.addSubview(_colorVectorBackgroundView!)
+    }
+
+    private func _setAndAddGridLayerToView(view: UIView) {
+        _colorVectorBackgroundGridLayer?.removeFromSuperlayer()
+
+        let numberOfGrid: CGFloat = 5
+
+        let interval = CGPoint(
+            x: view.frame.size.width/numberOfGrid,
+            y: view.frame.size.height/numberOfGrid
+        )
+
+        var paths = [UIBezierPath]()
+
+        for i in 1..<Int(numberOfGrid) {
+            let linePath = UIBezierPath()
+
+            linePath.moveToPoint(CGPoint(x: 0, y: i.cgFloatValue*interval.y))
+            linePath.addLineToPoint(CGPoint(x: view.frame.size.width, y: i.cgFloatValue*interval.y))
+
+            linePath.moveToPoint(CGPoint(x: i.cgFloatValue*interval.x, y: 0))
+            linePath.addLineToPoint(CGPoint(x: i.cgFloatValue*interval.x, y: view.frame.size.height))
+
+
+            paths.append(linePath)
+        }
+
+        let resultPath = CGPathCreateMutable()
+
+        paths.forEach { path in CGPathAddPath(resultPath, nil, path.CGPath) }
+
+        let gridLayer = CAShapeLayer()
+        gridLayer.frame = view.frame
+        gridLayer.path = resultPath
+
+        gridLayer.lineWidth = 2
+        gridLayer.strokeColor = UIColor.grayColor().CGColor
+
+        view.layer.addSublayer(gridLayer)
+
+        _colorVectorBackgroundGridLayer = gridLayer
     }
 
     private func _setAndAddPointsLayersLayerViewToView(view: UIView) {
@@ -200,12 +225,37 @@ class ASTM30ColorVectorViewController: UIViewController {
         return maskLayer
     }
 
-    private func _animateColorVectorBackgroundMaskWithEnable(enable: Bool, duration: NSTimeInterval) {
-        guard let colorVectorBackgroundView = _colorVectorBackgroundView else { return }
-        guard let colorVectorBackgroundMaskLayer = _colorVectorBackgroundMaskLayer else { return }
+    private func _setColorVectorBackgroundWithMaskEnable(maskEnable: Bool) {
+        guard let backgroundView = _colorVectorBackgroundView else { return }
+        guard let backgroundMaskLayer = _colorVectorBackgroundMaskLayer else { return }
 
-        if colorVectorBackgroundView.layer.mask == nil {
-            colorVectorBackgroundView.layer.mask = colorVectorBackgroundMaskLayer
+        backgroundView.layer.mask = maskEnable ? backgroundMaskLayer : nil
+
+        _pointsInfoToLayersDict.forEach {
+            (info, shapeLayer) in
+            let nextColorValue = maskEnable == true ? info.colorInMasked : info.color
+
+            guard let nextColor = nextColorValue else { return }
+
+            shapeLayer.strokeColor = nextColor.CGColor
+        }
+
+        _colorVectorBackgroundForFadeView?.hidden = maskEnable
+    }
+
+    private func _animateMaskEnable(maskEnable: Bool, duration: NSTimeInterval) {
+        _animateMaskEnableToColorVectorBackground(maskEnable, duration: duration)
+        _animateMaskEnableToColorVectorBackgroundForFade(maskEnable, duration: duration)
+        _animateMaskEnableToColorVectorBackgroundGridLayer(maskEnable, duration: duration)
+        _animateMaskEnableToPointsLinesLayer(maskEnable, duration: duration)
+    }
+
+    private func _animateMaskEnableToColorVectorBackground(maskEnable: Bool, duration: NSTimeInterval) {
+        guard let view = _colorVectorBackgroundView else { return }
+        guard let maskLayer = _colorVectorBackgroundMaskLayer else { return }
+
+        if view.layer.mask == nil {
+            view.layer.mask = maskLayer
         }
 
         let maxScale = 5.0
@@ -215,19 +265,44 @@ class ASTM30ColorVectorViewController: UIViewController {
         scale.duration = duration
         scale.keyTimes = [0.0, 1.0]
         scale.values = [
-            (enable ? maxScale : minScale),
-            (enable ? minScale : maxScale),
+            (maskEnable ? maxScale : minScale),
+            (maskEnable ? minScale : maxScale),
         ]
         scale.timingFunctions = [CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)]
         scale.fillMode = kCAFillModeForwards
         scale.removedOnCompletion = false
 
-        colorVectorBackgroundMaskLayer.removeAllAnimations()
-        colorVectorBackgroundMaskLayer.addAnimation(scale, forKey: "scale")
+        maskLayer.removeAllAnimations()
+        maskLayer.addAnimation(scale, forKey: "scale")
+    }
 
+    private func _animateMaskEnableToColorVectorBackgroundForFade(maskEnable: Bool, duration: NSTimeInterval) {
+        guard let view = _colorVectorBackgroundForFadeView else { return }
+        view.alpha = maskEnable ? 1 : 0
+        UIView.animateWithDuration(duration,
+            animations: { view.alpha = maskEnable ? 0 : 1 },
+            completion: { _ in self._setColorVectorBackgroundWithMaskEnable(maskEnable) }
+        )
+    }
+
+    private func _animateMaskEnableToColorVectorBackgroundGridLayer(maskEnable: Bool, duration: NSTimeInterval) {
+        guard let layer = _colorVectorBackgroundGridLayer else { return }
+
+        let fade = CABasicAnimation(keyPath: "opacity")
+        fade.fromValue = maskEnable ? 1 : 0
+        fade.toValue = maskEnable ? 0 : 1
+        fade.duration = duration
+        fade.fillMode = kCAFillModeForwards
+        fade.removedOnCompletion = false
+
+        layer.removeAllAnimations()
+        layer.addAnimation(fade, forKey: "fade")
+    }
+
+    private func _animateMaskEnableToPointsLinesLayer(maskEnable: Bool, duration: NSTimeInterval) {
         _pointsInfoToLayersDict.forEach {
             (info, shapeLayer) in
-            let nextColorValue = enable == true ? info.colorInMasked : info.color
+            let nextColorValue = maskEnable == true ? info.colorInMasked : info.color
 
             guard let nextColor = nextColorValue else { return }
 
@@ -238,13 +313,6 @@ class ASTM30ColorVectorViewController: UIViewController {
 
             shapeLayer.addAnimation(color, forKey: "color")
         }
-
-        guard let colorVectorBackgroundForFadeView = _colorVectorBackgroundForFadeView else { return }
-        colorVectorBackgroundForFadeView.alpha = enable ? 1 : 0
-        UIView.animateWithDuration(duration,
-            animations: { colorVectorBackgroundForFadeView.alpha = enable ? 0 : 1 },
-            completion: { _ in self.enableBackgroundMaskWithEnable(enable) }
-        )
     }
 
 

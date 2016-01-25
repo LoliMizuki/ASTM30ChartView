@@ -82,15 +82,15 @@ extension ViewController {
         info.colorInMasked = UIColor.greenColor()
         info.lineWidth = 4
         info.points = [
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: -150, y: 0)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: -100, y: 140)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: -50, y: 160)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 0, y: 200)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 50, y: 100)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 100, y: 10)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 150, y: -75)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 110, y: -134)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: -10, y: -200)),
+            ASTM30ColorVectorPoint(key: "A1", value: CGPoint(x: -150, y: 0)),
+            ASTM30ColorVectorPoint(key: "A2", value: CGPoint(x: -100, y: 140)),
+            ASTM30ColorVectorPoint(key: "A3", value: CGPoint(x: -50, y: 160)),
+            ASTM30ColorVectorPoint(key: "A4", value: CGPoint(x: 0, y: 200)),
+            ASTM30ColorVectorPoint(key: "A5", value: CGPoint(x: 50, y: 100)),
+            ASTM30ColorVectorPoint(key: "A6", value: CGPoint(x: 100, y: 10)),
+            ASTM30ColorVectorPoint(key: "A7", value: CGPoint(x: 150, y: -75)),
+            ASTM30ColorVectorPoint(key: "A8", value: CGPoint(x: 110, y: -134)),
+            ASTM30ColorVectorPoint(key: "A9", value: CGPoint(x: -10, y: -200)),
         ]
 
         _tm30ViewController.addPointsInfo(info)
@@ -102,15 +102,16 @@ extension ViewController {
         info.colorInMasked = UIColor.redColor()
         info.lineWidth = 4
         info.points = [
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: -170, y: 0)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: -130, y: 140)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: -60, y: 160)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 8, y: 260)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 55, y: 100)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 100, y: 10)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 150, y: -85)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 119, y: -134)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: -10, y: -200)),        ]
+            ASTM30ColorVectorPoint(key: "A1", value: CGPoint(x: -170, y: 0)),
+            ASTM30ColorVectorPoint(key: "A2", value: CGPoint(x: -130, y: 140)),
+            ASTM30ColorVectorPoint(key: "A3", value: CGPoint(x: -60, y: 160)),
+            ASTM30ColorVectorPoint(key: "A4", value: CGPoint(x: 8, y: 260)),
+            ASTM30ColorVectorPoint(key: "A5", value: CGPoint(x: 55, y: 100)),
+            ASTM30ColorVectorPoint(key: "A6", value: CGPoint(x: 100, y: 10)),
+            ASTM30ColorVectorPoint(key: "A7", value: CGPoint(x: 150, y: -85)),
+            ASTM30ColorVectorPoint(key: "A8", value: CGPoint(x: 119, y: -134)),
+            ASTM30ColorVectorPoint(key: "A9", value: CGPoint(x: -10, y: -200)),
+        ]
 
         _tm30ViewController.addPointsInfo(info)
     }
