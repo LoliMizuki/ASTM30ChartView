@@ -14,6 +14,10 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        view.backgroundColor = UIColor.blackColor()
+
+        __testSetting()
     }
 
     override func viewDidLayoutSubviews() {
@@ -22,7 +26,6 @@ class ViewController: UIViewController {
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        __testSetting()
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -55,7 +58,6 @@ extension ViewController {
 // Test
 
 extension ViewController {
-    // MARK: Private Test
 
     private func __testSetting() {
         _tm30ViewController.coordinateRange = ASTM30ColorVectorCoordinateSpace(
@@ -63,8 +65,9 @@ extension ViewController {
         )
         __addTestDataAsCircle2()
         __addTestDataAsCircle1()
-        _tm30ViewController.setBackgroundMaskWithPointsInfoName("Hello")
-        _tm30ViewController.enableBackgroundMask(true, animated: true)
+        _tm30ViewController.maskPointsInfoName = "Hello"
+//        _tm30ViewController.setBackgroundMaskWithPointsInfoName("Hello")
+//        _tm30ViewController.enableBackgroundMask(true, animated: true)
 
         //        __addTestDataAsLines()
 
@@ -76,6 +79,7 @@ extension ViewController {
     private func __addTestDataAsCircle1() {
         let info = ASTM30ColorVectorPointsInfo(name: "Hello")
         info.color = UIColor.redColor()
+        info.colorInMasked = UIColor.greenColor()
         info.lineWidth = 4
         info.points = [
             ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: -150, y: 0)),
@@ -95,6 +99,7 @@ extension ViewController {
     private func __addTestDataAsCircle2() {
         let info = ASTM30ColorVectorPointsInfo(name: "Oops")
         info.color = UIColor.whiteColor()
+        info.colorInMasked = UIColor.redColor()
         info.lineWidth = 4
         info.points = [
             ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: -170, y: 0)),

@@ -32,6 +32,8 @@ class ASTM30ColorVectorPointsInfo: NSObject {
 
     var color = UIColor.blackColor()
 
+    var colorInMasked: UIColor? = nil
+
     var points = [ASTM30ColorVectorPoint]()
 
     var closePath: Bool = true
