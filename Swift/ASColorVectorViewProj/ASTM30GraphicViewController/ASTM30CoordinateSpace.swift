@@ -1,5 +1,5 @@
 //
-//  ASTM30ColorVectorCoordinateSpace.swift
+//  ASTM30CoordinateSpace.swift
 //
 //  Created by Inaba Mizuki on 2016/1/22.
 //  Copyright © 2016年 AsenseTek. All rights reserved.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ASTM30ColorVectorCoordinateSpace: NSObject {
+class ASTM30CoordinateSpace: NSObject {
 
     var xMin: CGFloat
     var yMin: CGFloat

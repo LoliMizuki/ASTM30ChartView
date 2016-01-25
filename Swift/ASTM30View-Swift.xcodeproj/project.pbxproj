@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8E512C501C55C86A009F114F /* ASTM30ColorVectorCoordinateSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E512C4D1C55C86A009F114F /* ASTM30ColorVectorCoordinateSpace.swift */; };
-		8E512C511C55C86A009F114F /* ASTM30ColorVectorPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E512C4E1C55C86A009F114F /* ASTM30ColorVectorPoint.swift */; };
-		8E512C521C55C86A009F114F /* ASTM30ColorVectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E512C4F1C55C86A009F114F /* ASTM30ColorVectorViewController.swift */; };
+		8E512C571C56107F009F114F /* ASTM30CoordinateSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E512C541C56107F009F114F /* ASTM30CoordinateSpace.swift */; };
+		8E512C581C56107F009F114F /* ASTM30ColorVectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E512C551C56107F009F114F /* ASTM30ColorVectorViewController.swift */; };
+		8E512C591C56107F009F114F /* ASTM30PointsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E512C561C56107F009F114F /* ASTM30PointsInfo.swift */; };
 		8EB982901C51FD9700593591 /* MZ.InAppPurchaseManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB982811C51FD9700593591 /* MZ.InAppPurchaseManger.swift */; };
 		8EB982911C51FD9700593591 /* MZ.CGExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB982831C51FD9700593591 /* MZ.CGExtensions.swift */; };
 		8EB982921C51FD9700593591 /* MZ.SceneWithQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB982841C51FD9700593591 /* MZ.SceneWithQueue.swift */; };
@@ -30,9 +30,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8E512C4D1C55C86A009F114F /* ASTM30ColorVectorCoordinateSpace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTM30ColorVectorCoordinateSpace.swift; sourceTree = "<group>"; };
-		8E512C4E1C55C86A009F114F /* ASTM30ColorVectorPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTM30ColorVectorPoint.swift; sourceTree = "<group>"; };
-		8E512C4F1C55C86A009F114F /* ASTM30ColorVectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTM30ColorVectorViewController.swift; sourceTree = "<group>"; };
+		8E512C541C56107F009F114F /* ASTM30CoordinateSpace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTM30CoordinateSpace.swift; sourceTree = "<group>"; };
+		8E512C551C56107F009F114F /* ASTM30ColorVectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTM30ColorVectorViewController.swift; sourceTree = "<group>"; };
+		8E512C561C56107F009F114F /* ASTM30PointsInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTM30PointsInfo.swift; sourceTree = "<group>"; };
 		8EB982811C51FD9700593591 /* MZ.InAppPurchaseManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.InAppPurchaseManger.swift; sourceTree = "<group>"; };
 		8EB982831C51FD9700593591 /* MZ.CGExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.CGExtensions.swift; sourceTree = "<group>"; };
 		8EB982841C51FD9700593591 /* MZ.SceneWithQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.SceneWithQueue.swift; sourceTree = "<group>"; };
@@ -65,14 +65,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8E512C4C1C55C86A009F114F /* ASTM30ColorVectorView */ = {
+		8E512C531C56107F009F114F /* ASTM30GraphicViewController */ = {
 			isa = PBXGroup;
 			children = (
-				8E512C4D1C55C86A009F114F /* ASTM30ColorVectorCoordinateSpace.swift */,
-				8E512C4E1C55C86A009F114F /* ASTM30ColorVectorPoint.swift */,
-				8E512C4F1C55C86A009F114F /* ASTM30ColorVectorViewController.swift */,
+				8E512C541C56107F009F114F /* ASTM30CoordinateSpace.swift */,
+				8E512C551C56107F009F114F /* ASTM30ColorVectorViewController.swift */,
+				8E512C561C56107F009F114F /* ASTM30PointsInfo.swift */,
 			);
-			path = ASTM30ColorVectorView;
+			path = ASTM30GraphicViewController;
 			sourceTree = "<group>";
 		};
 		8EB9827F1C51FD9700593591 /* MZ-Swifts */ = {
@@ -148,7 +148,7 @@
 			children = (
 				8EF8D5EB1C50BB0B00D09733 /* AppDelegate.swift */,
 				8EB9829C1C5202B100593591 /* ViewController.swift */,
-				8E512C4C1C55C86A009F114F /* ASTM30ColorVectorView */,
+				8E512C531C56107F009F114F /* ASTM30GraphicViewController */,
 				8EF8D5EF1C50BB0B00D09733 /* Main.storyboard */,
 				8EF8D5F21C50BB0B00D09733 /* Assets.xcassets */,
 				8EF8D5F41C50BB0B00D09733 /* LaunchScreen.storyboard */,
@@ -231,18 +231,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EB982991C51FD9700593591 /* MZ.Maths.swift in Sources */,
-				8E512C521C55C86A009F114F /* ASTM30ColorVectorViewController.swift in Sources */,
 				8EB982931C51FD9700593591 /* MZ.Shapes.swift in Sources */,
-				8E512C511C55C86A009F114F /* ASTM30ColorVectorPoint.swift in Sources */,
 				8EF8D5EC1C50BB0B00D09733 /* AppDelegate.swift in Sources */,
 				8EB982951C51FD9700593591 /* MZ.TypeDefines.swift in Sources */,
 				8EB982901C51FD9700593591 /* MZ.InAppPurchaseManger.swift in Sources */,
 				8EB982921C51FD9700593591 /* MZ.SceneWithQueue.swift in Sources */,
 				8EB9829D1C5202B100593591 /* ViewController.swift in Sources */,
+				8E512C571C56107F009F114F /* ASTM30CoordinateSpace.swift in Sources */,
 				8EB982981C51FD9700593591 /* MZ.Degrees.swift in Sources */,
+				8E512C591C56107F009F114F /* ASTM30PointsInfo.swift in Sources */,
+				8E512C581C56107F009F114F /* ASTM30ColorVectorViewController.swift in Sources */,
 				8EB982971C51FD9700593591 /* MZ.Debugs.swift in Sources */,
 				8EB982941C51FD9700593591 /* MZ.swift in Sources */,
-				8E512C501C55C86A009F114F /* ASTM30ColorVectorCoordinateSpace.swift in Sources */,
 				8EB9829B1C51FD9700593591 /* MZ.Types.swift in Sources */,
 				8EB982961C51FD9700593591 /* MZ.TouchDefines.swift in Sources */,
 				8EB982911C51FD9700593591 /* MZ.CGExtensions.swift in Sources */,

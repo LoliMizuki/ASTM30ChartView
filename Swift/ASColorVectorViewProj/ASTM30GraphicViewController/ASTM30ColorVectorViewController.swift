@@ -1,5 +1,5 @@
 //
-//  ASTM30ColorVectorViewController.swift
+//  ASTM30GraphicViewController.swift
 //
 //  Created by Inaba Mizuki on 2016/1/21.
 //  Copyright © 2016年 AsenseTek. All rights reserved.
@@ -7,15 +7,23 @@
 
 import UIKit
 
-class ASTM30ColorVectorViewController: UIViewController {
 
-    var coordinateRange = ASTM30ColorVectorCoordinateSpace()
+enum ASTM30GraphicType: Int {
+    case ColorVector
+    case ColorDistortion
+}
+
+class ASTM30GraphicViewController: UIViewController {
+
+    var coordinateSpace = ASTM30CoordinateSpace()
 
     var maskPointsInfoName: String? = nil
 
     var hasBackgroundMasked: Bool {
         return _colorVectorBackgroundView?.layer.mask != nil
     }
+
+    private (set) var graphicType: ASTM30GraphicType = .ColorVector
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +35,7 @@ class ASTM30ColorVectorViewController: UIViewController {
         refresh()
     }
 
-    func addPointsInfo(info: ASTM30ColorVectorPointsInfo) {
+    func addPointsInfo(info: ASTM30PointsInfo) {
         _pointsInfoToLayersDict[info]?.removeFromSuperlayer()
         _pointsInfoToLayersDict.removeValueForKey(info)
 
@@ -57,18 +65,21 @@ class ASTM30ColorVectorViewController: UIViewController {
         _setColorVectorBackgroundMaskWithPointsInfoName(maskPointsInfoName)
     }
 
-    func enableBackgroundMask(enable: Bool, animated: Bool = true) {
+    func setGraphicType(type: ASTM30GraphicType, animated: Bool = false, duration: CFTimeInterval = 0.25) {
+        graphicType = type
+        let enableMask = graphicType == .ColorDistortion
+
         if animated {
-            let duration = 1.0
-            _animateMaskEnable(enable, duration: duration)
+            _animateMaskEnable(enableMask, duration: duration)
         } else {
-            _setColorVectorBackgroundWithMaskEnable(enable)
+            _setColorVectorBackgroundWithMaskEnable(enableMask)
         }
     }
 
+    
     // MARK: Private
 
-    private var _pointsInfoToLayersDict = [ASTM30ColorVectorPointsInfo: CAShapeLayer]()
+    private var _pointsInfoToLayersDict = [ASTM30PointsInfo: CAShapeLayer]()
 
     private var _pointsLinesLayerView: UIView? = nil
 
@@ -187,9 +198,9 @@ class ASTM30ColorVectorViewController: UIViewController {
         maskPointsInfoName = name
     }
 
-    private func _shapeLayerWithPointsInfo(pointsInfo: ASTM30ColorVectorPointsInfo) -> CAShapeLayer {
+    private func _shapeLayerWithPointsInfo(pointsInfo: ASTM30PointsInfo) -> CAShapeLayer {
         func modifyPoint(point: CGPoint,
-            inCoordinateSpace coordinateSpace: ASTM30ColorVectorCoordinateSpace)
+            inCoordinateSpace coordinateSpace: ASTM30CoordinateSpace)
         -> CGPoint {
             let realX = view.frame.width*((point.x - coordinateSpace.xMin)/coordinateSpace.xLength)
             let realY = view.frame.height - view.frame.height*((point.y - coordinateSpace.yMin)/coordinateSpace.yLength)
@@ -197,7 +208,7 @@ class ASTM30ColorVectorViewController: UIViewController {
             return CGPoint(x: realX, y: realY)
         }
 
-        let points = pointsInfo.points.map { p in return modifyPoint(p.value, inCoordinateSpace: self.coordinateRange) }
+        let points = pointsInfo.points.map { p in return modifyPoint(p.value, inCoordinateSpace: self.coordinateSpace) }
 
         let path = UIBezierPath()
         path.moveToPoint(points[0])

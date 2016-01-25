@@ -1,5 +1,5 @@
 //
-//  ASTM30ColorVectorPoint.swift
+//  ASTM30Point.swift
 //
 //  Created by Inaba Mizuki on 2016/1/22.
 //  Copyright © 2016年 AsenseTek. All rights reserved.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-// MARK: ASTM30ColorVectorPoint
+// MARK: ASTM30Point
 
-class ASTM30ColorVectorPoint: NSObject {
+class ASTM30Point: NSObject {
 
     var key: String
 
@@ -22,9 +22,9 @@ class ASTM30ColorVectorPoint: NSObject {
 }
 
 
-// MARK: ASTM30ColorVectorPointsInfo
+// MARK: ASTM30PointsInfo
 
-class ASTM30ColorVectorPointsInfo: NSObject {
+class ASTM30PointsInfo: NSObject {
 
     var name = String("")
 
@@ -34,7 +34,7 @@ class ASTM30ColorVectorPointsInfo: NSObject {
 
     var colorInMasked: UIColor? = nil
 
-    var points = [ASTM30ColorVectorPoint]()
+    var points = [ASTM30Point]()
 
     var closePath: Bool = true
 

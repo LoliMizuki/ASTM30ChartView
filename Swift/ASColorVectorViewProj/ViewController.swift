@@ -30,7 +30,7 @@ class ViewController: UIViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         super.prepareForSegue(segue, sender: sender)
-        _tm30ViewController = segue.destinationViewController as! ASTM30ColorVectorViewController
+        _tm30ViewController = segue.destinationViewController as! ASTM30GraphicViewController
     }
 
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -41,7 +41,7 @@ class ViewController: UIViewController {
 
     // MARK: Private
 
-    private var _tm30ViewController: ASTM30ColorVectorViewController! = nil
+    private var _tm30ViewController: ASTM30GraphicViewController! = nil
 }
 
 
@@ -50,7 +50,11 @@ class ViewController: UIViewController {
 extension ViewController {
 
     @IBAction func didTouchUpInsideMaskButton(button: UIButton) {
-        _tm30ViewController.enableBackgroundMask(!_tm30ViewController.hasBackgroundMasked, animated: true)
+        let type =
+            _tm30ViewController.graphicType == .ColorVector ?
+                ASTM30GraphicType.ColorDistortion :
+                ASTM30GraphicType.ColorVector
+        _tm30ViewController.setGraphicType(type, animated: true)
     }
 }
 
@@ -60,7 +64,7 @@ extension ViewController {
 extension ViewController {
 
     private func __testSetting() {
-        _tm30ViewController.coordinateRange = ASTM30ColorVectorCoordinateSpace(
+        _tm30ViewController.coordinateSpace = ASTM30CoordinateSpace(
             xMin: -400, yMin: -400, xMax: 400, yMax: 400
         )
         __addTestDataAsCircle2()
@@ -77,59 +81,59 @@ extension ViewController {
     }
 
     private func __addTestDataAsCircle1() {
-        let info = ASTM30ColorVectorPointsInfo(name: "Hello")
+        let info = ASTM30PointsInfo(name: "Hello")
         info.color = UIColor.redColor()
         info.colorInMasked = UIColor.greenColor()
         info.lineWidth = 4
         info.points = [
-            ASTM30ColorVectorPoint(key: "A1", value: CGPoint(x: -150, y: 0)),
-            ASTM30ColorVectorPoint(key: "A2", value: CGPoint(x: -100, y: 140)),
-            ASTM30ColorVectorPoint(key: "A3", value: CGPoint(x: -50, y: 160)),
-            ASTM30ColorVectorPoint(key: "A4", value: CGPoint(x: 0, y: 200)),
-            ASTM30ColorVectorPoint(key: "A5", value: CGPoint(x: 50, y: 100)),
-            ASTM30ColorVectorPoint(key: "A6", value: CGPoint(x: 100, y: 10)),
-            ASTM30ColorVectorPoint(key: "A7", value: CGPoint(x: 150, y: -75)),
-            ASTM30ColorVectorPoint(key: "A8", value: CGPoint(x: 110, y: -134)),
-            ASTM30ColorVectorPoint(key: "A9", value: CGPoint(x: -10, y: -200)),
+            ASTM30Point(key: "A1", value: CGPoint(x: -150, y: 0)),
+            ASTM30Point(key: "A2", value: CGPoint(x: -100, y: 140)),
+            ASTM30Point(key: "A3", value: CGPoint(x: -50, y: 160)),
+            ASTM30Point(key: "A4", value: CGPoint(x: 0, y: 200)),
+            ASTM30Point(key: "A5", value: CGPoint(x: 50, y: 100)),
+            ASTM30Point(key: "A6", value: CGPoint(x: 100, y: 10)),
+            ASTM30Point(key: "A7", value: CGPoint(x: 150, y: -75)),
+            ASTM30Point(key: "A8", value: CGPoint(x: 110, y: -134)),
+            ASTM30Point(key: "A9", value: CGPoint(x: -10, y: -200)),
         ]
 
         _tm30ViewController.addPointsInfo(info)
     }
 
     private func __addTestDataAsCircle2() {
-        let info = ASTM30ColorVectorPointsInfo(name: "Oops")
+        let info = ASTM30PointsInfo(name: "Oops")
         info.color = UIColor.whiteColor()
         info.colorInMasked = UIColor.redColor()
         info.lineWidth = 4
         info.points = [
-            ASTM30ColorVectorPoint(key: "A1", value: CGPoint(x: -170, y: 0)),
-            ASTM30ColorVectorPoint(key: "A2", value: CGPoint(x: -130, y: 140)),
-            ASTM30ColorVectorPoint(key: "A3", value: CGPoint(x: -60, y: 160)),
-            ASTM30ColorVectorPoint(key: "A4", value: CGPoint(x: 8, y: 260)),
-            ASTM30ColorVectorPoint(key: "A5", value: CGPoint(x: 55, y: 100)),
-            ASTM30ColorVectorPoint(key: "A6", value: CGPoint(x: 100, y: 10)),
-            ASTM30ColorVectorPoint(key: "A7", value: CGPoint(x: 150, y: -85)),
-            ASTM30ColorVectorPoint(key: "A8", value: CGPoint(x: 119, y: -134)),
-            ASTM30ColorVectorPoint(key: "A9", value: CGPoint(x: -10, y: -200)),
+            ASTM30Point(key: "A1", value: CGPoint(x: -170, y: 0)),
+            ASTM30Point(key: "A2", value: CGPoint(x: -130, y: 140)),
+            ASTM30Point(key: "A3", value: CGPoint(x: -60, y: 160)),
+            ASTM30Point(key: "A4", value: CGPoint(x: 8, y: 260)),
+            ASTM30Point(key: "A5", value: CGPoint(x: 55, y: 100)),
+            ASTM30Point(key: "A6", value: CGPoint(x: 100, y: 10)),
+            ASTM30Point(key: "A7", value: CGPoint(x: 150, y: -85)),
+            ASTM30Point(key: "A8", value: CGPoint(x: 119, y: -134)),
+            ASTM30Point(key: "A9", value: CGPoint(x: -10, y: -200)),
         ]
 
         _tm30ViewController.addPointsInfo(info)
     }
 
     private func __addTestDataAsLines() {
-        _tm30ViewController.coordinateRange = ASTM30ColorVectorCoordinateSpace(
+        _tm30ViewController.coordinateSpace = ASTM30CoordinateSpace(
             xMin: -100, xMax: 100, yMin: 0, yMax: 100
         )
 
-        let info = ASTM30ColorVectorPointsInfo(name: "Hello")
+        let info = ASTM30PointsInfo(name: "Hello")
         info.color = UIColor.redColor()
         info.lineWidth = 4
         info.points = [
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 0, y: 0)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 25, y: 40)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 50, y: 20)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 75, y: 35)),
-            ASTM30ColorVectorPoint(key: "A", value: CGPoint(x: 100, y: 10)),
+            ASTM30Point(key: "A", value: CGPoint(x: 0, y: 0)),
+            ASTM30Point(key: "A", value: CGPoint(x: 25, y: 40)),
+            ASTM30Point(key: "A", value: CGPoint(x: 50, y: 20)),
+            ASTM30Point(key: "A", value: CGPoint(x: 75, y: 35)),
+            ASTM30Point(key: "A", value: CGPoint(x: 100, y: 10)),
         ]
         info.closePath = false
 
