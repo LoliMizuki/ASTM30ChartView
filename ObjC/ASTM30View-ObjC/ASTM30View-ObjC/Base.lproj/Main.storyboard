@@ -16,11 +16,39 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IF8-9z-tPK">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <connections>
+                                    <segue destination="y5m-ft-y4P" kind="embed" id="Ecg-D1-N6j"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="IF8-9z-tPK" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Wwe-Bx-srk"/>
+                            <constraint firstItem="IF8-9z-tPK" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="dUp-LU-nHy"/>
+                            <constraint firstItem="IF8-9z-tPK" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="eeA-kT-xop"/>
+                            <constraint firstItem="IF8-9z-tPK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fVf-LR-NAz"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+        </scene>
+        <!--Graphic View Controller-->
+        <scene sceneID="S89-fj-3SW">
+            <objects>
+                <viewController id="y5m-ft-y4P" customClass="ASTM30GraphicViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xzd-gS-trj">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1vS-hO-zzb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="325" y="1175"/>
         </scene>
     </scenes>
 </document>

@@ -102,7 +102,7 @@ class ASTM30GraphicViewController: UIViewController {
 
         _pointsInfoToLayersDict.forEach {
             (info, shapeLayer) in
-            let nextColorValue = maskEnable == true ? info.colorInMasked : info.color
+            let nextColorValue = maskEnable ? info.colorInMasked : info.color
 
             guard let nextColor = nextColorValue else { return }
 
@@ -183,41 +183,6 @@ extension ASTM30GraphicViewController {
         _pointsLinesLayerView = pointsView
     }
 
-    private func _setAndAddReferenceToTestSourceArrowsLayerToView(view: UIView) {
-        _sourceToReferenceArrowsLayer?.removeFromSuperlayer()
-
-        guard let testSourceName = testSourceName else { return }
-        guard let referenceName = referenceName else { return }
-
-        guard let toInfo = poinsInfoWithName(testSourceName) else { return }
-        guard let fromInfo = poinsInfoWithName(referenceName) else { return }
-
-        let path = UIBezierPath()
-
-        for fromPoint in fromInfo.points {
-            guard let toPoint = toInfo.pointWithKey(fromPoint.key) else {
-                MZ.Debugs.assertAlwayFalse("Can not found point with key: \(fromPoint.key)")
-                return
-            }
-
-            let modifiedFromPoint = _pointFrom(fromPoint.value, inCoordinateSpace: coordinateSpace)
-            let modifiedToPoint = _pointFrom(toPoint.value, inCoordinateSpace: coordinateSpace)
-
-            path.appendPath(_arrowPathFromPoint(modifiedFromPoint, toPoint: modifiedToPoint))
-        }
-
-        let layer = CAShapeLayer()
-        layer.frame = view.frame
-        layer.path = path.CGPath
-        layer.strokeColor = UIColor.greenColor().CGColor
-        layer.lineWidth = 1
-        layer.lineCap = "round"
-        layer.lineJoin = "bevel"
-        view.layer.addSublayer(layer)
-
-        _sourceToReferenceArrowsLayer = layer
-    }
-
     private func _setAndAddAllPoinsInfoLayersToView(view: UIView) {
         _pointsInfoToLayersDict.values.forEach { layer in layer.removeFromSuperlayer() }
         let allInfos = _pointsInfoToLayersDict.keys
@@ -253,6 +218,41 @@ extension ASTM30GraphicViewController {
         _graphicBackgroundMaskLayer = _maskLayerFromLayer(layer)
 
         testSourceName = name
+    }
+
+    private func _setAndAddReferenceToTestSourceArrowsLayerToView(view: UIView) {
+        _sourceToReferenceArrowsLayer?.removeFromSuperlayer()
+
+        guard let testSourceName = testSourceName else { return }
+        guard let referenceName = referenceName else { return }
+
+        guard let toInfo = poinsInfoWithName(testSourceName) else { return }
+        guard let fromInfo = poinsInfoWithName(referenceName) else { return }
+
+        let path = UIBezierPath()
+
+        for fromPoint in fromInfo.points {
+            guard let toPoint = toInfo.pointWithKey(fromPoint.key) else {
+                MZ.Debugs.assertAlwayFalse("Can not found point with key: \(fromPoint.key)")
+                return
+            }
+
+            let modifiedFromPoint = _pointFrom(fromPoint.value, inCoordinateSpace: coordinateSpace)
+            let modifiedToPoint = _pointFrom(toPoint.value, inCoordinateSpace: coordinateSpace)
+
+            path.appendPath(_arrowPathFromPoint(modifiedFromPoint, toPoint: modifiedToPoint))
+        }
+
+        let layer = CAShapeLayer()
+        layer.frame = view.frame
+        layer.path = path.CGPath
+        layer.strokeColor = UIColor.greenColor().CGColor
+        layer.lineWidth = 1
+        layer.lineCap = "round"
+        layer.lineJoin = "bevel"
+        view.layer.addSublayer(layer)
+        
+        _sourceToReferenceArrowsLayer = layer
     }
 
     private func _shapeLayerWithPointsInfo(pointsInfo: ASTM30PointsInfo) -> CAShapeLayer {
@@ -394,7 +394,7 @@ extension ASTM30GraphicViewController {
 }
 
 
-// MARK: Utilities
+// MARK: Supports
 extension ASTM30GraphicViewController {
 
     private func _pointFrom(point: CGPoint, inCoordinateSpace coordinateSpace: ASTM30CoordinateSpace)

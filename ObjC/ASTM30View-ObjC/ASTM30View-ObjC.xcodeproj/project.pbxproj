@@ -15,6 +15,8 @@
 		8E5C9BDB1C571956000E819B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E5C9BD91C571956000E819B /* LaunchScreen.storyboard */; };
 		8E5C9BE51C571A7A000E819B /* ASTM30CoordinateSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E5C9BE41C571A7A000E819B /* ASTM30CoordinateSpace.m */; };
 		8E5C9BE81C571CFD000E819B /* ASTM30PointsInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E5C9BE71C571CFD000E819B /* ASTM30PointsInfo.m */; };
+		8E5C9BEB1C5721BB000E819B /* ASTM30GraphicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E5C9BEA1C5721BB000E819B /* ASTM30GraphicViewController.m */; };
+		8E5C9BF21C574ECC000E819B /* MZMapReduces.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E5C9BF11C574ECC000E819B /* MZMapReduces.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,12 @@
 		8E5C9BE41C571A7A000E819B /* ASTM30CoordinateSpace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASTM30CoordinateSpace.m; sourceTree = "<group>"; };
 		8E5C9BE61C571CFD000E819B /* ASTM30PointsInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASTM30PointsInfo.h; sourceTree = "<group>"; };
 		8E5C9BE71C571CFD000E819B /* ASTM30PointsInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASTM30PointsInfo.m; sourceTree = "<group>"; };
+		8E5C9BE91C5721BB000E819B /* ASTM30GraphicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASTM30GraphicViewController.h; sourceTree = "<group>"; };
+		8E5C9BEA1C5721BB000E819B /* ASTM30GraphicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASTM30GraphicViewController.m; sourceTree = "<group>"; };
+		8E5C9BED1C5742E7000E819B /* MZLogs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MZLogs.h; path = "../../../../../../../iOS/src/lolimizuki/Projects/MZ-ObjC/MZLogs.h"; sourceTree = "<group>"; };
+		8E5C9BEF1C57435B000E819B /* MZCodeMiracle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MZCodeMiracle.h; path = "../../../../../../../iOS/src/lolimizuki/Projects/MZ-ObjC/MZCodeMiracle.h"; sourceTree = "<group>"; };
+		8E5C9BF01C574ECC000E819B /* MZMapReduces.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZMapReduces.h; path = "../../../../../../../iOS/src/lolimizuki/Projects/MZ-ObjC/MZMapReduces.h"; sourceTree = "<group>"; };
+		8E5C9BF11C574ECC000E819B /* MZMapReduces.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZMapReduces.m; path = "../../../../../../../iOS/src/lolimizuki/Projects/MZ-ObjC/MZMapReduces.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +77,7 @@
 				8E5C9BD11C571956000E819B /* ViewController.h */,
 				8E5C9BD21C571956000E819B /* ViewController.m */,
 				8E5C9BE21C5719AB000E819B /* ASTM30GraphicViewController */,
+				8E5C9BEC1C5742D3000E819B /* MZ-ObjC */,
 				8E5C9BD41C571956000E819B /* Main.storyboard */,
 				8E5C9BD71C571956000E819B /* Assets.xcassets */,
 				8E5C9BD91C571956000E819B /* LaunchScreen.storyboard */,
@@ -93,8 +102,22 @@
 				8E5C9BE41C571A7A000E819B /* ASTM30CoordinateSpace.m */,
 				8E5C9BE61C571CFD000E819B /* ASTM30PointsInfo.h */,
 				8E5C9BE71C571CFD000E819B /* ASTM30PointsInfo.m */,
+				8E5C9BE91C5721BB000E819B /* ASTM30GraphicViewController.h */,
+				8E5C9BEA1C5721BB000E819B /* ASTM30GraphicViewController.m */,
 			);
 			path = ASTM30GraphicViewController;
+			sourceTree = "<group>";
+		};
+		8E5C9BEC1C5742D3000E819B /* MZ-ObjC */ = {
+			isa = PBXGroup;
+			children = (
+				8E5C9BED1C5742E7000E819B /* MZLogs.h */,
+				8E5C9BEF1C57435B000E819B /* MZCodeMiracle.h */,
+				8E5C9BF01C574ECC000E819B /* MZMapReduces.h */,
+				8E5C9BF11C574ECC000E819B /* MZMapReduces.m */,
+			);
+			name = "MZ-ObjC";
+			path = "ASTM30GraphicViewController/MZ-ObjC";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,8 +193,10 @@
 				8E5C9BD31C571956000E819B /* ViewController.m in Sources */,
 				8E5C9BD01C571956000E819B /* AppDelegate.m in Sources */,
 				8E5C9BE51C571A7A000E819B /* ASTM30CoordinateSpace.m in Sources */,
+				8E5C9BF21C574ECC000E819B /* MZMapReduces.m in Sources */,
 				8E5C9BCD1C571956000E819B /* main.m in Sources */,
 				8E5C9BE81C571CFD000E819B /* ASTM30PointsInfo.m in Sources */,
+				8E5C9BEB1C5721BB000E819B /* ASTM30GraphicViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
