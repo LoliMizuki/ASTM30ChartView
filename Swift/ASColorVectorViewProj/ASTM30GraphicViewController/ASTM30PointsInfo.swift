@@ -18,6 +18,8 @@ class ASTM30Point: NSObject {
     init(key: String, value: CGPoint) {
         self.key = key
         self.value = value
+        
+        super.init()
     }
 }
 
@@ -26,7 +28,7 @@ class ASTM30Point: NSObject {
 
 class ASTM30PointsInfo: NSObject {
 
-    var name = String("")
+    var name: String
 
     var lineWidth: CGFloat = 2.0
 
@@ -39,9 +41,9 @@ class ASTM30PointsInfo: NSObject {
     var closePath: Bool = true
 
     init(name: String) {
-        super.init()
-
         self.name = name
+
+        super.init()
     }
 
     func pointWithKey(key: String) -> ASTM30Point? {

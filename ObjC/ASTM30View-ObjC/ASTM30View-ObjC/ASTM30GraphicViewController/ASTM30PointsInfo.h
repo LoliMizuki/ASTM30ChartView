@@ -26,7 +26,7 @@
 @property (nonatomic, nonnull, readwrite, strong) NSString* name;
 @property (nonatomic, readwrite) CGFloat lineWidth;
 @property (nonatomic, nonnull, readwrite, strong) UIColor* color;
-@property (nonatomic, nonnull, readwrite, strong) UIColor* colorInMasked;
+@property (nonatomic, nullable, readwrite, strong) UIColor* colorInMasked;
 @property (nonatomic, nonnull, readwrite, strong) NSArray<ASTM30Point *>* points;
 @property (nonatomic, readwrite) BOOL closePath;
 

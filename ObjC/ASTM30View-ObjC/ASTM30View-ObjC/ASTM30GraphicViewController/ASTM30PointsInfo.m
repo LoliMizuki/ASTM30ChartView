@@ -41,7 +41,13 @@
     self = [super init];
     if (self == nil) return self;
 
-    self.name = name;
+    self.name = aName;
+
+    self.lineWidth = 2.0;
+    self.color = [UIColor blackColor];
+    self.colorInMasked = nil;
+    self.points = [NSArray array];
+    self.closePath = true;
 
     return self;
 }

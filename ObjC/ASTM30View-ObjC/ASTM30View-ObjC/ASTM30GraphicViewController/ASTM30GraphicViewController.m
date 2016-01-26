@@ -17,6 +17,7 @@
 - (void)_setAndAddGraphicBackgroundViewToView:(UIView *)view;
 - (void)_setAndAddGridLayerToView:(UIView *)view;
 - (void)_setAndAddPointsLayersViewToView:(UIView *)view;
+- (void)_setAndAddAllPoinsInfoLayersToView:(UIView *)view;
 - (void)_setAndAddReferenceToTestSourceArrowsLayerToView:(UIView *)view;
 - (CAShapeLayer *)_shapeLayerWithPointsInfo:(ASTM30PointsInfo *)pointsInfo;
 // mask 預定地
@@ -25,13 +26,17 @@
 
 @interface ASTM30GraphicViewController (Supports)
 - (CGPoint)_pointFrom:(CGPoint)point inCoordinateSpace:(ASTM30CoordinateSpace*)coordinateSpace;
-
+- (void)_addPointsInfoToDict:(ASTM30PointsInfo *)info;
+- (void)_addShaperLayerToDict:(CAShapeLayer *)layer withInfo:(ASTM30PointsInfo *)info;
+- (ASTM30PointsInfo * _Nullable)_getPointsInfoWithName:(NSString *)name;
+- (CAShapeLayer * _Nullable)_getShapeLayerInDictWithPointsInfo:(ASTM30PointsInfo *)info;
 @end
 
 
 
 @implementation ASTM30GraphicViewController {
-    NSMutableDictionary<ASTM30PointsInfo*, CAShapeLayer*>* _pointsInfoToLayersDict;
+    NSMutableDictionary<NSString*, ASTM30PointsInfo*>* _pointsInfosDict;
+    NSMutableDictionary<NSString*, CAShapeLayer*>* _pointsLayersDict;
 
     UIView* _pointsLinesLayerView;
 
@@ -58,32 +63,33 @@
 }
 
 - (void)addPointsInfo:(ASTM30PointsInfo * _Nonnull)info {
-    [_pointsInfoToLayersDict[info] removeFromSuperlayer];
-    [_pointsInfoToLayersDict removeObjectForKey:info];
+    [[self _getShapeLayerInDictWithPointsInfo:info] removeFromSuperlayer];
+    if (_pointsLayersDict[info.name] != nil ) [_pointsLayersDict removeObjectForKey:info.name];
 
-    _pointsInfoToLayersDict[(id)info] = [CAShapeLayer layer]; // TODO: why id?
+    [self _addPointsInfoToDict:info];
 }
 
 - (ASTM30PointsInfo * _Nullable)poinsInfoWithName:(NSString * _Nonnull)name {
-    for (ASTM30PointsInfo* info in _pointsInfoToLayersDict.allKeys) {
-        if ([info.name isEqualToString:name]) return info;
+    for (NSString* infoName in _pointsLayersDict.allKeys) {
+        if ([infoName isEqualToString:name]) {
+            return [self _getPointsInfoWithName:infoName];
+        }
     }
 
     return nil;
 }
 
 - (void)removePointsInfoWithName:(NSString * _Nonnull)name {
-    mz_guard_let_return(targetKey, [self poinsInfoWithName:name]);
-
-    [_pointsInfoToLayersDict removeObjectForKey:targetKey];
+    [_pointsInfosDict removeObjectForKey:name];
+    [_pointsLayersDict removeObjectForKey:name];
 }
 
 - (void)removeAllPointsInfo {
-    for (CAShapeLayer* layer in _pointsInfoToLayersDict.allValues) {
+    for (CAShapeLayer* layer in _pointsLayersDict.allValues) {
         [layer removeFromSuperlayer];
     }
 
-    [_pointsInfoToLayersDict removeAllObjects];
+    [_pointsLayersDict removeAllObjects];
 }
 
 
@@ -91,7 +97,7 @@
     [self _setAndAddGraphicBackgroundViewToView:self.view];
     [self _setAndAddGridLayerToView:_graphicBackgroundView];
     [self _setAndAddPointsLayersViewToView:self.view];
-//    _setAndAddAllPoinsInfoLayersToView(_pointsLinesLayerView!)
+    [self _setAndAddAllPoinsInfoLayersToView:_pointsLinesLayerView];
 //    _setGraphicBackgroundMaskWithPointsInfoName(testSourceName)
 //    [self _setAndAddReferenceToTestSourceArrowsLayerToView:_pointsLinesLayerView];
 }
@@ -100,7 +106,8 @@
 # pragma mark - Private
 
 - (void)_initSetting {
-    _pointsInfoToLayersDict = [NSMutableDictionary dictionary];
+    _pointsInfosDict = [NSMutableDictionary dictionary];
+    _pointsLayersDict = [NSMutableDictionary dictionary];
     _sourceToReferenceArrowsLayer = nil;
     _graphicBackgroundView = nil;
     _graphicBackgroundGridLayer = nil;
@@ -114,11 +121,11 @@
 
     backgroundView.layer.mask = (maskEnable)? backgroundMaskLayer : nil;
 
-    [_pointsInfoToLayersDict enumerateKeysAndObjectsUsingBlock:
-        ^(ASTM30PointsInfo * _Nonnull info, CAShapeLayer * _Nonnull shapeLayer, BOOL * _Nonnull stop) {
-            UIColor* nextColorValue = (maskEnable)? info.colorInMasked : info.color;
-            shapeLayer.strokeColor = nextColorValue.CGColor;
-    }];
+//    [_pointsLayersDict enumerateKeysAndObjectsUsingBlock:
+//        ^(ASTM30PointsInfo * _Nonnull info, CAShapeLayer * _Nonnull shapeLayer, BOOL * _Nonnull stop) {
+//            UIColor* nextColorValue = (maskEnable)? info.colorInMasked : info.color;
+//            shapeLayer.strokeColor = nextColorValue.CGColor;
+//    }];
 
     _graphicBackgroundForFadeView.hidden = maskEnable;
 }
@@ -193,21 +200,37 @@
 }
 
 - (void)_setAndAddAllPoinsInfoLayersToView:(UIView *)view {
-    for (CAShapeLayer* layer in _pointsInfoToLayersDict.allValues) {
+    for (CAShapeLayer* layer in _pointsLayersDict.allValues) {
         [layer removeFromSuperlayer];
     }
+    [_pointsLayersDict removeAllObjects];
 
-    mz_gen_var(allInfos, _pointsInfoToLayersDict.allKeys);
-
-    [_pointsInfoToLayersDict removeAllObjects];
-
-    for (ASTM30PointsInfo* info in allInfos) {
-//        mz_gen_var(shapeLayer, [self _shapeLayerWithPointsInfo:info]);
-//        _pointsInfoToLayersDict[info] = shapeLayer;
-//        [self.view.layer.addSublayer:shapeLayer];
+    for (ASTM30PointsInfo* info in _pointsInfosDict.allValues) {
+        mz_gen_var(shapeLayer, [self _shapeLayerWithPointsInfo:info]);
+        [self _addShaperLayerToDict:shapeLayer withInfo:info];
+        [view.layer addSublayer:shapeLayer];
     }
 }
 
+- (void)_setGraphicBackgroundMaskWithPointsInfoName:(NSString * _Nullable)name {
+    if (name == nil) return;
+    mz_guard_let_return(graphicBackgroundView, _graphicBackgroundView);
+
+     NSDictionary* pointsInfoKeyValue = [_pointsLayersDict filterWithFunc: ^BOOL(ASTM30PointsInfo* info, CAShapeLayer* _) {
+         return [info.name isEqualToString:name];
+     }].firstObject;
+
+    MZAssert(pointsInfoKeyValue != nil, @"pointsInfo not found with name: \(name)");
+
+    CAShapeLayer* layer = pointsInfoKeyValue.allValues[0];
+    MZAssertIfNilWithMessage(layer, @"layer not found");
+
+    graphicBackgroundView.layer.mask = nil;
+
+    _graphicBackgroundMaskLayer = [self _maskLayerFromLayer:layer];
+
+    self.testSourceName = name;
+}
 
 - (void)_setAndAddReferenceToTestSourceArrowsLayerToView:(UIView *)view {
     [_sourceToReferenceArrowsLayer removeFromSuperlayer];
@@ -222,7 +245,6 @@
 
     for (ASTM30Point* fromPoint in fromInfo.points) {
         mz_gen_var(toPoint, [toInfo pointWithKey:fromPoint.key]);
-        MZAssert(toPoint != nil, <#desc, ...#>)
 
         MZAssertIfNilWithMessage(toPoint, @"Can not found point with key: %@", fromPoint.key);
 
@@ -276,6 +298,15 @@
     return layer;
 }
 
+- (CAShapeLayer *)_maskLayerFromLayer:(CAShapeLayer *)layer {
+    mz_gen_var(maskLayer, [[CAShapeLayer alloc] initWithLayer:layer]);
+    maskLayer.frame = self.view.frame;
+    maskLayer.path = layer.path;
+
+    return maskLayer;
+}
+
+
 //- (UIBezierPath *)_arrowPathFromPoint:(CGPoint)from toPoint:(CGPoint)to {
 //    let lengthOfFromTo = MZ.Maths.distance(p1: from, p2: to)
 //    let degreesOfFromTo = MZ.Degrees.degressFromP1(from, toP2: to)
@@ -318,6 +349,23 @@
     mz_gen_var(realY, size.height - size.height*((point.y - coordinateSpace.yMin)/coordinateSpace.yLength));
 
     return CGPointMake(realX, realY);
+}
+
+- (void)_addPointsInfoToDict:(ASTM30PointsInfo *)info {
+    _pointsInfosDict[info.name] = info;
+}
+
+- (void)_addShaperLayerToDict:(CAShapeLayer *)layer withInfo:(ASTM30PointsInfo *)info {
+    _pointsInfosDict[info.name] = info;
+    _pointsLayersDict[info.name] = layer;
+}
+
+- (ASTM30PointsInfo * _Nullable)_getPointsInfoWithName:(NSString *)name {
+    return _pointsInfosDict[name];
+}
+
+- (CAShapeLayer * _Nullable)_getShapeLayerInDictWithPointsInfo:(ASTM30PointsInfo *)info {
+    return _pointsLayersDict[info.name];
 }
 
 @end

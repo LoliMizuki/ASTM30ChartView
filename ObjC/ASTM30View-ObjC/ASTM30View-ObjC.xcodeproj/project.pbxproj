@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E32FF401C57728C0018FF27 /* MZMath.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E32FF3F1C57728C0018FF27 /* MZMath.m */; };
 		8E5C9BCD1C571956000E819B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E5C9BCC1C571956000E819B /* main.m */; };
 		8E5C9BD01C571956000E819B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E5C9BCF1C571956000E819B /* AppDelegate.m */; };
 		8E5C9BD31C571956000E819B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E5C9BD21C571956000E819B /* ViewController.m */; };
@@ -20,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8E32FF3E1C57728C0018FF27 /* MZMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZMath.h; path = "../../../../../../../iOS/src/lolimizuki/Projects/MZ-ObjC/MZMath.h"; sourceTree = "<group>"; };
+		8E32FF3F1C57728C0018FF27 /* MZMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZMath.m; path = "../../../../../../../iOS/src/lolimizuki/Projects/MZ-ObjC/MZMath.m"; sourceTree = "<group>"; };
 		8E5C9BC81C571956000E819B /* ASTM30View-ObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ASTM30View-ObjC.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E5C9BCC1C571956000E819B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8E5C9BCE1C571956000E819B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -115,6 +118,8 @@
 				8E5C9BEF1C57435B000E819B /* MZCodeMiracle.h */,
 				8E5C9BF01C574ECC000E819B /* MZMapReduces.h */,
 				8E5C9BF11C574ECC000E819B /* MZMapReduces.m */,
+				8E32FF3E1C57728C0018FF27 /* MZMath.h */,
+				8E32FF3F1C57728C0018FF27 /* MZMath.m */,
 			);
 			name = "MZ-ObjC";
 			path = "ASTM30GraphicViewController/MZ-ObjC";
@@ -194,6 +199,7 @@
 				8E5C9BD01C571956000E819B /* AppDelegate.m in Sources */,
 				8E5C9BE51C571A7A000E819B /* ASTM30CoordinateSpace.m in Sources */,
 				8E5C9BF21C574ECC000E819B /* MZMapReduces.m in Sources */,
+				8E32FF401C57728C0018FF27 /* MZMath.m in Sources */,
 				8E5C9BCD1C571956000E819B /* main.m in Sources */,
 				8E5C9BE81C571CFD000E819B /* ASTM30PointsInfo.m in Sources */,
 				8E5C9BEB1C5721BB000E819B /* ASTM30GraphicViewController.m in Sources */,
@@ -310,6 +316,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "ASTM30View-ObjC/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = (
+					"-D",
+					MZDEBUG,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mizuclub.ASTM30View-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -345,6 +355,7 @@
 				8E5C9BE11C571956000E819B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -190,7 +190,6 @@ extension ASTM30GraphicViewController {
 
         allInfos.forEach {
             info in
-
             let shapeLayer = _shapeLayerWithPointsInfo(info)
 
             _pointsInfoToLayersDict[info] = shapeLayer
@@ -278,7 +277,7 @@ extension ASTM30GraphicViewController {
 
     private func _maskLayerFromLayer(layer: CAShapeLayer) -> CAShapeLayer {
         let maskLayer = CAShapeLayer(layer: layer)
-        maskLayer.frame.size = view.frame.size
+        maskLayer.frame.size = view.frame.size // TODO: 確認是否能從 layer 得出
         maskLayer.path = layer.path
 
         return maskLayer

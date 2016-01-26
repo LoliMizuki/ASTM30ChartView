@@ -20,14 +20,6 @@ class ViewController: UIViewController {
         __testSetting()
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
-
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         super.prepareForSegue(segue, sender: sender)
         _tm30ViewController = segue.destinationViewController as! ASTM30GraphicViewController
