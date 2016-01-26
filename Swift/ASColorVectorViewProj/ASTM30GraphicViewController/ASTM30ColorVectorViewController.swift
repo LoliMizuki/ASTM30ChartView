@@ -200,8 +200,8 @@ extension ASTM30GraphicViewController {
                 return
             }
 
-            let modifiedFromPoint = _modifyPoint(fromPoint.value, inCoordinateSpace: coordinateSpace)
-            let modifiedToPoint = _modifyPoint(toPoint.value, inCoordinateSpace: coordinateSpace)
+            let modifiedFromPoint = _pointFrom(fromPoint.value, inCoordinateSpace: coordinateSpace)
+            let modifiedToPoint = _pointFrom(toPoint.value, inCoordinateSpace: coordinateSpace)
 
             path.appendPath(_arrowPathFromPoint(modifiedFromPoint, toPoint: modifiedToPoint))
         }
@@ -256,7 +256,7 @@ extension ASTM30GraphicViewController {
     }
 
     private func _shapeLayerWithPointsInfo(pointsInfo: ASTM30PointsInfo) -> CAShapeLayer {
-        let points = pointsInfo.points.map { p in return _modifyPoint(p.value, inCoordinateSpace: self.coordinateSpace) }
+        let points = pointsInfo.points.map { p in return _pointFrom(p.value, inCoordinateSpace: self.coordinateSpace) }
 
         let path = UIBezierPath()
         path.moveToPoint(points[0])
@@ -397,7 +397,7 @@ extension ASTM30GraphicViewController {
 // MARK: Utilities
 extension ASTM30GraphicViewController {
 
-    private func _modifyPoint(point: CGPoint, inCoordinateSpace coordinateSpace: ASTM30CoordinateSpace)
+    private func _pointFrom(point: CGPoint, inCoordinateSpace coordinateSpace: ASTM30CoordinateSpace)
     -> CGPoint {
         let realX = view.frame.width*((point.x - coordinateSpace.xMin)/coordinateSpace.xLength)
         let realY = view.frame.height - view.frame.height*((point.y - coordinateSpace.yMin)/coordinateSpace.yLength)

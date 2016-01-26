@@ -64,57 +64,75 @@ extension ViewController {
 extension ViewController {
 
     private func __testSetting() {
-        _tm30ViewController.coordinateSpace = ASTM30CoordinateSpace(
-            xMin: -400, yMin: -400, xMax: 400, yMax: 400
-        )
-        __addTestDataAsCircle2()
-        __addTestDataAsCircle1()
-        _tm30ViewController.testSourceName = "TestSource"
-        _tm30ViewController.referenceName = "Reference"
+        __addTestData()
+
 
 //        __addTestDataAsLines()
 
 //        __testPointsViewCenter()
     }
 
-    private func __addTestDataAsCircle1() {
-        let info = ASTM30PointsInfo(name: "TestSource")
-        info.color = UIColor.redColor()
-        info.colorInMasked = UIColor.greenColor()
-        info.lineWidth = 4
-        info.points = [
-            ASTM30Point(key: "A1", value: CGPoint(x: -100, y: 30)),
-            ASTM30Point(key: "A2", value: CGPoint(x: -100, y: 140)),
-            ASTM30Point(key: "A3", value: CGPoint(x: -50, y: 160)),
-            ASTM30Point(key: "A4", value: CGPoint(x: 0, y: 200)),
-            ASTM30Point(key: "A5", value: CGPoint(x: 50, y: 100)),
-            ASTM30Point(key: "A6", value: CGPoint(x: 100, y: 10)),
-            ASTM30Point(key: "A7", value: CGPoint(x: 150, y: -75)),
-            ASTM30Point(key: "A8", value: CGPoint(x: 110, y: -134)),
-            ASTM30Point(key: "A9", value: CGPoint(x: -10, y: -200)),
+    private func __addTestData() {
+        _tm30ViewController.coordinateSpace = ASTM30CoordinateSpace(
+            xMin: -400, yMin: -400, xMax: 400, yMax: 400
+        )
+
+        _tm30ViewController.testSourceName = "TestSource"
+        _tm30ViewController.referenceName = "Reference"
+
+        let referencePoints = [
+            CGPoint(x: -360, y: 0),
+            CGPoint(x: -180, y: 180),
+            CGPoint(x: 0, y: 360),
+            CGPoint(x: 180, y: 180),
+            CGPoint(x: 90, y: 90),
+            CGPoint(x: 360, y: 0),
+            CGPoint(x: 180, y: -180),
+            CGPoint(x: 0, y: -360),
+            CGPoint(x: -180, y: -180),
         ]
 
-        _tm30ViewController.addPointsInfo(info)
-    }
+        let keys: [String] = {
+            var keys = [String]()
+            for var i = 0; i < referencePoints.count; i++ { keys.append("A\(i)") }
+            return keys
+        }()
 
-    private func __addTestDataAsCircle2() {
-        let info = ASTM30PointsInfo(name: "Reference")
-        info.color = UIColor.blackColor()
-        info.colorInMasked = UIColor.redColor()
-        info.lineWidth = 4
-        info.points = [
-            ASTM30Point(key: "A1", value: CGPoint(x: -170, y: 170)),
-            ASTM30Point(key: "A2", value: CGPoint(x: -130, y: 160)),
-            ASTM30Point(key: "A3", value: CGPoint(x: -60, y: 180)),
-            ASTM30Point(key: "A4", value: CGPoint(x: 8, y: 280)),
-            ASTM30Point(key: "A5", value: CGPoint(x: 55, y: 120)),
-            ASTM30Point(key: "A6", value: CGPoint(x: 100, y: 30)),
-            ASTM30Point(key: "A7", value: CGPoint(x: 150, y: -105)),
-            ASTM30Point(key: "A8", value: CGPoint(x: 119, y: -154)),
-            ASTM30Point(key: "A9", value: CGPoint(x: -10, y: -220)),
-        ]
+        let infoForReference = ASTM30PointsInfo(name: "Reference")
+        infoForReference.color = UIColor.blackColor()
+        infoForReference.colorInMasked = UIColor.whiteColor()
+        infoForReference.lineWidth = 4
+        infoForReference.points = {
+            var points = [ASTM30Point]()
 
-        _tm30ViewController.addPointsInfo(info)
+            for var i = 0; i < keys.count; i++ {
+                points.append(ASTM30Point(key: keys[i], value: referencePoints[i]))
+            }
+
+            return points
+        }()
+        _tm30ViewController.addPointsInfo(infoForReference)
+
+        let infoForTestSource = ASTM30PointsInfo(name: "TestSource")
+        infoForTestSource.color = UIColor.redColor()
+        infoForTestSource.colorInMasked = UIColor.clearColor()
+        infoForTestSource.lineWidth = 4
+        infoForTestSource.points = {
+            var points = [ASTM30Point]()
+
+            for var i = 0; i < keys.count; i++ {
+                let point = CGPoint(
+                    x: referencePoints[i].x + MZ.Maths.randomFloat(min: -30, max: 30).cgFloatValue,
+                    y: referencePoints[i].y + MZ.Maths.randomFloat(min: -30, max: 30).cgFloatValue
+                )
+
+                points.append(ASTM30Point(key: keys[i], value: point))
+            }
+
+            return points
+        }()
+
+        _tm30ViewController.addPointsInfo(infoForTestSource)
     }
 
     private func __addTestDataAsLines() {
