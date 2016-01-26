@@ -14,9 +14,9 @@ class ASTM30CoordinateSpace: NSObject {
     var xMax: CGFloat
     var yMax: CGFloat
 
-    var xLength: CGFloat { return xMax - xMin }
+    var xLength: CGFloat { return abs(xMax - xMin) }
 
-    var yLength: CGFloat { return yMax - yMin }
+    var yLength: CGFloat { return abs(yMax - yMin) }
 
     init(xMin: CGFloat = -200, yMin: CGFloat = -200, xMax: CGFloat = 200, yMax: CGFloat = 200) {
         self.xMin = xMin
