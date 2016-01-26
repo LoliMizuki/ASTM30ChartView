@@ -18,10 +18,17 @@
 - (void)_setAndAddGridLayerToView:(UIView *)view;
 - (void)_setAndAddPointsLayersViewToView:(UIView *)view;
 - (void)_setAndAddAllPoinsInfoLayersToView:(UIView *)view;
+- (void)_setGraphicBackgroundMaskWithPointsInfoName:(NSString * _Nullable)name;
 - (void)_setAndAddReferenceToTestSourceArrowsLayerToView:(UIView *)view;
 - (CAShapeLayer *)_shapeLayerWithPointsInfo:(ASTM30PointsInfo *)pointsInfo;
-// mask 預定地
+- (CAShapeLayer *)_maskLayerFromLayer:(CAShapeLayer *)layer;
 - (UIBezierPath *)_arrowPathFromPoint:(CGPoint)from toPoint:(CGPoint)to;
+@end
+
+@interface ASTM30GraphicViewController (ASTM30GraphicTypeSwitchAnimations)
+- (void)_animateMaskEnable:(BOOL)maskEnable duration:(NSTimeInterval)duration;
+- (void)_animateMaskEnableToGraphicBackground:(BOOL)maskEnable duration:(NSTimeInterval)duration;
+- (void)_animateMaskEnableToGraphicBackgroundForFade:(BOOL)maskEnable duration:(NSTimeInterval)duration;
 @end
 
 @interface ASTM30GraphicViewController (Supports)
@@ -50,6 +57,8 @@
 
     CAShapeLayer* _graphicBackgroundMaskLayer;
 }
+
+@synthesize graphicType;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -92,13 +101,27 @@
     [_pointsLayersDict removeAllObjects];
 }
 
+- (void)setGraphicType:(ASTM30GraphicType)type animated:(bool)animated duration:(CFTimeInterval)duration {
+    graphicType = type;
+    bool enableMask = graphicType == ASTM30GraphicType_ColorDistortion;
+
+    if (animated) {
+        [self _animateMaskEnable:enableMask duration: duration];
+    } else {
+        [self _setGraphicBackgroundWithMaskEnable:enableMask];
+    }
+}
+
+- (void)setGraphicType:(ASTM30GraphicType)type {
+    [self setGraphicType:type animated:true duration:0.25];
+}
 
 - (void)refresh {
     [self _setAndAddGraphicBackgroundViewToView:self.view];
     [self _setAndAddGridLayerToView:_graphicBackgroundView];
     [self _setAndAddPointsLayersViewToView:self.view];
     [self _setAndAddAllPoinsInfoLayersToView:_pointsLinesLayerView];
-//    _setGraphicBackgroundMaskWithPointsInfoName(testSourceName)
+    [self _setGraphicBackgroundMaskWithPointsInfoName:self.testSourceName];
 //    [self _setAndAddReferenceToTestSourceArrowsLayerToView:_pointsLinesLayerView];
 }
 
@@ -121,18 +144,18 @@
 
     backgroundView.layer.mask = (maskEnable)? backgroundMaskLayer : nil;
 
-//    [_pointsLayersDict enumerateKeysAndObjectsUsingBlock:
-//        ^(ASTM30PointsInfo * _Nonnull info, CAShapeLayer * _Nonnull shapeLayer, BOOL * _Nonnull stop) {
-//            UIColor* nextColorValue = (maskEnable)? info.colorInMasked : info.color;
-//            shapeLayer.strokeColor = nextColorValue.CGColor;
-//    }];
+    [_pointsInfosDict.allKeys forEachWithAction:^(NSString* name) {
+        mz_gen_var(info, [self _getPointsInfoWithName:name]);
+        mz_gen_var(shapeLayer, [self _getShapeLayerInDictWithPointsInfo:info]);
+
+        UIColor* nextColorValue = (maskEnable)? info.colorInMasked : info.color;
+        shapeLayer.strokeColor = nextColorValue.CGColor;
+    }];
 
     _graphicBackgroundForFadeView.hidden = maskEnable;
 }
 
 @end
-
-
 
 @implementation ASTM30GraphicViewController (PresentViewsAndLayers)
 
@@ -216,8 +239,8 @@
     if (name == nil) return;
     mz_guard_let_return(graphicBackgroundView, _graphicBackgroundView);
 
-     NSDictionary* pointsInfoKeyValue = [_pointsLayersDict filterWithFunc: ^BOOL(ASTM30PointsInfo* info, CAShapeLayer* _) {
-         return [info.name isEqualToString:name];
+     NSDictionary* pointsInfoKeyValue = [_pointsLayersDict filterWithFunc: ^BOOL(NSString* infoName, CAShapeLayer* _) {
+         return [infoName isEqualToString:name];
      }].firstObject;
 
     MZAssert(pointsInfoKeyValue != nil, @"pointsInfo not found with name: \(name)");
@@ -307,7 +330,8 @@
 }
 
 
-//- (UIBezierPath *)_arrowPathFromPoint:(CGPoint)from toPoint:(CGPoint)to {
+- (UIBezierPath *)_arrowPathFromPoint:(CGPoint)from toPoint:(CGPoint)to {
+    return nil;
 //    let lengthOfFromTo = MZ.Maths.distance(p1: from, p2: to)
 //    let degreesOfFromTo = MZ.Degrees.degressFromP1(from, toP2: to)
 //    let maxWingsLength = 10.cgFloatValue
@@ -335,10 +359,55 @@
 //    path.applyTransform(CGAffineTransformMakeTranslation(centerOfFromTo.x, centerOfFromTo.y))
 //
 //    return path
-//}
+}
 
 @end
 
+@implementation ASTM30GraphicViewController (ASTM30GraphicTypeSwitchAnimations)
+
+- (void)_animateMaskEnable:(BOOL)maskEnable duration:(NSTimeInterval)duration {
+    [self _animateMaskEnableToGraphicBackground:maskEnable duration:duration];
+    [self _animateMaskEnableToGraphicBackgroundForFade:maskEnable duration: duration];
+//    _animateFadeMaskEnableToLayer(_graphicBackgroundGridLayer, maskEnable: maskEnable, duration: duration)
+//    _animateFadeMaskEnableToLayer(_sourceToReferenceArrowsLayer, maskEnable: maskEnable, duration: duration)
+//    _animateMaskEnableToPointsLinesLayer(maskEnable, duration: duration)
+}
+
+- (void)_animateMaskEnableToGraphicBackground:(BOOL)maskEnable duration:(NSTimeInterval)duration {
+    mz_guard_let_return(view, _graphicBackgroundView);
+    mz_guard_let_return(maskLayer, _graphicBackgroundMaskLayer);
+
+    if (view.layer.mask == nil) {
+        view.layer.mask = maskLayer;
+    }
+
+    CGFloat maxScale = 5.0;
+    CGFloat minScale = 1.0;
+
+    mz_gen_var(scale, [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"]);
+    scale.duration = duration;
+    scale.keyTimes = @[@0.0, @1.0];
+    scale.values = @[[NSNumber numberWithFloat:((maskEnable)? maxScale : minScale)],
+                     [NSNumber numberWithFloat:((maskEnable)? minScale : maxScale)]];
+    scale.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    scale.fillMode = kCAFillModeForwards;
+    scale.removedOnCompletion = false;
+
+    [maskLayer removeAllAnimations];
+    [maskLayer addAnimation:scale forKey: @"scale"];
+}
+
+- (void)_animateMaskEnableToGraphicBackgroundForFade:(BOOL)maskEnable duration:(NSTimeInterval)duration {
+    mz_guard_let_return(view, _graphicBackgroundForFadeView);
+
+    view.alpha = (maskEnable)? 1.0 : 0.0;
+
+    [UIView animateWithDuration:duration
+                     animations:^{ view.alpha = (maskEnable)? 0.0 : 1.0; }
+                     completion:^(BOOL _) { [self _setGraphicBackgroundWithMaskEnable:maskEnable]; }];
+}
+
+@end
 
 @implementation ASTM30GraphicViewController (Supports)
 

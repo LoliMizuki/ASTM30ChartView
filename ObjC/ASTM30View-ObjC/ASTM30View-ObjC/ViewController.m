@@ -17,6 +17,12 @@
 @interface ViewController ()
 @end
 
+@interface ViewController (IB)
+
+- (IBAction)didTouchUpInsideMaskButton:(UIButton *)button;
+
+@end
+
 @implementation ViewController {
     ASTM30GraphicViewController* _tm30ViewController;
 }
@@ -94,6 +100,19 @@
         return points;
     }();
     [_tm30ViewController addPointsInfo:infoForTestSource];
+}
+
+@end
+
+@implementation ViewController (IB)
+
+- (IBAction)didTouchUpInsideMaskButton:(UIButton *)sender {
+    ASTM30GraphicType type =
+        (_tm30ViewController.graphicType == ASTM30GraphicType_ColorVector)?
+        ASTM30GraphicType_ColorDistortion :
+        ASTM30GraphicType_ColorVector;
+
+    [_tm30ViewController setGraphicType:type];
 }
 
 @end

@@ -13,8 +13,8 @@
 
 
 typedef NS_ENUM(NSUInteger, ASTM30GraphicType) {
-    kASTM30GraphicType_ColorVector,
-    kASTM30GraphicType_ColorDistortion,
+    ASTM30GraphicType_ColorVector,
+    ASTM30GraphicType_ColorDistortion,
 };
 
 
@@ -31,6 +31,8 @@ typedef NS_ENUM(NSUInteger, ASTM30GraphicType) {
 - (ASTM30PointsInfo * _Nullable)poinsInfoWithName:(NSString * _Nonnull)name;
 - (void)removePointsInfoWithName:(NSString * _Nonnull)name;
 
+- (void)setGraphicType:(ASTM30GraphicType)type animated:(bool)animated duration:(CFTimeInterval)duration;
+- (void)setGraphicType:(ASTM30GraphicType)type;
 - (void)refresh;
 
 @end
