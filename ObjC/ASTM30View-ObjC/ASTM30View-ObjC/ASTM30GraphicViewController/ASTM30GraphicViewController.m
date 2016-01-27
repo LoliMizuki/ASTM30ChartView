@@ -28,6 +28,8 @@
 - (void)_animateMaskEnable:(BOOL)maskEnable duration:(NSTimeInterval)duration;
 - (void)_animateMaskEnableToGraphicBackground:(BOOL)maskEnable duration:(NSTimeInterval)duration;
 - (void)_animateMaskEnableToGraphicBackgroundForFade:(BOOL)maskEnable duration:(NSTimeInterval)duration;
+- (void)_animateFadeMaskEnableToLayer:(CAShapeLayer *)aLayer maskEnable:(BOOL)maskEnable duration:(NSTimeInterval)duration;
+- (void)_animateMaskEnableToPointsLinesLayer:(BOOL)maskEnable duration:(NSTimeInterval)duration;
 @end
 
 @interface ASTM30GraphicViewController (Supports)
@@ -210,7 +212,7 @@
 - (void)_setAndAddPointsLayersViewToView:(UIView *)view {
     [_pointsLinesLayerView removeFromSuperview];
 
-    mz_gen_var(pointsView, [[UIView alloc] initWithFrame:view.frame]);
+    mz_var(pointsView, [[UIView alloc] initWithFrame:view.frame]);
 
     [view addSubview:pointsView];
 
@@ -222,11 +224,11 @@
         [layer removeFromSuperlayer];
     }];
 
-    mz_gen_var(allInfos, _pointsInfoToLayersDict.allKeys);
+    mz_var(allInfos, _pointsInfoToLayersDict.allKeys);
     [_pointsInfoToLayersDict removeAllObjects];
 
     [allInfos forEachWithAction:^(ASTM30PointsInfo* info) {
-        mz_gen_var(shapeLayer, [self _shapeLayerWithPointsInfo:info]);
+        mz_var(shapeLayer, [self _shapeLayerWithPointsInfo:info]);
         _pointsInfoToLayersDict[info] = shapeLayer;
         [view.layer addSublayer:shapeLayer];
     }];
@@ -261,20 +263,20 @@
     mz_guard_let_return(toInfo, [self poinsInfoWithName:self.testSourceName]);
     mz_guard_let_return(fromInfo, [self poinsInfoWithName:self.referenceName]);
 
-    mz_gen_var(path, [UIBezierPath bezierPath]);
+    mz_var(path, [UIBezierPath bezierPath]);
 
     for (ASTM30Point* fromPoint in fromInfo.points) {
-        mz_gen_var(toPoint, [toInfo pointWithKey:fromPoint.key]);
+        mz_var(toPoint, [toInfo pointWithKey:fromPoint.key]);
 
         MZAssertIfNilWithMessage(toPoint, @"Can not found point with key: %@", fromPoint.key);
 
-        mz_gen_var(modifiedFromPoint, [self _pointFrom:fromPoint.value inCoordinateSpace:self.coordinateSpace]);
-        mz_gen_var(modifiedToPoint, [self _pointFrom:toPoint.value inCoordinateSpace:self.coordinateSpace]);
+        mz_var(modifiedFromPoint, [self _pointFrom:fromPoint.value inCoordinateSpace:self.coordinateSpace]);
+        mz_var(modifiedToPoint, [self _pointFrom:toPoint.value inCoordinateSpace:self.coordinateSpace]);
 
         [path appendPath:[self _arrowPathFromPoint:modifiedFromPoint toPoint:modifiedToPoint]];
     }
 
-    mz_gen_var(layer, [CAShapeLayer layer]);
+    mz_var(layer, [CAShapeLayer layer]);
     layer.frame = view.frame;
     layer.path = path.CGPath;
     layer.strokeColor = [UIColor greenColor].CGColor;
@@ -295,7 +297,7 @@
         return [NSValue valueWithCGPoint:realPoint];
     }];
 
-    mz_gen_var(path, [UIBezierPath bezierPath]);
+    mz_var(path, [UIBezierPath bezierPath]);
     [path moveToPoint:[points[0] CGPointValue]];
     for (int i = 1; i < points.count; i++) {
         [path addLineToPoint:[points[i] CGPointValue]];
@@ -303,7 +305,7 @@
 
     if (pointsInfo.closePath) { [path closePath]; }
 
-    mz_gen_var(layer, [CAShapeLayer layer]);
+    mz_var(layer, [CAShapeLayer layer]);
     layer.path = path.CGPath;
     layer.lineWidth = pointsInfo.lineWidth;
     layer.strokeColor = pointsInfo.color.CGColor;
@@ -316,7 +318,7 @@
 }
 
 - (CAShapeLayer *)_maskLayerFromLayer:(CAShapeLayer *)layer {
-    mz_gen_var(maskLayer, [[CAShapeLayer alloc] initWithLayer:layer]);
+    mz_var(maskLayer, [[CAShapeLayer alloc] initWithLayer:layer]);
     maskLayer.frame = self.view.frame;
     maskLayer.path = layer.path;
 
@@ -325,25 +327,25 @@
 
 
 - (UIBezierPath *)_arrowPathFromPoint:(CGPoint)from toPoint:(CGPoint)to {
-    mz_gen_var(lengthOfFromTo, [MZMath distanceFromP1:from toPoint2:to]);
-    mz_gen_var(degreesOfFromTo, [MZMath degreesFromP1:from toP2:to]);
+    mz_var(lengthOfFromTo, [MZMath distanceFromP1:from toPoint2:to]);
+    mz_var(degreesOfFromTo, [MZMath degreesFromP1:from toP2:to]);
 
     CGFloat maxWingsLength = 10.0;
     CGFloat wingsIntervalDegrees = 30.0;
 
-    mz_gen_var(path, [UIBezierPath bezierPath]);
-    mz_gen_var(zeroLeft, CGPointMake(-lengthOfFromTo/2, 0));
-    mz_gen_var(zeroRight, CGPointMake(lengthOfFromTo/2, 0));
+    mz_var(path, [UIBezierPath bezierPath]);
+    mz_var(zeroLeft, CGPointMake(-lengthOfFromTo/2, 0));
+    mz_var(zeroRight, CGPointMake(lengthOfFromTo/2, 0));
 
     [path moveToPoint:zeroLeft];
     [path addLineToPoint:zeroRight];
 
     CGFloat wingsLength = fmin(maxWingsLength, lengthOfFromTo/3);
 
-    mz_gen_var(wingPoint1,
+    mz_var(wingPoint1,
                CGPointMul([MZMath unitVectorFromDegrees:(180.0 - wingsIntervalDegrees)],
                           wingsLength));
-    mz_gen_var(wingPoint2,
+    mz_var(wingPoint2,
                CGPointMul([MZMath unitVectorFromDegrees:(180.0 + wingsIntervalDegrees)],
                           wingsLength));
 
@@ -352,8 +354,8 @@
     [path moveToPoint:zeroRight];
     [path addLineToPoint:CGPointAdd(zeroRight, wingPoint2)];
 
-    mz_gen_var(centerOfFromTo, CGPointMake((to.x + from.x)/2, (to.y + from.y)/2));
-    mz_gen_var(rotationAngle, [MZMath radiansFromDegrees:degreesOfFromTo]);
+    mz_var(centerOfFromTo, CGPointMake((to.x + from.x)/2, (to.y + from.y)/2));
+    mz_var(rotationAngle, [MZMath radiansFromDegrees:degreesOfFromTo]);
 
     [path applyTransform:CGAffineTransformMakeRotation(rotationAngle)];
     [path applyTransform:CGAffineTransformMakeTranslation(centerOfFromTo.x, centerOfFromTo.y)];
@@ -368,9 +370,9 @@
 - (void)_animateMaskEnable:(BOOL)maskEnable duration:(NSTimeInterval)duration {
     [self _animateMaskEnableToGraphicBackground:maskEnable duration:duration];
     [self _animateMaskEnableToGraphicBackgroundForFade:maskEnable duration: duration];
-//    _animateFadeMaskEnableToLayer(_graphicBackgroundGridLayer, maskEnable: maskEnable, duration: duration)
-//    _animateFadeMaskEnableToLayer(_sourceToReferenceArrowsLayer, maskEnable: maskEnable, duration: duration)
-//    _animateMaskEnableToPointsLinesLayer(maskEnable, duration: duration)
+    [self _animateFadeMaskEnableToLayer:_graphicBackgroundGridLayer maskEnable:maskEnable duration:duration];
+    [self _animateFadeMaskEnableToLayer:_sourceToReferenceArrowsLayer maskEnable:maskEnable duration:duration];
+    [self _animateMaskEnableToPointsLinesLayer:maskEnable duration:duration];
 }
 
 - (void)_animateMaskEnableToGraphicBackground:(BOOL)maskEnable duration:(NSTimeInterval)duration {
@@ -384,7 +386,7 @@
     CGFloat maxScale = 5.0;
     CGFloat minScale = 1.0;
 
-    mz_gen_var(scale, [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"]);
+    mz_var(scale, [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"]);
     scale.duration = duration;
     scale.keyTimes = @[@0.0, @1.0];
     scale.values = @[[NSNumber numberWithFloat:((maskEnable)? maxScale : minScale)],
@@ -407,15 +409,46 @@
                      completion:^(BOOL _) { [self _setGraphicBackgroundWithMaskEnable:maskEnable]; }];
 }
 
+- (void)_animateFadeMaskEnableToLayer:(CAShapeLayer *)aLayer maskEnable:(BOOL)maskEnable duration:(NSTimeInterval)duration {
+    mz_guard_let_return(layer, aLayer);
+
+    mz_var(fade, [CABasicAnimation animationWithKeyPath:@"opacity"]);
+
+    fade.fromValue = (maskEnable)? @1.0 : @0.0;
+    fade.toValue = (maskEnable)? @0.0 : @1.0;
+    fade.duration = duration;
+    fade.fillMode = kCAFillModeForwards;
+    fade.removedOnCompletion = false;
+
+    [layer removeAllAnimations];
+    [layer addAnimation:fade forKey: @"fade"];
+}
+
+- (void)_animateMaskEnableToPointsLinesLayer:(BOOL)maskEnable duration:(NSTimeInterval)duration {
+    [_pointsInfoToLayersDict forEachWithAction:^(ASTM30PointsInfo *info, CAShapeLayer *shapeLayer) {
+        UIColor* nextColorValue = (maskEnable)? info.colorInMasked : info.color;
+
+        mz_guard_let_return(nextColor, nextColorValue);
+
+        mz_var(color, [CABasicAnimation animationWithKeyPath:@"strokeColor"]);
+
+        color.fromValue = (id)shapeLayer.strokeColor;
+        color.toValue = (id)nextColor.CGColor;
+        color.duration = duration;
+
+        [shapeLayer addAnimation:color forKey: @"color"];
+    }];
+}
+
 @end
 
 @implementation ASTM30GraphicViewController (Supports)
 
 - (CGPoint)_pointFrom:(CGPoint)point inCoordinateSpace:(ASTM30CoordinateSpace*)coordinateSpace {
-    mz_gen_var(size, self.view.frame.size);
+    mz_var(size, self.view.frame.size);
 
-    mz_gen_var(realX, size.width*((point.x - coordinateSpace.xMin)/coordinateSpace.xLength));
-    mz_gen_var(realY, size.height - size.height*((point.y - coordinateSpace.yMin)/coordinateSpace.yLength));
+    mz_var(realX, size.width*((point.x - coordinateSpace.xMin)/coordinateSpace.xLength));
+    mz_var(realY, size.height - size.height*((point.y - coordinateSpace.yMin)/coordinateSpace.yLength));
 
     return CGPointMake(realX, realY);
 }

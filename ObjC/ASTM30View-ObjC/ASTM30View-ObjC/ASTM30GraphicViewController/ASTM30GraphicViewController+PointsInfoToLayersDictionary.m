@@ -53,12 +53,12 @@
 }
 
 - (NSArray<MZPair *> *)filterWithFunc:(bool (^)(ASTM30PointsInfo* info, CAShapeLayer* layer))func {
-    mz_gen_var(result, [NSMutableArray array]);
-    mz_gen_var(allNames, _pointsInfosDict.allKeys);
+    mz_var(result, [NSMutableArray array]);
+    mz_var(allNames, _pointsInfosDict.allKeys);
 
     for (NSString* name in allNames) {
-        mz_gen_var(info, _pointsInfosDict[name]);
-        mz_gen_var(layer, _pointsLayersDict[name]);
+        mz_var(info, _pointsInfosDict[name]);
+        mz_var(layer, _pointsLayersDict[name]);
 
         if (func(info, layer)) {
             [result addObject:[[MZPair alloc] initWithFirst:info second:layer]];
@@ -70,8 +70,8 @@
 
 - (void)forEachWithAction:(void (^)(ASTM30PointsInfo* info, CAShapeLayer* layer))action {
     for (NSString * name in _pointsInfosDict.allKeys) {
-        mz_gen_var(info, _pointsInfosDict[name]);
-        mz_gen_var(layer, _pointsLayersDict[name]);
+        mz_var(info, _pointsInfosDict[name]);
+        mz_var(layer, _pointsLayersDict[name]);
 
         action(info, layer);
     }

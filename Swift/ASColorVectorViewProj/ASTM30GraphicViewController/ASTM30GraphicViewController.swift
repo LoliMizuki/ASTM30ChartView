@@ -378,7 +378,7 @@ extension ASTM30GraphicViewController {
     private func _animateMaskEnableToPointsLinesLayer(maskEnable: Bool, duration: NSTimeInterval) {
         _pointsInfoToLayersDict.forEach {
             (info, shapeLayer) in
-            let nextColorValue = maskEnable == true ? info.colorInMasked : info.color
+            let nextColorValue = maskEnable ? info.colorInMasked : info.color
 
             guard let nextColor = nextColorValue else { return }
 

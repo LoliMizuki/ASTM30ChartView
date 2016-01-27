@@ -61,12 +61,12 @@
                                  [NSValue valueWithCGPoint:CGPointMake(0, -360)],
                                  [NSValue valueWithCGPoint:CGPointMake(-180, -180)]];
 
-    mz_gen_var(keys, [NSMutableArray array]);
+    mz_var(keys, [NSMutableArray array]);
     for (int i = 0; i < referencePoints.count; i++) {
         [keys addObject:[NSString stringWithFormat:@"A%d", i]];
     }
 
-    mz_gen_var(infoForReference, [[ASTM30PointsInfo alloc] initWithName:@"Reference"]);
+    mz_var(infoForReference, [[ASTM30PointsInfo alloc] initWithName:@"Reference"]);
     infoForReference.color = [UIColor blackColor];
     infoForReference.colorInMasked = [UIColor whiteColor];
     infoForReference.lineWidth = 4;
@@ -81,7 +81,7 @@
     }();
     [_tm30ViewController addPointsInfo:infoForReference];
 
-    mz_gen_var(infoForTestSource, [[ASTM30PointsInfo alloc] initWithName:@"TestSource"]);
+    mz_var(infoForTestSource, [[ASTM30PointsInfo alloc] initWithName:@"TestSource"]);
     infoForTestSource.color = [UIColor redColor];
     infoForTestSource.colorInMasked = [UIColor clearColor];
     infoForTestSource.lineWidth = 4;
