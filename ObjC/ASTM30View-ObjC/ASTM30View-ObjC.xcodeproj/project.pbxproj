@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E2619D31C58908000652FDF /* ASTM30GraphicViewController+PointsInfoToLayersDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E2619D21C58908000652FDF /* ASTM30GraphicViewController+PointsInfoToLayersDictionary.m */; };
 		8E32FF401C57728C0018FF27 /* MZMath.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E32FF3F1C57728C0018FF27 /* MZMath.m */; };
 		8E5C9BCD1C571956000E819B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E5C9BCC1C571956000E819B /* main.m */; };
 		8E5C9BD01C571956000E819B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E5C9BCF1C571956000E819B /* AppDelegate.m */; };
@@ -21,6 +22,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8E2619CD1C588CF700652FDF /* MZCGExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MZCGExtensions.h; path = "../../../../../../../iOS/src/lolimizuki/Projects/MZ-ObjC/MZCGExtensions.h"; sourceTree = "<group>"; };
+		8E2619D11C58908000652FDF /* ASTM30GraphicViewController+PointsInfoToLayersDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ASTM30GraphicViewController+PointsInfoToLayersDictionary.h"; sourceTree = "<group>"; };
+		8E2619D21C58908000652FDF /* ASTM30GraphicViewController+PointsInfoToLayersDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ASTM30GraphicViewController+PointsInfoToLayersDictionary.m"; sourceTree = "<group>"; };
 		8E32FF3E1C57728C0018FF27 /* MZMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZMath.h; path = "../../../../../../../iOS/src/lolimizuki/Projects/MZ-ObjC/MZMath.h"; sourceTree = "<group>"; };
 		8E32FF3F1C57728C0018FF27 /* MZMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZMath.m; path = "../../../../../../../iOS/src/lolimizuki/Projects/MZ-ObjC/MZMath.m"; sourceTree = "<group>"; };
 		8E5C9BC81C571956000E819B /* ASTM30View-ObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ASTM30View-ObjC.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +112,8 @@
 				8E5C9BE71C571CFD000E819B /* ASTM30PointsInfo.m */,
 				8E5C9BE91C5721BB000E819B /* ASTM30GraphicViewController.h */,
 				8E5C9BEA1C5721BB000E819B /* ASTM30GraphicViewController.m */,
+				8E2619D11C58908000652FDF /* ASTM30GraphicViewController+PointsInfoToLayersDictionary.h */,
+				8E2619D21C58908000652FDF /* ASTM30GraphicViewController+PointsInfoToLayersDictionary.m */,
 			);
 			path = ASTM30GraphicViewController;
 			sourceTree = "<group>";
@@ -122,6 +128,7 @@
 				8E5C9BF11C574ECC000E819B /* MZNSCollectionExtensions.m */,
 				8E32FF3E1C57728C0018FF27 /* MZMath.h */,
 				8E32FF3F1C57728C0018FF27 /* MZMath.m */,
+				8E2619CD1C588CF700652FDF /* MZCGExtensions.h */,
 			);
 			name = "MZ-ObjC";
 			path = "ASTM30GraphicViewController/MZ-ObjC";
@@ -200,6 +207,7 @@
 				8E5C9BD31C571956000E819B /* ViewController.m in Sources */,
 				8E5C9BD01C571956000E819B /* AppDelegate.m in Sources */,
 				8E5C9BE51C571A7A000E819B /* ASTM30CoordinateSpace.m in Sources */,
+				8E2619D31C58908000652FDF /* ASTM30GraphicViewController+PointsInfoToLayersDictionary.m in Sources */,
 				8E5C9BF21C574ECC000E819B /* MZNSCollectionExtensions.m in Sources */,
 				8E32FF401C57728C0018FF27 /* MZMath.m in Sources */,
 				8E5C9BCD1C571956000E819B /* main.m in Sources */,

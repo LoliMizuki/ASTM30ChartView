@@ -185,13 +185,13 @@ extension ASTM30GraphicViewController {
 
     private func _setAndAddAllPoinsInfoLayersToView(view: UIView) {
         _pointsInfoToLayersDict.values.forEach { layer in layer.removeFromSuperlayer() }
+
         let allInfos = _pointsInfoToLayersDict.keys
         _pointsInfoToLayersDict.removeAll(keepCapacity: true)
 
         allInfos.forEach {
             info in
             let shapeLayer = _shapeLayerWithPointsInfo(info)
-
             _pointsInfoToLayersDict[info] = shapeLayer
             view.layer.addSublayer(shapeLayer)
         }

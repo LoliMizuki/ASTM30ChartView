@@ -13,5 +13,6 @@
 #import "MZMath.h"
 #import "MZNSCollectionExtensions.h"
 #import "MZCodeMiracle.h"
+#import "MZCGExtensions.h"
 
 #endif /* MZ_h */
