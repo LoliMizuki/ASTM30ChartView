@@ -18,7 +18,6 @@ typedef NS_ENUM(NSUInteger, ASTM30GraphicType) {
 };
 
 
-
 @interface ASTM30GraphicViewController : UIViewController
 
 @property (nonatomic, readwrite, strong, nonnull) ASTM30CoordinateSpace* coordinateSpace;

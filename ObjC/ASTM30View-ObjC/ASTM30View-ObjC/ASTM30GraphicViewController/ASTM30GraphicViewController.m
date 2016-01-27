@@ -9,9 +9,41 @@
 #import "ASTM30GraphicViewController.h"
 #import "ASTM30CoordinateSpace.h"
 #import "ASTM30PointsInfo.h"
-#import "MZLogs.h"
-#import "MZCodeMiracle.h"
-#import "MZMapReduces.h"
+#import "MZ.h"
+
+@interface PointsInfoToLayersDictionary : NSObject
+@end
+
+@implementation PointsInfoToLayersDictionary {
+    NSMutableDictionary<NSString*, ASTM30PointsInfo*>* _pointsInfosDict;
+    NSMutableDictionary<NSString*, CAShapeLayer*>* _pointsLayersDict;
+}
+
+- (instancetype)init {
+    self = [super init];
+
+    _pointsInfosDict = [NSMutableDictionary dictionary];
+    _pointsLayersDict = [NSMutableDictionary dictionary];
+
+    return self;
+}
+
+- (id)objectForKeyedSubscript:(ASTM30PointsInfo *)info {
+    return nil;
+}
+
+- (void)setObject:(CAShapeLayer *)layer forKeyedSubscript:(ASTM30PointsInfo *)info {
+
+}
+
+- (void)dealloc {
+    [_pointsInfosDict removeAllObjects];
+    [_pointsLayersDict removeAllObjects];
+}
+
+@end
+
+
 
 @interface ASTM30GraphicViewController (PresentViewsAndLayers)
 - (void)_setAndAddGraphicBackgroundViewToView:(UIView *)view;
@@ -239,13 +271,13 @@
     if (name == nil) return;
     mz_guard_let_return(graphicBackgroundView, _graphicBackgroundView);
 
-     NSDictionary* pointsInfoKeyValue = [_pointsLayersDict filterWithFunc: ^BOOL(NSString* infoName, CAShapeLayer* _) {
+     NSArray* pointsInfoKeyValue = [_pointsLayersDict filterWithFunc: ^BOOL(NSString* infoName, CAShapeLayer* _) {
          return [infoName isEqualToString:name];
      }].firstObject;
 
     MZAssert(pointsInfoKeyValue != nil, @"pointsInfo not found with name: \(name)");
 
-    CAShapeLayer* layer = pointsInfoKeyValue.allValues[0];
+    CAShapeLayer* layer = ((MZPair *)pointsInfoKeyValue).second;
     MZAssertIfNilWithMessage(layer, @"layer not found");
 
     graphicBackgroundView.layer.mask = nil;
@@ -291,15 +323,12 @@
 
 
 - (CAShapeLayer *)_shapeLayerWithPointsInfo:(ASTM30PointsInfo *)pointsInfo {
-    NSArray* points =
-        [MZMapReduces mapWithArray:pointsInfo.points
-                              func:^(ASTM30Point* p) {
-                                  CGPoint cgP = [self _pointFrom:p.value
-                                               inCoordinateSpace:self.coordinateSpace];
+    NSArray* points = [pointsInfo.points mapWithFunc:^(ASTM30Point* point) {
+        CGPoint realPoint = [self _pointFrom:point.value
+                           inCoordinateSpace:self.coordinateSpace];
 
-                                  return [NSValue valueWithCGPoint:cgP];
-                              }];
-
+        return [NSValue valueWithCGPoint:realPoint];
+    }];
 
     mz_gen_var(path, [UIBezierPath bezierPath]);
     [path moveToPoint:[points[0] CGPointValue]];

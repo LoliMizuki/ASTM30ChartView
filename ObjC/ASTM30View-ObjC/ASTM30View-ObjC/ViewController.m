@@ -10,18 +10,16 @@
 #import "ASTM30CoordinateSpace.h"
 #import "ASTM30PointsInfo.h"
 #import "ASTM30GraphicViewController.h"
-#import "MZLogs.h"
-#import "MZCodeMiracle.h"
-#import "MZMath.h"
+#import "MZ.h"
 
 @interface ViewController ()
 @end
 
 @interface ViewController (IB)
-
 - (IBAction)didTouchUpInsideMaskButton:(UIButton *)button;
-
 @end
+
+
 
 @implementation ViewController {
     ASTM30GraphicViewController* _tm30ViewController;
@@ -30,6 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.view.backgroundColor = [UIColor grayColor];
     [self __testSetting];
 }
 
@@ -43,7 +42,6 @@
 - (void)__testSetting {
     [self __addTestData];
 }
-
 
 - (void)__addTestData {
     _tm30ViewController.coordinateSpace = [[ASTM30CoordinateSpace alloc] initWithXMin:-400
