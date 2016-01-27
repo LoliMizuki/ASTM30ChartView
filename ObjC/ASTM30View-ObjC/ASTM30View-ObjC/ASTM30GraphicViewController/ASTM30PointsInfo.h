@@ -9,13 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface ASTM30Point : NSObject
 
-@property (nonatomic, nonnull, readwrite, strong) NSString* key;
+@property (nonatomic, readwrite, strong) NSString* key;
 @property (nonatomic, readwrite) CGPoint value;
 
-- (instancetype _Nonnull)initWithKey:(NSString * _Nonnull)key value:(CGPoint)value;
+- (instancetype)initWithKey:(NSString *)key value:(CGPoint)value;
 
 @end
 
@@ -23,15 +24,17 @@
 
 @interface ASTM30PointsInfo : NSObject
 
-@property (nonatomic, nonnull, readwrite, strong) NSString* name;
+@property (nonatomic, readwrite, strong) NSString* name;
 @property (nonatomic, readwrite) CGFloat lineWidth;
-@property (nonatomic, nonnull, readwrite, strong) UIColor* color;
+@property (nonatomic, readwrite, strong) UIColor* color;
 @property (nonatomic, nullable, readwrite, strong) UIColor* colorInMasked;
-@property (nonatomic, nonnull, readwrite, strong) NSArray<ASTM30Point *>* points;
+@property (nonatomic, readwrite, strong) NSArray<ASTM30Point *>* points;
 @property (nonatomic, readwrite) BOOL closePath;
 
-- (instancetype _Nonnull)initWithName:(NSString * _Nonnull)name;
+- (instancetype)initWithName:(NSString *)name;
 
-- (ASTM30Point * _Nullable)pointWithKey:(NSString * _Nonnull)key;
+- (nullable ASTM30Point *)pointWithKey:(NSString *)key;
 
 @end
+
+NS_ASSUME_NONNULL_END

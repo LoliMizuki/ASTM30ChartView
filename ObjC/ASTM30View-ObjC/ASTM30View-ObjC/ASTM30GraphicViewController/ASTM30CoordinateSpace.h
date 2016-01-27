@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "UIKit/UIKit.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface ASTM30CoordinateSpace : NSObject
 
 @property (nonatomic, readwrite) CGFloat xMin;
@@ -22,3 +24,5 @@
 - (instancetype)initWithXMin:(CGFloat)xMin yMin:(CGFloat)yMin xMax:(CGFloat)xMax yMax:(CGFloat)yMax;
 
 @end
+
+NS_ASSUME_NONNULL_END

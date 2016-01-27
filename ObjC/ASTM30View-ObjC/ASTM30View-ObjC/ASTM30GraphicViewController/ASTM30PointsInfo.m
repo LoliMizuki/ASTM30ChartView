@@ -15,11 +15,9 @@
 
 - (instancetype)initWithKey:(NSString *)aKey value:(CGPoint)aValue {
     self = [super init];
-    if (self == nil) return self;
 
     self.key = aKey;
     self.value = aValue;
-
 
     return self;
 }
@@ -37,9 +35,8 @@
 @synthesize points;
 @synthesize closePath;
 
-- (instancetype _Nonnull)initWithName:(NSString * _Nonnull)aName {
+- (instancetype)initWithName:(NSString *)aName {
     self = [super init];
-    if (self == nil) return self;
 
     self.name = aName;
 
@@ -52,7 +49,7 @@
     return self;
 }
 
-- (ASTM30Point * _Nullable)pointWithKey:(NSString * _Nonnull)key {
+- (nullable ASTM30Point *)pointWithKey:(NSString *)key {
     for (ASTM30Point* point in points) {
         if ([point.key isEqualToString:key]) {
             return point;

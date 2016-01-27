@@ -7,10 +7,10 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--View-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="ASTM30View_Swift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" userLabel="View" customClass="ViewController" customModule="ASTM30View_Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -32,24 +32,36 @@
                                     <action selector="didTouchUpInsideMaskButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="G1L-qN-Ifb"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dm5-za-s2o">
+                                <rect key="frame" x="90" y="308" width="85" height="30"/>
+                                <state key="normal" title="Remove You"/>
+                                <connections>
+                                    <action selector="didTouchUpInsideRemoveButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bhu-wC-rNb"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="b2W-17-dif" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="Csf-1P-yti"/>
                             <constraint firstItem="Qet-cE-fM7" firstAttribute="top" secondItem="b2W-17-dif" secondAttribute="bottom" constant="8" symbolic="YES" id="EGD-ua-bc3"/>
                             <constraint firstItem="b2W-17-dif" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="10" id="Zlf-9h-uOg"/>
+                            <constraint firstItem="dm5-za-s2o" firstAttribute="leading" secondItem="Qet-cE-fM7" secondAttribute="trailing" constant="14" id="bsn-cx-EDI"/>
                             <constraint firstItem="Qet-cE-fM7" firstAttribute="leading" secondItem="b2W-17-dif" secondAttribute="leading" id="fpS-9W-iab"/>
                             <constraint firstItem="b2W-17-dif" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" constant="-10" id="jrW-Mj-M9M"/>
                             <constraint firstItem="b2W-17-dif" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.45" id="k5b-RS-efZ"/>
                             <constraint firstItem="b2W-17-dif" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="mXn-HJ-VAb"/>
+                            <constraint firstItem="dm5-za-s2o" firstAttribute="top" secondItem="b2W-17-dif" secondAttribute="bottom" constant="8" id="yWb-aj-PrM"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="CjA-z0-0et"/>
+                    <navigationItem key="navigationItem" id="M36-lf-mcs"/>
                     <connections>
                         <outlet property="containerView" destination="b2W-17-dif" id="A6r-RQ-34Z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="2106" y="18"/>
         </scene>
         <!--Color Vector-->
         <scene sceneID="Dyx-mv-C5x">
@@ -67,7 +79,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DzN-nF-YDt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="264" y="1090"/>
+            <point key="canvasLocation" x="2754" y="-462"/>
         </scene>
     </scenes>
 </document>

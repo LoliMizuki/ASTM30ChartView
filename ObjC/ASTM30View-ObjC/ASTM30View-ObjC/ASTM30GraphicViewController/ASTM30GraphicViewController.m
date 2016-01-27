@@ -17,7 +17,7 @@
 - (void)_setAndAddGridLayerToView:(UIView *)view;
 - (void)_setAndAddPointsLayersViewToView:(UIView *)view;
 - (void)_setAndAddAllPoinsInfoLayersToView:(UIView *)view;
-- (void)_setGraphicBackgroundMaskWithPointsInfoName:(NSString * _Nullable)name;
+- (void)_setGraphicBackgroundMaskWithPointsInfoName:(nullable NSString *)name;
 - (void)_setAndAddReferenceToTestSourceArrowsLayerToView:(UIView *)view;
 - (CAShapeLayer *)_shapeLayerWithPointsInfo:(ASTM30PointsInfo *)pointsInfo;
 - (CAShapeLayer *)_maskLayerFromLayer:(CAShapeLayer *)layer;
@@ -57,9 +57,21 @@
 
 @synthesize graphicType;
 
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+
+    _pointsInfoToLayersDict = [[PointsInfoToLayersDictionary alloc] init];
+    _sourceToReferenceArrowsLayer = nil;
+    _graphicBackgroundView = nil;
+    _graphicBackgroundGridLayer = nil;
+    _graphicBackgroundForFadeView = nil;
+    _graphicBackgroundMaskLayer = nil;
+
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self _initSetting];
     self.view.backgroundColor = [UIColor blackColor];
 }
 
@@ -75,7 +87,7 @@
     _pointsInfoToLayersDict[info] = [CAShapeLayer layer];
 }
 
-- (ASTM30PointsInfo * _Nullable)poinsInfoWithName:(NSString * _Nonnull)name {
+- (nullable ASTM30PointsInfo *)poinsInfoWithName:(NSString *)name {
     for (ASTM30PointsInfo* info in _pointsInfoToLayersDict.allKeys) {
         if ([info.name isEqualToString:name]) {
             return info;
@@ -125,17 +137,17 @@
 
 # pragma mark - Private
 
-- (void)_initSetting {
-    _pointsInfoToLayersDict = [[PointsInfoToLayersDictionary alloc] init];
-    _sourceToReferenceArrowsLayer = nil;
-    _graphicBackgroundView = nil;
-    _graphicBackgroundGridLayer = nil;
-    _graphicBackgroundForFadeView = nil;
-    _graphicBackgroundMaskLayer = nil;
-}
-
 - (void)dealloc {
-
+    [_pointsInfoToLayersDict.allValues forEachWithAction:^(CAShapeLayer* layer) {
+        [layer removeFromSuperlayer];
+    }];
+    [_pointsInfoToLayersDict removeAllObjects];
+    [_pointsLinesLayerView removeFromSuperview];
+    [_sourceToReferenceArrowsLayer removeFromSuperlayer];
+    [_graphicBackgroundView removeFromSuperview];
+    [_graphicBackgroundGridLayer removeFromSuperlayer];
+    [_graphicBackgroundForFadeView removeFromSuperview];
+    [_graphicBackgroundMaskLayer removeFromSuperlayer];
 }
 
 - (void)_setGraphicBackgroundWithMaskEnable:(bool)maskEnable {
@@ -234,7 +246,7 @@
     }];
 }
 
-- (void)_setGraphicBackgroundMaskWithPointsInfoName:(NSString * _Nullable)name {
+- (void)_setGraphicBackgroundMaskWithPointsInfoName:(nullable NSString *)name {
     if (name == nil) return;
     mz_guard_let_return(graphicBackgroundView, _graphicBackgroundView);
 

@@ -15,6 +15,8 @@
 @class CAShapeLayer;
 @class MZPair;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface PointsInfoToLayersDictionary : NSObject
 
 @property (nonatomic, readonly) NSArray<ASTM30PointsInfo *>* allKeys;
@@ -29,3 +31,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END

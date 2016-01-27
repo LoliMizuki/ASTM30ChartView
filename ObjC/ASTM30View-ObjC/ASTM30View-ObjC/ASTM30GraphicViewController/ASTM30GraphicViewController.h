@@ -17,21 +17,24 @@ typedef NS_ENUM(NSUInteger, ASTM30GraphicType) {
     ASTM30GraphicType_ColorDistortion,
 };
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface ASTM30GraphicViewController : UIViewController
 
-@property (nonatomic, readwrite, strong, nonnull) ASTM30CoordinateSpace* coordinateSpace;
+@property (nonatomic, readwrite, strong) ASTM30CoordinateSpace* coordinateSpace;
 @property (nonatomic, readwrite, strong, nullable) NSString* testSourceName;
 @property (nonatomic, readwrite, strong, nullable) NSString* referenceName;
 
 @property (nonatomic, readonly) ASTM30GraphicType graphicType;
 
-- (void)addPointsInfo:(ASTM30PointsInfo * _Nonnull)info;
-- (ASTM30PointsInfo * _Nullable)poinsInfoWithName:(NSString * _Nonnull)name;
-- (void)removePointsInfoWithName:(NSString * _Nonnull)name;
+- (void)addPointsInfo:(ASTM30PointsInfo *)info;
+- (nullable ASTM30PointsInfo *)poinsInfoWithName:(NSString *)name;
+- (void)removePointsInfoWithName:(NSString *)name;
 
 - (void)setGraphicType:(ASTM30GraphicType)type animated:(bool)animated duration:(CFTimeInterval)duration;
 - (void)setGraphicType:(ASTM30GraphicType)type;
 - (void)refresh;
 
 @end
+
+NS_ASSUME_NONNULL_END

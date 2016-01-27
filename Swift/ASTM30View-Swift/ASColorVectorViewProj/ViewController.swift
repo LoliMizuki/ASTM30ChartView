@@ -48,6 +48,14 @@ extension ViewController {
                 ASTM30GraphicType.ColorVector
         _tm30ViewController.setGraphicType(type, animated: true)
     }
+
+    @IBAction func didTouchUpInsideRemoveButton(button: UIButton) {
+        _tm30ViewController.view.removeFromSuperview()
+        _tm30ViewController.removeFromParentViewController()
+
+        _tm30ViewController.view = nil
+        _tm30ViewController = nil
+    }
 }
 
 

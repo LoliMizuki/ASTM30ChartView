@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 enum ASTM30GraphicType: Int {
     case ColorVector
     case ColorDistortion
@@ -93,6 +92,17 @@ class ASTM30GraphicViewController: UIViewController {
     private var _graphicBackgroundForFadeView: UIImageView? = nil
 
     private var _graphicBackgroundMaskLayer: CAShapeLayer? = nil
+
+    deinit {
+        _pointsInfoToLayersDict.values.forEach { layer in layer.removeFromSuperlayer() }
+        _pointsInfoToLayersDict.removeAll()
+        _pointsLinesLayerView?.removeFromSuperview()
+        _sourceToReferenceArrowsLayer?.removeFromSuperlayer()
+        _graphicBackgroundView?.removeFromSuperview()
+        _graphicBackgroundGridLayer?.removeFromSuperlayer()
+        _graphicBackgroundForFadeView?.removeFromSuperview()
+        _graphicBackgroundMaskLayer?.removeFromSuperlayer()
+    }
 
     private func _setGraphicBackgroundWithMaskEnable(maskEnable: Bool) {
         guard let backgroundView = _graphicBackgroundView else { return }
@@ -402,24 +412,5 @@ extension ASTM30GraphicViewController {
         let realY = view.frame.height - view.frame.height*((point.y - coordinateSpace.yMin)/coordinateSpace.yLength)
 
         return CGPoint(x: realX, y: realY)
-    }
-
-    // useless now
-    private func _colorAtPoint(point:CGPoint) -> UIColor {
-        let colorSpace:CGColorSpace = CGColorSpaceCreateDeviceRGB()!
-        let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.PremultipliedLast.rawValue)
-        var pixelData:[UInt8] = [0, 0, 0, 0]
-
-        let context = CGBitmapContextCreate(&pixelData, 1, 1, 8, 4, colorSpace, bitmapInfo.rawValue)!
-        CGContextTranslateCTM(context, -point.x, -point.y);
-        view.layer.renderInContext(context)
-
-        let red:CGFloat = CGFloat(pixelData[0])/CGFloat(255.0)
-        let green:CGFloat = CGFloat(pixelData[1])/CGFloat(255.0)
-        let blue:CGFloat = CGFloat(pixelData[2])/CGFloat(255.0)
-        let alpha:CGFloat = CGFloat(pixelData[3])/CGFloat(255.0)
-
-        let color:UIColor = UIColor(red: red, green: green, blue: blue, alpha: alpha)
-        return color
     }
 }

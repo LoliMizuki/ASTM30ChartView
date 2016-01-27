@@ -19,7 +19,6 @@
 
 - (instancetype)initWithXMin:(CGFloat)aXMin yMin:(CGFloat)aYMin xMax:(CGFloat)aXMax yMax:(CGFloat)aYMax {
     self = [super init];
-    if (self == nil) return nil;
 
     self.xMin = aXMin;
     self.yMin = aYMin;
