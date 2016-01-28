@@ -27,6 +27,7 @@
 		8EF8D5F11C50BB0B00D09733 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EF8D5EF1C50BB0B00D09733 /* Main.storyboard */; };
 		8EF8D5F31C50BB0B00D09733 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EF8D5F21C50BB0B00D09733 /* Assets.xcassets */; };
 		8EF8D5F61C50BB0B00D09733 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EF8D5F41C50BB0B00D09733 /* LaunchScreen.storyboard */; };
+		8EF962931C59C1390056372C /* ASTM30RgRfGraphicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF962921C59C1390056372C /* ASTM30RgRfGraphicViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		8EF8D5F21C50BB0B00D09733 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8EF8D5F51C50BB0B00D09733 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8EF8D5F71C50BB0B00D09733 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8EF962921C59C1390056372C /* ASTM30RgRfGraphicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTM30RgRfGraphicViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 				8EF8D5EB1C50BB0B00D09733 /* AppDelegate.swift */,
 				8EB9829C1C5202B100593591 /* ViewController.swift */,
 				8E512C531C56107F009F114F /* ASTM30GraphicViewController */,
+				8EF962911C59C1390056372C /* ASTM30RgRfGraphicViewController */,
 				8EEC0C2A1C58BD7700B5EE4C /* MZ-Swifts */,
 				8EF8D5EF1C50BB0B00D09733 /* Main.storyboard */,
 				8EF8D5F21C50BB0B00D09733 /* Assets.xcassets */,
@@ -157,6 +160,15 @@
 			);
 			path = ASColorVectorViewProj;
 			sourceTree = "<group>";
+		};
+		8EF962911C59C1390056372C /* ASTM30RgRfGraphicViewController */ = {
+			isa = PBXGroup;
+			children = (
+				8EF962921C59C1390056372C /* ASTM30RgRfGraphicViewController.swift */,
+			);
+			name = ASTM30RgRfGraphicViewController;
+			path = ASColorVectorViewProj/ASTM30RgRfGraphicViewController;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -242,6 +254,7 @@
 				8EEC0C3D1C58BD7700B5EE4C /* MZ.SceneWithQueue.swift in Sources */,
 				8EEC0C431C58BD7700B5EE4C /* MZ.Degrees.swift in Sources */,
 				8EEC0C421C58BD7700B5EE4C /* MZ.Debugs.swift in Sources */,
+				8EF962931C59C1390056372C /* ASTM30RgRfGraphicViewController.swift in Sources */,
 				8EEC0C3F1C58BD7700B5EE4C /* MZ.swift in Sources */,
 				8EEC0C461C58BD7700B5EE4C /* MZ.Types.swift in Sources */,
 				8EEC0C411C58BD7700B5EE4C /* MZ.TouchDefines.swift in Sources */,
