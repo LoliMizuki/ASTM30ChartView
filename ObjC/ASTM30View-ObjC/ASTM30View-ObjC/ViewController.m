@@ -12,11 +12,13 @@
 #import "ASTM30GraphicViewController.h"
 #import "MZ.h"
 
-@interface ViewController ()
-@end
-
 @interface ViewController (IB)
 - (IBAction)didTouchUpInsideMaskButton:(UIButton *)button;
+@end
+
+@interface ViewController (TestData)
+- (NSArray<NSValue *> *)_referencePoints;
+- (NSArray<NSValue *> *)_testSourcePoints;
 @end
 
 
@@ -44,37 +46,25 @@
 }
 
 - (void)__addTestData {
-    _tm30ViewController.coordinateSpace = [[ASTM30CoordinateSpace alloc] initWithXMin:-400
-                                                                                 yMin:-400
-                                                                                 xMax:400
-                                                                                 yMax:400];
+    _tm30ViewController.coordinateSpace = [[ASTM30CoordinateSpace alloc] initWithXMin:-1.2
+                                                                                 yMin:-1.2
+                                                                                 xMax:1.2
+                                                                                 yMax:1.2];
     _tm30ViewController.testSourceName = @"TestSource";
     _tm30ViewController.referenceName = @"Reference";
-
-    NSArray* referencePoints = @[[NSValue valueWithCGPoint:CGPointMake(-360, 0)],
-                                 [NSValue valueWithCGPoint:CGPointMake(-180, 180)],
-                                 [NSValue valueWithCGPoint:CGPointMake(0, 360)],
-                                 [NSValue valueWithCGPoint:CGPointMake(180, 180)],
-                                 [NSValue valueWithCGPoint:CGPointMake(90, 90)],
-                                 [NSValue valueWithCGPoint:CGPointMake(360, 0)],
-                                 [NSValue valueWithCGPoint:CGPointMake(180, -180)],
-                                 [NSValue valueWithCGPoint:CGPointMake(0, -360)],
-                                 [NSValue valueWithCGPoint:CGPointMake(-180, -180)]];
-
-    mz_var(keys, [NSMutableArray array]);
-    for (int i = 0; i < referencePoints.count; i++) {
-        [keys addObject:[NSString stringWithFormat:@"A%d", i]];
-    }
 
     mz_var(infoForReference, [[ASTM30PointsInfo alloc] initWithName:@"Reference"]);
     infoForReference.color = [UIColor blackColor];
     infoForReference.colorInMasked = [UIColor whiteColor];
     infoForReference.lineWidth = 4;
     infoForReference.points = ^{
+        NSArray<NSValue*>* rawPoints = [self _referencePoints];
         NSMutableArray* points = [NSMutableArray array];
 
-        for (int i = 0; i < keys.count; i++) {
-            [points addObject:[[ASTM30Point alloc] initWithKey:keys[i] value:[referencePoints[i] CGPointValue]]];
+        for (int i = 0; i < rawPoints.count; i++) {
+            NSString* key = [NSString stringWithFormat:@"A%d", i];
+            [points addObject:[[ASTM30Point alloc] initWithKey:key
+                                                         value:[rawPoints[i] CGPointValue]]];
         }
 
         return points;
@@ -86,13 +76,13 @@
     infoForTestSource.colorInMasked = [UIColor clearColor];
     infoForTestSource.lineWidth = 4;
     infoForTestSource.points = ^{
+        NSArray<NSValue*>* rawPoints = [self _testSourcePoints];
         NSMutableArray* points = [NSMutableArray array];
 
-        for (int i = 0; i < keys.count; i++) {
-            CGFloat x = [referencePoints[i] CGPointValue].x + [MZMath randomFloatWithMin:-30 max:30];
-            CGFloat y = [referencePoints[i] CGPointValue].y + [MZMath randomFloatWithMin:-30 max:30];
-
-            [points addObject:[[ASTM30Point alloc] initWithKey:keys[i] value:CGPointMake(x, y)]];
+        for (int i = 0; i < rawPoints.count; i++) {
+            NSString* key = [NSString stringWithFormat:@"A%d", i];
+            [points addObject:[[ASTM30Point alloc] initWithKey:key
+                                                         value:[rawPoints[i] CGPointValue]]];
         }
 
         return points;
@@ -111,6 +101,50 @@
         ASTM30GraphicType_ColorVector;
 
     [_tm30ViewController setGraphicType:type];
+}
+
+@end
+
+@implementation ViewController (TestData)
+
+- (NSArray<NSValue *> *)_referencePoints {
+    return @[[NSValue valueWithCGPoint:CGPointMake(0.979482, 0.201533)],
+             [NSValue valueWithCGPoint:CGPointMake(0.804753, 0.593609)],
+             [NSValue valueWithCGPoint:CGPointMake(0.565791, 0.824548)],
+             [NSValue valueWithCGPoint:CGPointMake(0.18508, 0.982723)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.0885433, 0.996072)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.516068, 0.856548)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.841959, 0.539542)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.993123, 0.117075)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.987714, -0.156275)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.849281, -0.527942)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.592092, -0.805871)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.184827, -0.982771)],
+             [NSValue valueWithCGPoint:CGPointMake(0.112917, -0.993604)],
+             [NSValue valueWithCGPoint:CGPointMake(0.597958, -0.801528)],
+             [NSValue valueWithCGPoint:CGPointMake(0.827279, -0.561791)],
+             [NSValue valueWithCGPoint:CGPointMake(0.983755, -0.179517)],
+             ];
+}
+
+- (NSArray<NSValue *> *)_testSourcePoints {
+    return @[[NSValue valueWithCGPoint:CGPointMake(0.830428, 0.152285)],
+             [NSValue valueWithCGPoint:CGPointMake(0.665421, 0.600832)],
+             [NSValue valueWithCGPoint:CGPointMake(0.390513, 0.869416)],
+             [NSValue valueWithCGPoint:CGPointMake(0.0299235, 1.03496)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.184857,  1.03375)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.521905,  0.903854)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.78017,  0.570425)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.87806,  0.12918)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.81089,  -0.222912)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.631358,  -0.654632)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.386599,  -0.931485)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.0546757,  -1.06064)],
+             [NSValue valueWithCGPoint:CGPointMake(0.170136, -1.10126)],
+             [NSValue valueWithCGPoint:CGPointMake(0.610058, -0.96514)],
+             [NSValue valueWithCGPoint:CGPointMake(0.742329, -0.761882)],
+             [NSValue valueWithCGPoint:CGPointMake(0.903637, -0.259266)],
+             ];
 }
 
 @end

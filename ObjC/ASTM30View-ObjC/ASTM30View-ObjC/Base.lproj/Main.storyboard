@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -20,6 +21,9 @@
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IF8-9z-tPK">
                                 <rect key="frame" x="150" y="150" width="300" height="300"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="IF8-9z-tPK" secondAttribute="height" multiplier="1:1" id="k1d-c8-EqG"/>
+                                </constraints>
                                 <connections>
                                     <segue destination="y5m-ft-y4P" kind="embed" id="Ecg-D1-N6j"/>
                                 </connections>
@@ -38,7 +42,6 @@
                             <constraint firstItem="IF8-9z-tPK" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Wwe-Bx-srk"/>
                             <constraint firstItem="NTr-xV-VJ2" firstAttribute="top" secondItem="IF8-9z-tPK" secondAttribute="bottom" constant="8" id="Z8N-lE-Rgc"/>
                             <constraint firstItem="IF8-9z-tPK" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.5" id="dUp-LU-nHy"/>
-                            <constraint firstItem="IF8-9z-tPK" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.5" id="eeA-kT-xop"/>
                             <constraint firstItem="IF8-9z-tPK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fVf-LR-NAz"/>
                         </constraints>
                     </view>

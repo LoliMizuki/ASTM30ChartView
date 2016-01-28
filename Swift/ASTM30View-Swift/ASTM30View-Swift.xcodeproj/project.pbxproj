@@ -10,19 +10,19 @@
 		8E512C571C56107F009F114F /* ASTM30CoordinateSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E512C541C56107F009F114F /* ASTM30CoordinateSpace.swift */; };
 		8E512C581C56107F009F114F /* ASTM30GraphicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E512C551C56107F009F114F /* ASTM30GraphicViewController.swift */; };
 		8E512C591C56107F009F114F /* ASTM30PointsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E512C561C56107F009F114F /* ASTM30PointsInfo.swift */; };
-		8EB982901C51FD9700593591 /* MZ.InAppPurchaseManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB982811C51FD9700593591 /* MZ.InAppPurchaseManger.swift */; };
-		8EB982911C51FD9700593591 /* MZ.CGExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB982831C51FD9700593591 /* MZ.CGExtensions.swift */; };
-		8EB982921C51FD9700593591 /* MZ.SceneWithQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB982841C51FD9700593591 /* MZ.SceneWithQueue.swift */; };
-		8EB982931C51FD9700593591 /* MZ.Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB982851C51FD9700593591 /* MZ.Shapes.swift */; };
-		8EB982941C51FD9700593591 /* MZ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB982861C51FD9700593591 /* MZ.swift */; };
-		8EB982951C51FD9700593591 /* MZ.TypeDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB982871C51FD9700593591 /* MZ.TypeDefines.swift */; };
-		8EB982961C51FD9700593591 /* MZ.TouchDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB982891C51FD9700593591 /* MZ.TouchDefines.swift */; };
-		8EB982971C51FD9700593591 /* MZ.Debugs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB9828B1C51FD9700593591 /* MZ.Debugs.swift */; };
-		8EB982981C51FD9700593591 /* MZ.Degrees.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB9828C1C51FD9700593591 /* MZ.Degrees.swift */; };
-		8EB982991C51FD9700593591 /* MZ.Maths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB9828D1C51FD9700593591 /* MZ.Maths.swift */; };
-		8EB9829A1C51FD9700593591 /* MZ.Ranges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB9828E1C51FD9700593591 /* MZ.Ranges.swift */; };
-		8EB9829B1C51FD9700593591 /* MZ.Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB9828F1C51FD9700593591 /* MZ.Types.swift */; };
 		8EB9829D1C5202B100593591 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB9829C1C5202B100593591 /* ViewController.swift */; };
+		8EEC0C3B1C58BD7700B5EE4C /* MZ.InAppPurchaseManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC0C2C1C58BD7700B5EE4C /* MZ.InAppPurchaseManger.swift */; };
+		8EEC0C3C1C58BD7700B5EE4C /* MZ.CGExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC0C2E1C58BD7700B5EE4C /* MZ.CGExtensions.swift */; };
+		8EEC0C3D1C58BD7700B5EE4C /* MZ.SceneWithQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC0C2F1C58BD7700B5EE4C /* MZ.SceneWithQueue.swift */; };
+		8EEC0C3E1C58BD7700B5EE4C /* MZ.Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC0C301C58BD7700B5EE4C /* MZ.Shapes.swift */; };
+		8EEC0C3F1C58BD7700B5EE4C /* MZ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC0C311C58BD7700B5EE4C /* MZ.swift */; };
+		8EEC0C401C58BD7700B5EE4C /* MZ.TypeDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC0C321C58BD7700B5EE4C /* MZ.TypeDefines.swift */; };
+		8EEC0C411C58BD7700B5EE4C /* MZ.TouchDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC0C341C58BD7700B5EE4C /* MZ.TouchDefines.swift */; };
+		8EEC0C421C58BD7700B5EE4C /* MZ.Debugs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC0C361C58BD7700B5EE4C /* MZ.Debugs.swift */; };
+		8EEC0C431C58BD7700B5EE4C /* MZ.Degrees.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC0C371C58BD7700B5EE4C /* MZ.Degrees.swift */; };
+		8EEC0C441C58BD7700B5EE4C /* MZ.Maths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC0C381C58BD7700B5EE4C /* MZ.Maths.swift */; };
+		8EEC0C451C58BD7700B5EE4C /* MZ.Ranges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC0C391C58BD7700B5EE4C /* MZ.Ranges.swift */; };
+		8EEC0C461C58BD7700B5EE4C /* MZ.Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC0C3A1C58BD7700B5EE4C /* MZ.Types.swift */; };
 		8EF8D5EC1C50BB0B00D09733 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF8D5EB1C50BB0B00D09733 /* AppDelegate.swift */; };
 		8EF8D5F11C50BB0B00D09733 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EF8D5EF1C50BB0B00D09733 /* Main.storyboard */; };
 		8EF8D5F31C50BB0B00D09733 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EF8D5F21C50BB0B00D09733 /* Assets.xcassets */; };
@@ -33,19 +33,19 @@
 		8E512C541C56107F009F114F /* ASTM30CoordinateSpace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTM30CoordinateSpace.swift; sourceTree = "<group>"; };
 		8E512C551C56107F009F114F /* ASTM30GraphicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTM30GraphicViewController.swift; sourceTree = "<group>"; };
 		8E512C561C56107F009F114F /* ASTM30PointsInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTM30PointsInfo.swift; sourceTree = "<group>"; };
-		8EB982811C51FD9700593591 /* MZ.InAppPurchaseManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.InAppPurchaseManger.swift; sourceTree = "<group>"; };
-		8EB982831C51FD9700593591 /* MZ.CGExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.CGExtensions.swift; sourceTree = "<group>"; };
-		8EB982841C51FD9700593591 /* MZ.SceneWithQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.SceneWithQueue.swift; sourceTree = "<group>"; };
-		8EB982851C51FD9700593591 /* MZ.Shapes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.Shapes.swift; sourceTree = "<group>"; };
-		8EB982861C51FD9700593591 /* MZ.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.swift; sourceTree = "<group>"; };
-		8EB982871C51FD9700593591 /* MZ.TypeDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.TypeDefines.swift; sourceTree = "<group>"; };
-		8EB982891C51FD9700593591 /* MZ.TouchDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.TouchDefines.swift; sourceTree = "<group>"; };
-		8EB9828B1C51FD9700593591 /* MZ.Debugs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.Debugs.swift; sourceTree = "<group>"; };
-		8EB9828C1C51FD9700593591 /* MZ.Degrees.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.Degrees.swift; sourceTree = "<group>"; };
-		8EB9828D1C51FD9700593591 /* MZ.Maths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.Maths.swift; sourceTree = "<group>"; };
-		8EB9828E1C51FD9700593591 /* MZ.Ranges.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.Ranges.swift; sourceTree = "<group>"; };
-		8EB9828F1C51FD9700593591 /* MZ.Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.Types.swift; sourceTree = "<group>"; };
 		8EB9829C1C5202B100593591 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8EEC0C2C1C58BD7700B5EE4C /* MZ.InAppPurchaseManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.InAppPurchaseManger.swift; sourceTree = "<group>"; };
+		8EEC0C2E1C58BD7700B5EE4C /* MZ.CGExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.CGExtensions.swift; sourceTree = "<group>"; };
+		8EEC0C2F1C58BD7700B5EE4C /* MZ.SceneWithQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.SceneWithQueue.swift; sourceTree = "<group>"; };
+		8EEC0C301C58BD7700B5EE4C /* MZ.Shapes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.Shapes.swift; sourceTree = "<group>"; };
+		8EEC0C311C58BD7700B5EE4C /* MZ.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.swift; sourceTree = "<group>"; };
+		8EEC0C321C58BD7700B5EE4C /* MZ.TypeDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.TypeDefines.swift; sourceTree = "<group>"; };
+		8EEC0C341C58BD7700B5EE4C /* MZ.TouchDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.TouchDefines.swift; sourceTree = "<group>"; };
+		8EEC0C361C58BD7700B5EE4C /* MZ.Debugs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.Debugs.swift; sourceTree = "<group>"; };
+		8EEC0C371C58BD7700B5EE4C /* MZ.Degrees.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.Degrees.swift; sourceTree = "<group>"; };
+		8EEC0C381C58BD7700B5EE4C /* MZ.Maths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.Maths.swift; sourceTree = "<group>"; };
+		8EEC0C391C58BD7700B5EE4C /* MZ.Ranges.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.Ranges.swift; sourceTree = "<group>"; };
+		8EEC0C3A1C58BD7700B5EE4C /* MZ.Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.Types.swift; sourceTree = "<group>"; };
 		8EF8D5E81C50BB0B00D09733 /* ASTM30View-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ASTM30View-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EF8D5EB1C50BB0B00D09733 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8EF8D5F01C50BB0B00D09733 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -75,54 +75,54 @@
 			path = ASTM30GraphicViewController;
 			sourceTree = "<group>";
 		};
-		8EB9827F1C51FD9700593591 /* MZ-Swifts */ = {
+		8EEC0C2A1C58BD7700B5EE4C /* MZ-Swifts */ = {
 			isa = PBXGroup;
 			children = (
-				8EB982801C51FD9700593591 /* Capabilities */,
-				8EB982821C51FD9700593591 /* CGExtensions */,
-				8EB982841C51FD9700593591 /* MZ.SceneWithQueue.swift */,
-				8EB982851C51FD9700593591 /* MZ.Shapes.swift */,
-				8EB982861C51FD9700593591 /* MZ.swift */,
-				8EB982871C51FD9700593591 /* MZ.TypeDefines.swift */,
-				8EB982881C51FD9700593591 /* TouchExtensions */,
-				8EB9828A1C51FD9700593591 /* Utilities */,
+				8EEC0C2B1C58BD7700B5EE4C /* Capabilities */,
+				8EEC0C2D1C58BD7700B5EE4C /* CGExtensions */,
+				8EEC0C2F1C58BD7700B5EE4C /* MZ.SceneWithQueue.swift */,
+				8EEC0C301C58BD7700B5EE4C /* MZ.Shapes.swift */,
+				8EEC0C311C58BD7700B5EE4C /* MZ.swift */,
+				8EEC0C321C58BD7700B5EE4C /* MZ.TypeDefines.swift */,
+				8EEC0C331C58BD7700B5EE4C /* TouchExtensions */,
+				8EEC0C351C58BD7700B5EE4C /* Utilities */,
 			);
 			name = "MZ-Swifts";
-			path = "../../../../iOS/src/lolimizuki/Projects/MZ-Swifts/MZ-Swifts/MZ-Swifts";
+			path = "../../../../../iOS/src/lolimizuki/Projects/MZ-Swifts/MZ-Swifts/MZ-Swifts";
 			sourceTree = "<group>";
 		};
-		8EB982801C51FD9700593591 /* Capabilities */ = {
+		8EEC0C2B1C58BD7700B5EE4C /* Capabilities */ = {
 			isa = PBXGroup;
 			children = (
-				8EB982811C51FD9700593591 /* MZ.InAppPurchaseManger.swift */,
+				8EEC0C2C1C58BD7700B5EE4C /* MZ.InAppPurchaseManger.swift */,
 			);
 			path = Capabilities;
 			sourceTree = "<group>";
 		};
-		8EB982821C51FD9700593591 /* CGExtensions */ = {
+		8EEC0C2D1C58BD7700B5EE4C /* CGExtensions */ = {
 			isa = PBXGroup;
 			children = (
-				8EB982831C51FD9700593591 /* MZ.CGExtensions.swift */,
+				8EEC0C2E1C58BD7700B5EE4C /* MZ.CGExtensions.swift */,
 			);
 			path = CGExtensions;
 			sourceTree = "<group>";
 		};
-		8EB982881C51FD9700593591 /* TouchExtensions */ = {
+		8EEC0C331C58BD7700B5EE4C /* TouchExtensions */ = {
 			isa = PBXGroup;
 			children = (
-				8EB982891C51FD9700593591 /* MZ.TouchDefines.swift */,
+				8EEC0C341C58BD7700B5EE4C /* MZ.TouchDefines.swift */,
 			);
 			path = TouchExtensions;
 			sourceTree = "<group>";
 		};
-		8EB9828A1C51FD9700593591 /* Utilities */ = {
+		8EEC0C351C58BD7700B5EE4C /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				8EB9828B1C51FD9700593591 /* MZ.Debugs.swift */,
-				8EB9828C1C51FD9700593591 /* MZ.Degrees.swift */,
-				8EB9828D1C51FD9700593591 /* MZ.Maths.swift */,
-				8EB9828E1C51FD9700593591 /* MZ.Ranges.swift */,
-				8EB9828F1C51FD9700593591 /* MZ.Types.swift */,
+				8EEC0C361C58BD7700B5EE4C /* MZ.Debugs.swift */,
+				8EEC0C371C58BD7700B5EE4C /* MZ.Degrees.swift */,
+				8EEC0C381C58BD7700B5EE4C /* MZ.Maths.swift */,
+				8EEC0C391C58BD7700B5EE4C /* MZ.Ranges.swift */,
+				8EEC0C3A1C58BD7700B5EE4C /* MZ.Types.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -149,11 +149,11 @@
 				8EF8D5EB1C50BB0B00D09733 /* AppDelegate.swift */,
 				8EB9829C1C5202B100593591 /* ViewController.swift */,
 				8E512C531C56107F009F114F /* ASTM30GraphicViewController */,
+				8EEC0C2A1C58BD7700B5EE4C /* MZ-Swifts */,
 				8EF8D5EF1C50BB0B00D09733 /* Main.storyboard */,
 				8EF8D5F21C50BB0B00D09733 /* Assets.xcassets */,
 				8EF8D5F41C50BB0B00D09733 /* LaunchScreen.storyboard */,
 				8EF8D5F71C50BB0B00D09733 /* Info.plist */,
-				8EB9827F1C51FD9700593591 /* MZ-Swifts */,
 			);
 			path = ASColorVectorViewProj;
 			sourceTree = "<group>";
@@ -230,23 +230,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8EB982991C51FD9700593591 /* MZ.Maths.swift in Sources */,
-				8EB982931C51FD9700593591 /* MZ.Shapes.swift in Sources */,
+				8EEC0C441C58BD7700B5EE4C /* MZ.Maths.swift in Sources */,
+				8EEC0C3E1C58BD7700B5EE4C /* MZ.Shapes.swift in Sources */,
 				8EF8D5EC1C50BB0B00D09733 /* AppDelegate.swift in Sources */,
-				8EB982951C51FD9700593591 /* MZ.TypeDefines.swift in Sources */,
-				8EB982901C51FD9700593591 /* MZ.InAppPurchaseManger.swift in Sources */,
-				8EB982921C51FD9700593591 /* MZ.SceneWithQueue.swift in Sources */,
 				8EB9829D1C5202B100593591 /* ViewController.swift in Sources */,
 				8E512C571C56107F009F114F /* ASTM30CoordinateSpace.swift in Sources */,
-				8EB982981C51FD9700593591 /* MZ.Degrees.swift in Sources */,
+				8EEC0C401C58BD7700B5EE4C /* MZ.TypeDefines.swift in Sources */,
 				8E512C591C56107F009F114F /* ASTM30PointsInfo.swift in Sources */,
 				8E512C581C56107F009F114F /* ASTM30GraphicViewController.swift in Sources */,
-				8EB982971C51FD9700593591 /* MZ.Debugs.swift in Sources */,
-				8EB982941C51FD9700593591 /* MZ.swift in Sources */,
-				8EB9829B1C51FD9700593591 /* MZ.Types.swift in Sources */,
-				8EB982961C51FD9700593591 /* MZ.TouchDefines.swift in Sources */,
-				8EB982911C51FD9700593591 /* MZ.CGExtensions.swift in Sources */,
-				8EB9829A1C51FD9700593591 /* MZ.Ranges.swift in Sources */,
+				8EEC0C3B1C58BD7700B5EE4C /* MZ.InAppPurchaseManger.swift in Sources */,
+				8EEC0C3D1C58BD7700B5EE4C /* MZ.SceneWithQueue.swift in Sources */,
+				8EEC0C431C58BD7700B5EE4C /* MZ.Degrees.swift in Sources */,
+				8EEC0C421C58BD7700B5EE4C /* MZ.Debugs.swift in Sources */,
+				8EEC0C3F1C58BD7700B5EE4C /* MZ.swift in Sources */,
+				8EEC0C461C58BD7700B5EE4C /* MZ.Types.swift in Sources */,
+				8EEC0C411C58BD7700B5EE4C /* MZ.TouchDefines.swift in Sources */,
+				8EEC0C3C1C58BD7700B5EE4C /* MZ.CGExtensions.swift in Sources */,
+				8EEC0C451C58BD7700B5EE4C /* MZ.Ranges.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
