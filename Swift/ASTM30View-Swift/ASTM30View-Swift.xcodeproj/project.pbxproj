@@ -90,7 +90,7 @@
 				8EEC0C351C58BD7700B5EE4C /* Utilities */,
 			);
 			name = "MZ-Swifts";
-			path = "../../../../../iOS/src/lolimizuki/Projects/MZ-Swifts/MZ-Swifts/MZ-Swifts";
+			path = "../../../../iOS/src/lolimizuki/Projects/MZ-Swifts/MZ-Swifts/MZ-Swifts";
 			sourceTree = "<group>";
 		};
 		8EEC0C2B1C58BD7700B5EE4C /* Capabilities */ = {
@@ -133,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				8EF8D5EA1C50BB0B00D09733 /* ASColorVectorViewProj */,
+				8EEC0C2A1C58BD7700B5EE4C /* MZ-Swifts */,
 				8EF8D5E91C50BB0B00D09733 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -152,7 +153,6 @@
 				8EB9829C1C5202B100593591 /* ViewController.swift */,
 				8E512C531C56107F009F114F /* ASTM30GraphicViewController */,
 				8EF962911C59C1390056372C /* ASTM30RgRfGraphicViewController */,
-				8EEC0C2A1C58BD7700B5EE4C /* MZ-Swifts */,
 				8EF8D5EF1C50BB0B00D09733 /* Main.storyboard */,
 				8EF8D5F21C50BB0B00D09733 /* Assets.xcassets */,
 				8EF8D5F41C50BB0B00D09733 /* LaunchScreen.storyboard */,

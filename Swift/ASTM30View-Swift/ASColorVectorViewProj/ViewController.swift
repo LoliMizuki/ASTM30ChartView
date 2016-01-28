@@ -27,7 +27,7 @@ class ViewController: UIViewController {
 
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-        _tm30ViewController.refresh()
+        _tm30ViewController?.refresh()
     }
 
 
