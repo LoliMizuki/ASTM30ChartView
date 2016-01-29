@@ -10,7 +10,8 @@
 		8E512C571C56107F009F114F /* ASTM30CoordinateSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E512C541C56107F009F114F /* ASTM30CoordinateSpace.swift */; };
 		8E512C581C56107F009F114F /* ASTM30GraphicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E512C551C56107F009F114F /* ASTM30GraphicViewController.swift */; };
 		8E512C591C56107F009F114F /* ASTM30PointsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E512C561C56107F009F114F /* ASTM30PointsInfo.swift */; };
-		8EB9829D1C5202B100593591 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB9829C1C5202B100593591 /* ViewController.swift */; };
+		8E86C1B41C5B6233004C017B /* RgRfParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E86C1B31C5B6233004C017B /* RgRfParentViewController.swift */; };
+		8EB9829D1C5202B100593591 /* ColorVectorParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB9829C1C5202B100593591 /* ColorVectorParentViewController.swift */; };
 		8EEC0C3B1C58BD7700B5EE4C /* MZ.InAppPurchaseManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC0C2C1C58BD7700B5EE4C /* MZ.InAppPurchaseManger.swift */; };
 		8EEC0C3C1C58BD7700B5EE4C /* MZ.CGExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC0C2E1C58BD7700B5EE4C /* MZ.CGExtensions.swift */; };
 		8EEC0C3D1C58BD7700B5EE4C /* MZ.SceneWithQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC0C2F1C58BD7700B5EE4C /* MZ.SceneWithQueue.swift */; };
@@ -34,7 +35,8 @@
 		8E512C541C56107F009F114F /* ASTM30CoordinateSpace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTM30CoordinateSpace.swift; sourceTree = "<group>"; };
 		8E512C551C56107F009F114F /* ASTM30GraphicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTM30GraphicViewController.swift; sourceTree = "<group>"; };
 		8E512C561C56107F009F114F /* ASTM30PointsInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTM30PointsInfo.swift; sourceTree = "<group>"; };
-		8EB9829C1C5202B100593591 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8E86C1B31C5B6233004C017B /* RgRfParentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RgRfParentViewController.swift; sourceTree = "<group>"; };
+		8EB9829C1C5202B100593591 /* ColorVectorParentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorVectorParentViewController.swift; sourceTree = "<group>"; };
 		8EEC0C2C1C58BD7700B5EE4C /* MZ.InAppPurchaseManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.InAppPurchaseManger.swift; sourceTree = "<group>"; };
 		8EEC0C2E1C58BD7700B5EE4C /* MZ.CGExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.CGExtensions.swift; sourceTree = "<group>"; };
 		8EEC0C2F1C58BD7700B5EE4C /* MZ.SceneWithQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZ.SceneWithQueue.swift; sourceTree = "<group>"; };
@@ -150,7 +152,8 @@
 			isa = PBXGroup;
 			children = (
 				8EF8D5EB1C50BB0B00D09733 /* AppDelegate.swift */,
-				8EB9829C1C5202B100593591 /* ViewController.swift */,
+				8EB9829C1C5202B100593591 /* ColorVectorParentViewController.swift */,
+				8E86C1B31C5B6233004C017B /* RgRfParentViewController.swift */,
 				8E512C531C56107F009F114F /* ASTM30GraphicViewController */,
 				8EF962911C59C1390056372C /* ASTM30RgRfGraphicViewController */,
 				8EF8D5EF1C50BB0B00D09733 /* Main.storyboard */,
@@ -245,13 +248,14 @@
 				8EEC0C441C58BD7700B5EE4C /* MZ.Maths.swift in Sources */,
 				8EEC0C3E1C58BD7700B5EE4C /* MZ.Shapes.swift in Sources */,
 				8EF8D5EC1C50BB0B00D09733 /* AppDelegate.swift in Sources */,
-				8EB9829D1C5202B100593591 /* ViewController.swift in Sources */,
+				8EB9829D1C5202B100593591 /* ColorVectorParentViewController.swift in Sources */,
 				8E512C571C56107F009F114F /* ASTM30CoordinateSpace.swift in Sources */,
 				8EEC0C401C58BD7700B5EE4C /* MZ.TypeDefines.swift in Sources */,
 				8E512C591C56107F009F114F /* ASTM30PointsInfo.swift in Sources */,
 				8E512C581C56107F009F114F /* ASTM30GraphicViewController.swift in Sources */,
 				8EEC0C3B1C58BD7700B5EE4C /* MZ.InAppPurchaseManger.swift in Sources */,
 				8EEC0C3D1C58BD7700B5EE4C /* MZ.SceneWithQueue.swift in Sources */,
+				8E86C1B41C5B6233004C017B /* RgRfParentViewController.swift in Sources */,
 				8EEC0C431C58BD7700B5EE4C /* MZ.Degrees.swift in Sources */,
 				8EEC0C421C58BD7700B5EE4C /* MZ.Debugs.swift in Sources */,
 				8EF962931C59C1390056372C /* ASTM30RgRfGraphicViewController.swift in Sources */,

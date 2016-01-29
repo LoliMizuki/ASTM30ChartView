@@ -10,13 +10,12 @@ import UIKit
 
 class ASTM30RgRfGraphicViewController: UIViewController {
 
-    var coordinateSpace = ASTM30CoordinateSpace()
+    var coordinateSpace = ASTM30CoordinateSpace(xMin: 50, yMin: 60, xMax: 100, yMax: 140)
 
     var points = [ASTM30Point]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        coordinateSpace = ASTM30CoordinateSpace(xMin: 50, yMin: 60, xMax: 100, yMax: 140)
     }
 
     override func viewWillLayoutSubviews() {
@@ -31,7 +30,6 @@ class ASTM30RgRfGraphicViewController: UIViewController {
         _setCoordinateMarksToView(_coordinateView!)
         _setAndAddPointLayerToView(_coordinateView!)
         _setPointViewsToView(_coordinateView!)
-//        _setPointsPathToLayer(_pointsLayer!)
     }
 
 
@@ -137,55 +135,28 @@ extension ASTM30RgRfGraphicViewController {
     }
 
     private func _setPointViewsToView(view: UIView) {
-        // test data
-        for i in 0..<10 {
-            let a = ASTM30Point(key: "a",
-                value: CGPoint(
-                    x: MZ.Maths.randomFloat(min: coordinateSpace.xMin.mzFloatValue, max: coordinateSpace.xMax.mzFloatValue).cgFloatValue,
-                    y: MZ.Maths.randomFloat(min: coordinateSpace.yMin.mzFloatValue, max: coordinateSpace.yMax.mzFloatValue).cgFloatValue
-                ))
+        func realPointPositionFromTm30Point(point: ASTM30Point) -> CGPoint {
+            let xOffset = point.value.x - coordinateSpace.xMin
+            let yOffset = point.value.y - coordinateSpace.yMin
 
-            points.append(a)
+            let realX = (view.frame.width/coordinateSpace.xLength)*xOffset
+            let realY = (view.frame.height/coordinateSpace.yLength)*yOffset
+
+            return CGPoint(x: realX, y: realY)
         }
 
-        let pointsPath = UIBezierPath()
-
-        // TODO: fix var names
-        func realPointPositionFromPoint(point: ASTM30Point) -> CGPoint {
-            let x = point.value.x - coordinateSpace.xMin
-            let y = point.value.y - coordinateSpace.yMin
-
-            let xx = (view.frame.width/coordinateSpace.xLength)*x
-            let yy = (view.frame.height/coordinateSpace.yLength)*y
-
-            return CGPoint(x: xx, y: yy)
-        }
-
-        var i = 0
+        var pointViews = [UIView]()
         for point in points {
-            let pointPath = UIBezierPath(arcCenter: CGPoint.zero,
-                radius: 6,
-                startAngle: 0,
-                endAngle: (M_PI*2.0).cgFloatValue,
-                clockwise: true
-            )
+            let pointView = _addAndGetPointViewToView(view, at: realPointPositionFromTm30Point(point))
+            pointViews.append(pointView)
+        }
 
-            let pointLayer = CAShapeLayer()
-            pointLayer.path = pointPath.CGPath
-            pointLayer.fillColor = UIColor(red: 0.129, green: 0.286, blue: 0.486, alpha: 1.0).CGColor
-
-            let pointView = UIView()
-            pointView.frame.size = CGSize(width: 10, height: 10)
-            pointView.layer.addSublayer(pointLayer)
-            pointLayer.position = CGPoint(x: 5, y: 5)
-
-            view.addSubview(pointView)
-            pointView.center = realPointPositionFromPoint(point)
-
+        pointViews.enumerate().forEach {
+            (index, pointView) in
             pointView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0, 0)
 
-            UIView.animateWithDuration(2.0,
-                delay: Double(i)*0.05,
+            UIView.animateWithDuration(1.5,
+                delay: Double(index)*0.05,
                 usingSpringWithDamping: 0.5,
                 initialSpringVelocity: 0.0,
                 options: UIViewAnimationOptions.CurveEaseInOut,
@@ -194,8 +165,6 @@ extension ASTM30RgRfGraphicViewController {
                 },
                 completion: nil
             )
-
-            i++
         }
     }
 
@@ -288,6 +257,76 @@ extension ASTM30RgRfGraphicViewController {
         subLinesLayer.frame.origin = CGPoint.zero
     }
 
+    private func _addCoordinateMarkLabelsToView(view: UIView,
+        textStartValue: CGFloat,
+        textAlignmen: NSTextAlignment = .Center,
+        positions: [CGPoint],
+        offset: CGPoint = CGPoint.zero,
+        useCommonFrameSize: Bool = false
+    ) {
+        var maxSize = CGSize.zero
+        var labels = [UILabel]()
+
+        positions.enumerate().forEach {
+            (index, position) -> () in
+            let label = self._addAndGetLabelWithText("\(Int(textStartValue) + index*10)",
+                center: position + offset,
+                alignment: textAlignmen,
+                toView: view
+            )
+
+            maxSize = CGSize(
+                width: max(label.frame.width, maxSize.width),
+                height: max(label.frame.height, maxSize.height)
+            )
+
+            labels.append(label)
+        }
+
+        if useCommonFrameSize {
+            labels.forEach { label in label.frame.size = maxSize }
+        }
+    }
+    
+    private func _addAndGetLabelWithText(text: String,
+        center: CGPoint,
+        alignment: NSTextAlignment = .Center,
+        toView view: UIView
+    ) -> UILabel {
+        let label = UILabel()
+        label.text = text
+        label.sizeToFit()
+
+        view.addSubview(label)
+        label.center = center
+        label.textAlignment = alignment
+
+        return label
+    }
+
+    private func _addAndGetPointViewToView(view: UIView, at center: CGPoint) -> UIView {
+        let pointPath = UIBezierPath(arcCenter: CGPoint.zero,
+            radius: 2*UIScreen.mainScreen().scale,
+            startAngle: 0,
+            endAngle: (M_PI*2.0).cgFloatValue,
+            clockwise: true
+        )
+
+        let pointLayer = CAShapeLayer()
+        pointLayer.path = pointPath.CGPath
+        pointLayer.fillColor = UIColor(red: 0.129, green: 0.286, blue: 0.486, alpha: 1.0).CGColor
+
+        let pointView = UIView()
+        pointView.frame.size = CGSize(width: 10, height: 10)
+        pointView.layer.addSublayer(pointLayer)
+        pointLayer.position = CGPoint(x: 5, y: 5)
+
+        view.addSubview(pointView)
+        pointView.center = center
+
+        return pointView
+    }
+
     private func _innerLinesPathAtXAxisFromMin(min: CGFloat,
         toMax max: CGFloat,
         numberOfLines: Int,
@@ -346,52 +385,5 @@ extension ASTM30RgRfGraphicViewController {
         }
 
         return path
-    }
-
-    private func _addCoordinateMarkLabelsToView(view: UIView,
-        textStartValue: CGFloat,
-        textAlignmen: NSTextAlignment = .Center,
-        positions: [CGPoint],
-        offset: CGPoint = CGPoint.zero,
-        useCommonFrameSize: Bool = false
-    ) {
-        var maxSize = CGSize.zero
-        var labels = [UILabel]()
-
-        positions.enumerate().forEach {
-            (index, position) -> () in
-            let label = self._addAndGetLabelWithText("\(Int(textStartValue) + index*10)",
-                center: position + offset,
-                alignment: textAlignmen,
-                toView: view
-            )
-
-            maxSize = CGSize(
-                width: max(label.frame.width, maxSize.width),
-                height: max(label.frame.height, maxSize.height)
-            )
-
-            labels.append(label)
-        }
-
-        if useCommonFrameSize {
-            labels.forEach { label in label.frame.size = maxSize }
-        }
-    }
-    
-    private func _addAndGetLabelWithText(text: String,
-        center: CGPoint,
-        alignment: NSTextAlignment = .Center,
-        toView view: UIView
-    ) -> UILabel {
-        let label = UILabel()
-        label.text = text
-        label.sizeToFit()
-
-        view.addSubview(label)
-        label.center = center
-        label.textAlignment = alignment
-
-        return label
     }
 }

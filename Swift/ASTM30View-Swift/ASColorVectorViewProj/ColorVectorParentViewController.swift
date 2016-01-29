@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ColorVectorParentViewController.swift
 //  ASTM30View-Swift
 //
 //  Created by Inaba Mizuki on 2016/1/22.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ColorVectorParentViewController: UIViewController {
 
     @IBOutlet weak var containerView: UIView!
 
@@ -39,7 +39,7 @@ class ViewController: UIViewController {
 
 // MARK: IBActons
 
-extension ViewController {
+extension ColorVectorParentViewController {
 
     @IBAction func didTouchUpInsideMaskButton(button: UIButton) {
         let type =
@@ -60,7 +60,7 @@ extension ViewController {
 
 
 // Test
-extension ViewController {
+extension ColorVectorParentViewController {
 
     private func __testSetting() {
         __addTestData()
@@ -112,7 +112,7 @@ extension ViewController {
 
 
 // MARK: Test Datas
-extension ViewController {
+extension ColorVectorParentViewController {
 
     func _referencePoints() -> [CGPoint] {
         return [
