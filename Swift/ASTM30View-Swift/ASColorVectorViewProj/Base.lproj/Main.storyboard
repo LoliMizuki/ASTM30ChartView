@@ -76,7 +76,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kus-ga-VIp">
-                                <rect key="frame" x="120" y="60" width="360" height="480"/>
+                                <rect key="frame" x="60" y="60" width="480" height="480"/>
                                 <connections>
                                     <segue destination="8fM-3H-XF0" kind="embed" id="dCT-fE-YW3"/>
                                 </connections>
@@ -87,7 +87,7 @@
                             <constraint firstItem="kus-ga-VIp" firstAttribute="centerY" secondItem="wwj-V2-fsc" secondAttribute="centerY" id="RkM-ve-YEd"/>
                             <constraint firstItem="kus-ga-VIp" firstAttribute="height" secondItem="wwj-V2-fsc" secondAttribute="height" multiplier="0.8" id="YFv-RB-LU0"/>
                             <constraint firstItem="kus-ga-VIp" firstAttribute="centerX" secondItem="wwj-V2-fsc" secondAttribute="centerX" id="ds1-Xd-9FA"/>
-                            <constraint firstItem="kus-ga-VIp" firstAttribute="width" secondItem="wwj-V2-fsc" secondAttribute="width" multiplier="0.6" id="txi-Ga-i8R"/>
+                            <constraint firstItem="kus-ga-VIp" firstAttribute="width" secondItem="wwj-V2-fsc" secondAttribute="width" multiplier="0.8" id="txi-Ga-i8R"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="RgRf" id="8X4-G7-vOU"/>
@@ -136,8 +136,12 @@
         <scene sceneID="ytS-rZ-EvX">
             <objects>
                 <viewController id="8fM-3H-XF0" customClass="ASTM30RgRfGraphicViewController" customModule="ASTM30View_Swift" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="onH-47-5Hb"/>
+                        <viewControllerLayoutGuide type="bottom" id="ezR-od-DRC"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="sHF-yy-rAD">
-                        <rect key="frame" x="0.0" y="0.0" width="360" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
