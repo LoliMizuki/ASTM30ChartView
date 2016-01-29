@@ -12,7 +12,7 @@ class ASTM30RgRfGraphicViewController: UIViewController {
 
     var coordinateSpace = ASTM30CoordinateSpace()
 
-    var pointInfos = [ASTM30PointsInfo]()
+    var points = [ASTM30Point]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +29,9 @@ class ASTM30RgRfGraphicViewController: UIViewController {
         _setGrayLayersToView(_coordinateView!)
         _setBoardLinesToView(_coordinateView!)
         _setCoordinateMarksToView(_coordinateView!)
+        _setAndAddPointLayerToView(_coordinateView!)
+        _setPointViewsToView(_coordinateView!)
+//        _setPointsPathToLayer(_pointsLayer!)
     }
 
 
@@ -36,7 +39,10 @@ class ASTM30RgRfGraphicViewController: UIViewController {
 
     var _coordinateView: UIView? = nil
 
+    var _pointsLayer: CAShapeLayer? = nil
+
     deinit {
+        _pointsLayer?.removeFromSuperlayer()
         _coordinateView?.removeFromSuperview()
     }
 }
@@ -81,13 +87,13 @@ extension ASTM30RgRfGraphicViewController {
         let grayLayer = CAShapeLayer()
         grayLayer.path = doubleTriangelPathWithSize(view.frame.size).CGPath
         grayLayer.strokeColor = UIColor.clearColor().CGColor
-        grayLayer.fillColor = UIColor.grayColor().CGColor
+        grayLayer.fillColor = UIColor(red: 0.941, green: 0.941, blue: 0.941, alpha: 1.0).CGColor
         view.layer.addSublayer(grayLayer)
 
         let darkGrayLayer = CAShapeLayer()
         darkGrayLayer.path = doubleTriangelPathWithSize(CGSize(width: view.frame.width*0.8, height: view.frame.height)).CGPath
         darkGrayLayer.strokeColor = UIColor.clearColor().CGColor
-        darkGrayLayer.fillColor = UIColor.darkGrayColor().CGColor
+        darkGrayLayer.fillColor = UIColor(red: 0.745, green: 0.745, blue: 0.745, alpha: 1.0).CGColor
         view.layer.addSublayer(darkGrayLayer)
     }
 
@@ -118,12 +124,87 @@ extension ASTM30RgRfGraphicViewController {
         )
     }
 
+    private func _setAndAddPointLayerToView(view: UIView) {
+        _pointsLayer?.removeFromSuperlayer()
+
+        let layer = CAShapeLayer()
+        layer.frame.size = view.frame.size
+        layer.fillColor = UIColor(red: 0.129, green: 0.286, blue: 0.486, alpha: 1.0).CGColor
+
+        view.layer.addSublayer(layer)
+
+        _pointsLayer = layer
+    }
+
+    private func _setPointViewsToView(view: UIView) {
+        // test data
+        for i in 0..<10 {
+            let a = ASTM30Point(key: "a",
+                value: CGPoint(
+                    x: MZ.Maths.randomFloat(min: coordinateSpace.xMin.mzFloatValue, max: coordinateSpace.xMax.mzFloatValue).cgFloatValue,
+                    y: MZ.Maths.randomFloat(min: coordinateSpace.yMin.mzFloatValue, max: coordinateSpace.yMax.mzFloatValue).cgFloatValue
+                ))
+
+            points.append(a)
+        }
+
+        let pointsPath = UIBezierPath()
+
+        // TODO: fix var names
+        func realPointPositionFromPoint(point: ASTM30Point) -> CGPoint {
+            let x = point.value.x - coordinateSpace.xMin
+            let y = point.value.y - coordinateSpace.yMin
+
+            let xx = (view.frame.width/coordinateSpace.xLength)*x
+            let yy = (view.frame.height/coordinateSpace.yLength)*y
+
+            return CGPoint(x: xx, y: yy)
+        }
+
+        var i = 0
+        for point in points {
+            let pointPath = UIBezierPath(arcCenter: CGPoint.zero,
+                radius: 6,
+                startAngle: 0,
+                endAngle: (M_PI*2.0).cgFloatValue,
+                clockwise: true
+            )
+
+            let pointLayer = CAShapeLayer()
+            pointLayer.path = pointPath.CGPath
+            pointLayer.fillColor = UIColor(red: 0.129, green: 0.286, blue: 0.486, alpha: 1.0).CGColor
+
+            let pointView = UIView()
+            pointView.frame.size = CGSize(width: 10, height: 10)
+            pointView.layer.addSublayer(pointLayer)
+            pointLayer.position = CGPoint(x: 5, y: 5)
+
+            view.addSubview(pointView)
+            pointView.center = realPointPositionFromPoint(point)
+
+            pointView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0, 0)
+
+            UIView.animateWithDuration(2.0,
+                delay: Double(i)*0.05,
+                usingSpringWithDamping: 0.5,
+                initialSpringVelocity: 0.0,
+                options: UIViewAnimationOptions.CurveEaseInOut,
+                animations: {
+                    pointView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1)
+                },
+                completion: nil
+            )
+
+            i++
+        }
+    }
+
     private func _addMainGridLinesAndMarkTextToView(view: UIView, numberOfBlockAtX: Int, numberOfBlockAtY: Int) {
         var labelPositionsForXAxis = [CGPoint]()
         var labelPositionsForYAxis = [CGPoint]()
 
         let mainLineslayer = CAShapeLayer()
-        mainLineslayer.frame = CGRect(size: view.frame.size)
+        mainLineslayer.frame.size = view.frame.size
         mainLineslayer.path = {
             let path = UIBezierPath()
 
