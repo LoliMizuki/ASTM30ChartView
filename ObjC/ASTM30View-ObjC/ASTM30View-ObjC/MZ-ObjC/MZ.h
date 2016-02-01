@@ -10,6 +10,7 @@
 #define MZ_h
 
 #import "MZLogs.h"
+#import "MZBlocks.h"
 #import "MZMath.h"
 #import "MZNSCollectionExtensions.h"
 #import "MZCodeMiracle.h"

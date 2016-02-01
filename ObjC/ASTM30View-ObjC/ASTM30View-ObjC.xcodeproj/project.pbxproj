@@ -13,6 +13,7 @@
 		8E5C9BD61C571956000E819B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E5C9BD41C571956000E819B /* Main.storyboard */; };
 		8E5C9BD81C571956000E819B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E5C9BD71C571956000E819B /* Assets.xcassets */; };
 		8E5C9BDB1C571956000E819B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E5C9BD91C571956000E819B /* LaunchScreen.storyboard */; };
+		DF00474A1C5F3EE600A5C4F4 /* ASTM30RfRgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF0047491C5F3EE600A5C4F4 /* ASTM30RfRgViewController.m */; };
 		DF2EA6D81C5F327000B7139C /* ASTM30ColorVectorViewController+PointsInfoToLayersDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = DF2EA6CF1C5F327000B7139C /* ASTM30ColorVectorViewController+PointsInfoToLayersDictionary.m */; };
 		DF2EA6D91C5F327000B7139C /* ASTM30ColorVectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF2EA6D11C5F327000B7139C /* ASTM30ColorVectorViewController.m */; };
 		DF2EA6DA1C5F327000B7139C /* ASTM30CoordinateSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = DF2EA6D41C5F327000B7139C /* ASTM30CoordinateSpace.m */; };
@@ -32,6 +33,9 @@
 		8E5C9BD71C571956000E819B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E5C9BDA1C571956000E819B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8E5C9BDC1C571956000E819B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DF0047481C5F3EE600A5C4F4 /* ASTM30RfRgViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASTM30RfRgViewController.h; sourceTree = "<group>"; };
+		DF0047491C5F3EE600A5C4F4 /* ASTM30RfRgViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASTM30RfRgViewController.m; sourceTree = "<group>"; };
+		DF00474B1C5F573100A5C4F4 /* MZBlocks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MZBlocks.h; path = "../../../../../../iOS/src/lolimizuki/Projects/MZ-ObjC/MZBlocks.h"; sourceTree = "<group>"; };
 		DF2EA6CE1C5F327000B7139C /* ASTM30ColorVectorViewController+PointsInfoToLayersDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ASTM30ColorVectorViewController+PointsInfoToLayersDictionary.h"; sourceTree = "<group>"; };
 		DF2EA6CF1C5F327000B7139C /* ASTM30ColorVectorViewController+PointsInfoToLayersDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ASTM30ColorVectorViewController+PointsInfoToLayersDictionary.m"; sourceTree = "<group>"; };
 		DF2EA6D01C5F327000B7139C /* ASTM30ColorVectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASTM30ColorVectorViewController.h; sourceTree = "<group>"; };
@@ -103,12 +107,21 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		DF0047471C5F3ED700A5C4F4 /* ASTM30RfRgViewController */ = {
+			isa = PBXGroup;
+			children = (
+				DF0047481C5F3EE600A5C4F4 /* ASTM30RfRgViewController.h */,
+				DF0047491C5F3EE600A5C4F4 /* ASTM30RfRgViewController.m */,
+			);
+			path = ASTM30RfRgViewController;
+			sourceTree = "<group>";
+		};
 		DF2EA6CC1C5F327000B7139C /* ASTM30 */ = {
 			isa = PBXGroup;
 			children = (
 				DF2EA6CD1C5F327000B7139C /* ASTM30ColorVectorViewController */,
 				DF2EA6D21C5F327000B7139C /* ASTM30Datas */,
-				DF2EA6D71C5F327000B7139C /* ASTM30RgRfGraphicViewController */,
+				DF0047471C5F3ED700A5C4F4 /* ASTM30RfRgViewController */,
 			);
 			path = ASTM30;
 			sourceTree = "<group>";
@@ -135,18 +148,12 @@
 			path = ASTM30Datas;
 			sourceTree = "<group>";
 		};
-		DF2EA6D71C5F327000B7139C /* ASTM30RgRfGraphicViewController */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ASTM30RgRfGraphicViewController;
-			sourceTree = "<group>";
-		};
 		DF2EA6DC1C5F327800B7139C /* MZ-ObjC */ = {
 			isa = PBXGroup;
 			children = (
 				DF2EA6DD1C5F327800B7139C /* MZ.h */,
 				DF2EA6E61C5F332200B7139C /* MZCodeMiracle.h */,
+				DF00474B1C5F573100A5C4F4 /* MZBlocks.h */,
 				DF2EA6DE1C5F32D600B7139C /* MZLogs.h */,
 				DF2EA6DF1C5F32D600B7139C /* MZMath.h */,
 				DF2EA6E01C5F32D600B7139C /* MZMath.m */,
@@ -230,6 +237,7 @@
 				DF2EA6E41C5F32FF00B7139C /* MZNSCollectionExtensions.m in Sources */,
 				8E5C9BD31C571956000E819B /* ViewController.m in Sources */,
 				8E5C9BD01C571956000E819B /* AppDelegate.m in Sources */,
+				DF00474A1C5F3EE600A5C4F4 /* ASTM30RfRgViewController.m in Sources */,
 				DF2EA6DA1C5F327000B7139C /* ASTM30CoordinateSpace.m in Sources */,
 				DF2EA6DB1C5F327000B7139C /* ASTM30PointsInfo.m in Sources */,
 				DF2EA6E11C5F32D600B7139C /* MZMath.m in Sources */,

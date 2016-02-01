@@ -46,7 +46,7 @@ class ASTM30RfRgViewController: UIViewController {
 }
 
 
-// Graphic components
+// MARK: Graphic components
 extension ASTM30RfRgViewController {
 
     private func _setAndAddCoordinateViewToView(view: UIView) {
@@ -146,7 +146,8 @@ extension ASTM30RfRgViewController {
         }
 
         var pointViews = [UIView]()
-        for point in points {
+        points.forEach {
+            point in
             let pointView = _addAndGetPointViewToView(view, at: realPointPositionFromTm30Point(point))
             pointViews.append(pointView)
         }
@@ -373,10 +374,10 @@ extension ASTM30RfRgViewController {
 
         let path = UIBezierPath()
         for i in 0..<numberOfLines {
-            let linePath = UIBezierPath()
             let from = CGPoint(x: xBase, y: start + interval*i.cgFloatValue)
             let to = CGPoint(x: xBase + lengthOfLine, y: start + interval*i.cgFloatValue)
 
+            let linePath = UIBezierPath()
             linePath.moveToPoint(from)
             linePath.addLineToPoint(to)
 
