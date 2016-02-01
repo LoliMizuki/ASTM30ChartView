@@ -1,18 +1,18 @@
 //
-//  ASTM30GraphicViewController.m
+//  ASTM30ColorVectorViewController.m
 //  ASTM30View-ObjC
 //
 //  Created by Inaba Mizuki on 2016/1/26.
 //  Copyright © 2016年 Inaba Mizuki. All rights reserved.
 //
 
-#import "ASTM30GraphicViewController.h"
-#import "ASTM30GraphicViewController+PointsInfoToLayersDictionary.h"
+#import "ASTM30ColorVectorViewController.h"
+#import "ASTM30ColorVectorViewController+PointsInfoToLayersDictionary.h"
 #import "ASTM30CoordinateSpace.h"
 #import "ASTM30PointsInfo.h"
 #import "MZ.h"
 
-@interface ASTM30GraphicViewController (PresentViewsAndLayers)
+@interface ASTM30ColorVectorViewController (PresentViewsAndLayers)
 - (void)_setAndAddGraphicBackgroundViewToView:(UIView *)view;
 - (void)_setAndAddGridLayerToView:(UIView *)view;
 - (void)_setAndAddPointsLayersViewToView:(UIView *)view;
@@ -24,7 +24,7 @@
 - (UIBezierPath *)_arrowPathFromPoint:(CGPoint)from toPoint:(CGPoint)to;
 @end
 
-@interface ASTM30GraphicViewController (ASTM30GraphicTypeSwitchAnimations)
+@interface ASTM30ColorVectorViewController (ASTM30GraphicTypeSwitchAnimations)
 - (void)_animateMaskEnable:(BOOL)maskEnable duration:(NSTimeInterval)duration;
 - (void)_animateMaskEnableToGraphicBackground:(BOOL)maskEnable duration:(NSTimeInterval)duration;
 - (void)_animateMaskEnableToGraphicBackgroundForFade:(BOOL)maskEnable duration:(NSTimeInterval)duration;
@@ -32,14 +32,14 @@
 - (void)_animateMaskEnableToPointsLinesLayer:(BOOL)maskEnable duration:(NSTimeInterval)duration;
 @end
 
-@interface ASTM30GraphicViewController (Supports)
+@interface ASTM30ColorVectorViewController (Supports)
 - (CGPoint)_pointFrom:(CGPoint)point inCoordinateSpace:(ASTM30CoordinateSpace*)coordinateSpace;
 @end
 
 
 # pragma mark - Implementation
 
-@implementation ASTM30GraphicViewController {
+@implementation ASTM30ColorVectorViewController {
     PointsInfoToLayersDictionary* _pointsInfoToLayersDict;
 
     UIView* _pointsLinesLayerView;
@@ -166,7 +166,7 @@
 
 @end
 
-@implementation ASTM30GraphicViewController (PresentViewsAndLayers)
+@implementation ASTM30ColorVectorViewController (PresentViewsAndLayers)
 
 - (void)_setAndAddGraphicBackgroundViewToView:(UIView *)view {
     [_graphicBackgroundView removeFromSuperview];
@@ -377,7 +377,7 @@
 
 @end
 
-@implementation ASTM30GraphicViewController (ASTM30GraphicTypeSwitchAnimations)
+@implementation ASTM30ColorVectorViewController (ASTM30GraphicTypeSwitchAnimations)
 
 - (void)_animateMaskEnable:(BOOL)maskEnable duration:(NSTimeInterval)duration {
     [self _animateMaskEnableToGraphicBackground:maskEnable duration:duration];
@@ -454,7 +454,7 @@
 
 @end
 
-@implementation ASTM30GraphicViewController (Supports)
+@implementation ASTM30ColorVectorViewController (Supports)
 
 - (CGPoint)_pointFrom:(CGPoint)point inCoordinateSpace:(ASTM30CoordinateSpace*)coordinateSpace {
     mz_var(size, self.view.frame.size);

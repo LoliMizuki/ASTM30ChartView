@@ -1,5 +1,5 @@
 //
-//  ASTM30GraphicViewController.h
+//  ASTM30ColorVectorViewController.h
 //  ASTM30View-ObjC
 //
 //  Created by Inaba Mizuki on 2016/1/26.
@@ -19,7 +19,7 @@ typedef NS_ENUM(NSUInteger, ASTM30GraphicType) {
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ASTM30GraphicViewController : UIViewController
+@interface ASTM30ColorVectorViewController : UIViewController
 
 @property (nonatomic, readwrite, strong) ASTM30CoordinateSpace* coordinateSpace;
 @property (nonatomic, readwrite, strong, nullable) NSString* testSourceName;

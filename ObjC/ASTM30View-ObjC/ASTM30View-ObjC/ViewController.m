@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "ASTM30CoordinateSpace.h"
 #import "ASTM30PointsInfo.h"
-#import "ASTM30GraphicViewController.h"
+#import "ASTM30ColorVectorViewController.h"
 #import "MZ.h"
 
 @interface ViewController (IB)
@@ -24,7 +24,7 @@
 
 
 @implementation ViewController {
-    ASTM30GraphicViewController* _tm30ViewController;
+    ASTM30ColorVectorViewController* _tm30ViewController;
 }
 
 - (void)viewDidLoad {
@@ -36,7 +36,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     [super prepareForSegue:segue sender:sender];
-    _tm30ViewController = (ASTM30GraphicViewController *)segue.destinationViewController;
+    _tm30ViewController = (ASTM30ColorVectorViewController *)segue.destinationViewController;
 }
 
 # pragma mark - Test

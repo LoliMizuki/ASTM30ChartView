@@ -6,8 +6,8 @@
 //  Copyright © 2016年 Inaba Mizuki. All rights reserved.
 //
 
-#import "ASTM30GraphicViewController+PointsInfoToLayersDictionary.h"
-#import "ASTM30GraphicViewController.h"
+#import "ASTM30ColorVectorViewController+PointsInfoToLayersDictionary.h"
+#import "ASTM30ColorVectorViewController.h"
 #import "ASTM30PointsInfo.h"
 #import "MZ.h"
 

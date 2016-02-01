@@ -49,10 +49,10 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
-        <!--Graphic View Controller-->
+        <!--Color Vector View Controller-->
         <scene sceneID="S89-fj-3SW">
             <objects>
-                <viewController id="y5m-ft-y4P" customClass="ASTM30GraphicViewController" sceneMemberID="viewController">
+                <viewController id="y5m-ft-y4P" customClass="ASTM30ColorVectorViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="g8d-Fm-qa7"/>
                         <viewControllerLayoutGuide type="bottom" id="7gB-fE-Bf6"/>

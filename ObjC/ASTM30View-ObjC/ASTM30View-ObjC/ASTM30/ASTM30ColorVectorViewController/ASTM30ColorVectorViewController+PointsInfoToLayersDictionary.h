@@ -5,7 +5,7 @@
 //  Created by Inaba Mizuki on 2016/1/27.
 //  Copyright © 2016年 Inaba Mizuki. All rights reserved.
 //
-//  Internal support class for ASTM30GraphicViewController
+//  Internal support class for ASTM30ColorVectorViewController
 //  - Act as NSDictionary<ASTM30PointsInfo*, CAShapeLayer*>
 
 
