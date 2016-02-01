@@ -1,5 +1,5 @@
 //
-//  ASTM30GraphicViewController.swift
+//  ASTM30ColorVectorViewController.swift
 //
 //  Created by Inaba Mizuki on 2016/1/21.
 //  Copyright © 2016年 AsenseTek. All rights reserved.
@@ -12,7 +12,7 @@ enum ASTM30GraphicType: Int {
     case ColorDistortion
 }
 
-class ASTM30GraphicViewController: UIViewController {
+class ASTM30ColorVectorViewController: UIViewController {
 
     var coordinateSpace = ASTM30CoordinateSpace()
 
@@ -125,7 +125,7 @@ class ASTM30GraphicViewController: UIViewController {
 
 
 //  MARK: Present views and layers
-extension ASTM30GraphicViewController {
+extension ASTM30ColorVectorViewController {
 
     private func _setAndAddGraphicBackgroundViewToView(view: UIView) {
         _graphicBackgroundView?.removeFromSuperview()
@@ -326,7 +326,7 @@ extension ASTM30GraphicViewController {
 
 
 // MARK: ASTM30GraphicType switch animations
-extension ASTM30GraphicViewController {
+extension ASTM30ColorVectorViewController {
 
     private func _animateMaskEnable(maskEnable: Bool, duration: NSTimeInterval) {
         _animateMaskEnableToGraphicBackground(maskEnable, duration: duration)
@@ -404,7 +404,7 @@ extension ASTM30GraphicViewController {
 
 
 // MARK: Supports
-extension ASTM30GraphicViewController {
+extension ASTM30ColorVectorViewController {
 
     private func _pointFrom(point: CGPoint, inCoordinateSpace coordinateSpace: ASTM30CoordinateSpace)
     -> CGPoint {

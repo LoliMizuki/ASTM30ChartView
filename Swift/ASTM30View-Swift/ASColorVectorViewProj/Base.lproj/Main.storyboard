@@ -99,7 +99,7 @@
         <!--Color Vector-->
         <scene sceneID="Dyx-mv-C5x">
             <objects>
-                <viewController id="5iU-JM-RAY" userLabel="Color Vector" customClass="ASTM30GraphicViewController" customModule="ASTM30View_Swift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="5iU-JM-RAY" userLabel="Color Vector" customClass="ASTM30ColorVectorViewController" customModule="ASTM30View_Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qXP-W3-vSg"/>
                         <viewControllerLayoutGuide type="bottom" id="OJt-zC-u8D"/>

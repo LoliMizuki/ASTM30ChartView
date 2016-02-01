@@ -22,7 +22,7 @@ class ColorVectorParentViewController: UIViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         super.prepareForSegue(segue, sender: sender)
-        _tm30ViewController = segue.destinationViewController as! ASTM30GraphicViewController
+        _tm30ViewController = segue.destinationViewController as! ASTM30ColorVectorViewController
     }
 
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -33,7 +33,7 @@ class ColorVectorParentViewController: UIViewController {
 
     // MARK: Private
 
-    private var _tm30ViewController: ASTM30GraphicViewController! = nil
+    private var _tm30ViewController: ASTM30ColorVectorViewController! = nil
 }
 
 
