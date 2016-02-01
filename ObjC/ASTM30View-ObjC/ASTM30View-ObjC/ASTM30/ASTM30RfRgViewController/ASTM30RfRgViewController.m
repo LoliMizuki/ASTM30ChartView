@@ -22,11 +22,11 @@
 - (void)_setAndAddPointLayerToView:(UIView *)view;
 - (void)_setPointViewsToView:(UIView *)view;
 - (void)_addMainGridLinesAndNumberLabelToView:(UIView *)view
-                             numberOfBlockAtX:(int)numberOfBlockAtX
-                             numberOfBlockAtY:(int)numberOfBlockAtY;
+                             numberOfBlockAtX:(NSInteger)numberOfBlockAtX
+                             numberOfBlockAtY:(NSInteger)numberOfBlockAtY;
 - (void)_addSubGridLinesToLayer:(UIView *)view
-               numberOfBlockAtX:(int)numberOfBlockAtX
-               numberOfBlockAtY:(int)numberOfBlockAtY;
+               numberOfBlockAtX:(NSInteger)numberOfBlockAtX
+               numberOfBlockAtY:(NSInteger)numberOfBlockAtY;
 - (UILabel *)_addAndGetLabelWithText:(NSString *)text
                               center:(CGPoint)center
                            alignment:(NSTextAlignment)alignment
@@ -44,20 +44,20 @@
                                   offset:(CGPoint)offset;
 - (UIBezierPath *)_innerLinesPathAtXAxisFromMin:(CGFloat)min
                                           toMax:(CGFloat)max
-                                  numberOfLines:(int)numberOfLines
+                                  numberOfLines:(NSInteger)numberOfLines
                                           yBase:(CGFloat)yBase
                                    lengthOfLine:(CGFloat)lengthOfLine
                            isIncludeHeadAndTail:(BOOL)isIncludeHeadAndTail
                                      didAddLine:(void (^)(CGPoint pathFrom, CGPoint pathTo, UIBezierPath* path))didAddLine;
 - (UIBezierPath *)_innerLinesPathAtXAxisFromMin:(CGFloat)min
                                           toMax:(CGFloat)max
-                                  numberOfLines:(int)numberOfLines
+                                  numberOfLines:(NSInteger)numberOfLines
                                           yBase:(CGFloat)yBase
                                    lengthOfLine:(CGFloat)lengthOfLine
                            isIncludeHeadAndTail:(BOOL)isIncludeHeadAndTail;
 - (UIBezierPath *)_innerLinesPathAtYAxisFromMin:(CGFloat)min
                                           toMax:(CGFloat)max
-                                  numberOfLines:(int)numberOfLines
+                                  numberOfLines:(NSInteger)numberOfLines
                                           xBase:(CGFloat)xBase
                                    lengthOfLine:(CGFloat)lengthOfLine
                            isIncludeHeadAndTail:(BOOL)isIncludeHeadAndTail
@@ -110,7 +110,8 @@
 - (void)_setAndAddCoordinateViewToView:(UIView *)view {
     [_coordinateView removeFromSuperview];
 
-    mz_var(coordinateView, [[UIView alloc] initWithFrame:CGRectSetScale(view.frame, 0.8)]);
+    mz_var(frame, CGRectMake(0, 0, view.frame.size.width*0.8, view.frame.size.height*0.8));
+    mz_var(coordinateView, [[UIView alloc] initWithFrame:frame]);
 
     [view addSubview:coordinateView];
     coordinateView.center = view.center;
@@ -155,7 +156,7 @@
 
 - (void)_setBoardLinesToView:(UIView *)view {
     mz_var(layer, [CAShapeLayer layer]);
-    CGRectSetSize(layer.frame, view.frame.size);
+    layer.frame = CGRectSetSize(layer.frame, view.frame.size);
     layer.path = [UIBezierPath bezierPathWithRect:CGRectFromSize(view.frame.size)].CGPath;
 
     layer.lineWidth = 2.0;
@@ -166,8 +167,8 @@
 }
 
 - (void)_setCoordinateGridLinesAndLabelsToView:(UIView *)view {
-    int numberOfBlockAtX = (self.coordinateSpace.xMax - self.coordinateSpace.xMin)/10.0;
-    int numberOfBlockAtY = (self.coordinateSpace.yMax - self.coordinateSpace.yMin)/10.0;
+    NSInteger numberOfBlockAtX = (self.coordinateSpace.xMax - self.coordinateSpace.xMin)/10.0;
+    NSInteger numberOfBlockAtY = (self.coordinateSpace.yMax - self.coordinateSpace.yMin)/10.0;
 
     [self _addMainGridLinesAndNumberLabelToView:view
                                numberOfBlockAtX:numberOfBlockAtX
@@ -182,7 +183,7 @@
     [_pointsLayer removeFromSuperlayer];
 
     mz_var(layer, [CAShapeLayer layer]);
-    CGRectSetSize(layer.frame, view.frame.size);
+    layer.frame = CGRectSetSize(layer.frame, view.frame.size);
     layer.fillColor = [UIColor colorWithRed:0.129 green:0.286 blue:0.486 alpha:1.0].CGColor;
 
     [view.layer addSublayer:layer];
@@ -222,20 +223,20 @@
 }
 
 - (void)_addMainGridLinesAndNumberLabelToView:(UIView *)view
-                             numberOfBlockAtX:(int)numberOfBlockAtX
-                             numberOfBlockAtY:(int)numberOfBlockAtY {
+                             numberOfBlockAtX:(NSInteger)numberOfBlockAtX
+                             numberOfBlockAtY:(NSInteger)numberOfBlockAtY {
     mz_var(labelPositionsForXAxis, [NSMutableArray<NSValue *> array]);
     mz_var(labelPositionsForYAxis, [NSMutableArray<NSValue *> array]);
 
     mz_var(mainLineslayer, [CAShapeLayer layer]);
-    CGRectSetSize(mainLineslayer.frame, view.frame.size);
+    mainLineslayer.frame = CGRectFromSize(view.frame.size);
     mainLineslayer.path = ^{
         mz_var(path, [UIBezierPath bezierPath]);
 
         [path appendPath:[self _innerLinesPathAtXAxisFromMin:0
-                                                       toMax:self.view.frame.size.width
+                                                       toMax:view.frame.size.width
                                                numberOfLines:numberOfBlockAtX + 1
-                                                       yBase:self.view.frame.size.height + 4
+                                                       yBase:view.frame.size.height + 4
                                                 lengthOfLine:-16
                                         isIncludeHeadAndTail:true
                                                   didAddLine:^(CGPoint from, CGPoint _1, UIBezierPath* _2) {
@@ -243,7 +244,7 @@
                                                   }]];
 
         [path appendPath:[self _innerLinesPathAtYAxisFromMin:0
-                                                       toMax:self.view.frame.size.height
+                                                       toMax:view.frame.size.height
                                                numberOfLines:numberOfBlockAtY + 1
                                                        xBase:-4
                                                 lengthOfLine:16
@@ -260,46 +261,46 @@
     mainLineslayer.lineWidth = 2.0;
 
     [view.layer addSublayer:mainLineslayer];
-    CGRectSetOrigin(mainLineslayer.frame, CGPointZero);
+    mainLineslayer.frame = CGRectSetOrigin(mainLineslayer.frame, CGPointZero);
     
-    [self _addCoordinateNumberLabelsToView:self.view
+    [self _addCoordinateNumberLabelsToView:view
                             textStartValue:self.coordinateSpace.xMin
                                  positions:labelPositionsForXAxis
                                     offset:CGPointMake(0, 10)];
 
     [self _addCoordinateNumberLabelsToView:view
-                                     textStartValue:self.coordinateSpace.yMin
-                                     textAlignmen:NSTextAlignmentRight
-                                     positions:[labelPositionsForYAxis reversedArray]
-                                     offset:CGPointMake(-20, 0)
-                                     useCommonFrameSize:true];
+                            textStartValue:self.coordinateSpace.yMin
+                              textAlignmen:NSTextAlignmentRight
+                                 positions:[labelPositionsForYAxis reversedArray]
+                                    offset:CGPointMake(-20, 0)
+                        useCommonFrameSize:true];
 }
 
 - (void)_addSubGridLinesToLayer:(UIView *)view
-               numberOfBlockAtX:(int)numberOfBlockAtX
-               numberOfBlockAtY:(int)numberOfBlockAtY {
+               numberOfBlockAtX:(NSInteger)numberOfBlockAtX
+               numberOfBlockAtY:(NSInteger)numberOfBlockAtY {
     mz_var(subLinesLayer, [CAShapeLayer layer]);
     subLinesLayer.frame = view.frame;
     subLinesLayer.path = ^{
         mz_var(path, [UIBezierPath bezierPath]);
 
-        CGFloat xInterval = self.view.frame.size.width/numberOfBlockAtX;
+        CGFloat xInterval = view.frame.size.width/numberOfBlockAtX;
         for (int i = 0; i < numberOfBlockAtX; i++) {
             [path appendPath:[self _innerLinesPathAtXAxisFromMin:xInterval*i
-                                                          toMax:xInterval*(i + 1)
-                                                          numberOfLines:4
-                                                          yBase: self.view.frame.size.height
-                                                          lengthOfLine:-8
-                                                          isIncludeHeadAndTail:false]];
+                                                           toMax:xInterval*(i + 1)
+                                                   numberOfLines:4
+                                                           yBase:view.frame.size.height
+                                                    lengthOfLine:-8
+                                            isIncludeHeadAndTail:false]];
         }
 
-        CGFloat yInterval = self.view.frame.size.height/numberOfBlockAtY;
+        CGFloat yInterval = view.frame.size.height/numberOfBlockAtY;
         for (int i = 0; i < numberOfBlockAtY; i++) {
             [path appendPath:[self _innerLinesPathAtYAxisFromMin:yInterval*i
-                                                          toMax:yInterval*(i + 1)
-                                                          numberOfLines:4
-                                                          xBase:0.0
-                                                          lengthOfLine:8
+                                                           toMax:yInterval*(i + 1)
+                                                   numberOfLines:4
+                                                           xBase:0.0
+                                                    lengthOfLine:8
                                             isIncludeHeadAndTail:false]];
         }
 
@@ -310,7 +311,7 @@
     subLinesLayer.lineWidth = 1.0;
 
     [view.layer addSublayer:subLinesLayer];
-    CGRectSetOrigin(subLinesLayer.frame, CGPointZero);
+    subLinesLayer.frame = CGRectSetOrigin(subLinesLayer.frame, CGPointZero);
 }
 
 - (void)_addCoordinateNumberLabelsToView:(UIView *)view
@@ -338,7 +339,7 @@
     
     if (useCommonFrameSize) {
         [labels forEachWithAction:^(UILabel* label) {
-            CGRectSetSize(label.frame, maxSize);
+            label.frame = CGRectSetSize(label.frame, maxSize);
         }];
     }
 }
@@ -382,7 +383,7 @@
     pointLayer.fillColor = [UIColor colorWithRed:0.129 green:0.286 blue:0.486 alpha:1.0].CGColor;
 
     mz_var(pointView, [[UIView alloc] init]);
-    CGRectSetSize(pointView.frame, CGSizeMake(10, 10));
+    pointView.frame = CGRectSetSize(pointView.frame, CGSizeMake(10, 10));
     [pointView.layer addSublayer:pointLayer];
     pointLayer.position = CGPointMake(5, 5);
 
@@ -394,7 +395,7 @@
 
 - (UIBezierPath *)_innerLinesPathAtXAxisFromMin:(CGFloat)min
                                           toMax:(CGFloat)max
-                                  numberOfLines:(int)numberOfLines
+                                  numberOfLines:(NSInteger)numberOfLines
                                            yBase:(CGFloat)yBase
                                    lengthOfLine:(CGFloat)lengthOfLine
                            isIncludeHeadAndTail:(BOOL)isIncludeHeadAndTail
@@ -424,7 +425,7 @@
 
 - (UIBezierPath *)_innerLinesPathAtXAxisFromMin:(CGFloat)min
                                           toMax:(CGFloat)max
-                                  numberOfLines:(int)numberOfLines
+                                  numberOfLines:(NSInteger)numberOfLines
                                           yBase:(CGFloat)yBase
                                    lengthOfLine:(CGFloat)lengthOfLine
                            isIncludeHeadAndTail:(BOOL)isIncludeHeadAndTail {
@@ -439,7 +440,7 @@
 
 - (UIBezierPath *)_innerLinesPathAtYAxisFromMin:(CGFloat)min
                                           toMax:(CGFloat)max
-                                  numberOfLines:(int)numberOfLines
+                                  numberOfLines:(NSInteger)numberOfLines
                                           xBase:(CGFloat)xBase
                                    lengthOfLine:(CGFloat)lengthOfLine
                            isIncludeHeadAndTail:(BOOL)isIncludeHeadAndTail
@@ -470,7 +471,7 @@
 
 - (UIBezierPath *)_innerLinesPathAtYAxisFromMin:(CGFloat)min
                                           toMax:(CGFloat)max
-                                  numberOfLines:(int)numberOfLines
+                                  numberOfLines:(NSInteger)numberOfLines
                                           xBase:(CGFloat)xBase
                                    lengthOfLine:(CGFloat)lengthOfLine
                            isIncludeHeadAndTail:(BOOL)isIncludeHeadAndTail {

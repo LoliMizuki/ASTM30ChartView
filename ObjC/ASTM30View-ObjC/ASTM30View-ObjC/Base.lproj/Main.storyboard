@@ -64,7 +64,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wI0-Pd-YDn">
-                                <rect key="frame" x="150" y="150" width="300" height="300"/>
+                                <rect key="frame" x="60" y="60" width="480" height="480"/>
                                 <connections>
                                     <segue destination="4iD-60-NCe" kind="embed" id="tA4-2u-Twc"/>
                                 </connections>
@@ -72,10 +72,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wI0-Pd-YDn" firstAttribute="width" secondItem="8ps-Cm-iT4" secondAttribute="width" multiplier="0.5" id="MAX-dT-eJS"/>
+                            <constraint firstItem="wI0-Pd-YDn" firstAttribute="width" secondItem="8ps-Cm-iT4" secondAttribute="width" multiplier="0.8" id="MAX-dT-eJS"/>
                             <constraint firstItem="wI0-Pd-YDn" firstAttribute="centerY" secondItem="8ps-Cm-iT4" secondAttribute="centerY" id="f5D-a2-oES"/>
                             <constraint firstItem="wI0-Pd-YDn" firstAttribute="centerX" secondItem="8ps-Cm-iT4" secondAttribute="centerX" id="s2R-9p-HFG"/>
-                            <constraint firstItem="wI0-Pd-YDn" firstAttribute="height" secondItem="8ps-Cm-iT4" secondAttribute="height" multiplier="0.5" id="shS-rT-rxA"/>
+                            <constraint firstItem="wI0-Pd-YDn" firstAttribute="height" secondItem="8ps-Cm-iT4" secondAttribute="height" multiplier="0.8" id="shS-rT-rxA"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="RfRg" id="fHY-jP-SeL"/>
@@ -107,7 +107,7 @@
             <objects>
                 <viewController id="4iD-60-NCe" customClass="ASTM30RfRgViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pT2-09-snn">
-                        <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -126,8 +126,8 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="wmM-Si-eSt"/>
                         <segue destination="Wno-4H-Kaf" kind="relationship" relationship="viewControllers" id="VzP-Ue-e3c"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="wmM-Si-eSt"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uc4-cC-Hbp" userLabel="First Responder" sceneMemberID="firstResponder"/>
