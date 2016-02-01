@@ -1,5 +1,5 @@
 //
-//  RgRfParentViewController.swift
+//  RfRgParentViewController.swift
 //  ASTM30View-Swift
 //
 //  Created by Inaba Mizuki on 2016/1/29.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RgRfParentViewController: UIViewController {
+class RfRgParentViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,8 +19,8 @@ class RgRfParentViewController: UIViewController {
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        guard let targetViewController = segue.destinationViewController as? ASTM30RgRfGraphicViewController else {
-            MZ.Debugs.assertAlwayFalse("Not ASTM30RgRfGraphicViewController")
+        guard let targetViewController = segue.destinationViewController as? ASTM30RfRgViewController else {
+            MZ.Debugs.assertAlwayFalse("Not ASTM30RfRgViewController")
             return;
         }
 
@@ -30,13 +30,13 @@ class RgRfParentViewController: UIViewController {
 
     // MARK: Private
 
-    var _graphicViewController: ASTM30RgRfGraphicViewController? = nil
+    var _graphicViewController: ASTM30RfRgViewController? = nil
 
 }
 
 
 // MARK: Test
-extension RgRfParentViewController {
+extension RfRgParentViewController {
 
     private func __testSetting() {
         __addTestData()
@@ -55,7 +55,7 @@ extension RgRfParentViewController {
 
 
 // MARK: Test Data
-extension RgRfParentViewController {
+extension RfRgParentViewController {
 
     private func __testPointsWithNumber(number: Int) -> [ASTM30Point] {
         guard let graphicViewController = _graphicViewController else {

@@ -1,5 +1,5 @@
 //
-//  ASTM30RgRfViewController.swift
+//  ASTM30RfRgViewController.swift
 //  ASTM30View-Swift
 //
 //  Created by Inaba Mizuki on 2016/1/28.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ASTM30RgRfGraphicViewController: UIViewController {
+class ASTM30RfRgViewController: UIViewController {
 
     var coordinateSpace = ASTM30CoordinateSpace(xMin: 50, yMin: 60, xMax: 100, yMax: 140)
 
@@ -27,7 +27,7 @@ class ASTM30RgRfGraphicViewController: UIViewController {
         _setAndAddCoordinateViewToView(view)
         _setGrayLayersToView(_coordinateView!)
         _setBoardLinesToView(_coordinateView!)
-        _setCoordinateMarksToView(_coordinateView!)
+        _setCoordinateGridLinesAndLabelsToView(_coordinateView!)
         _setAndAddPointLayerToView(_coordinateView!)
         _setPointViewsToView(_coordinateView!)
     }
@@ -47,7 +47,7 @@ class ASTM30RgRfGraphicViewController: UIViewController {
 
 
 // Graphic components
-extension ASTM30RgRfGraphicViewController {
+extension ASTM30RfRgViewController {
 
     private func _setAndAddCoordinateViewToView(view: UIView) {
         _coordinateView?.removeFromSuperview()
@@ -82,11 +82,11 @@ extension ASTM30RgRfGraphicViewController {
             return path
         }
 
-        let grayLayer = CAShapeLayer()
-        grayLayer.path = doubleTriangelPathWithSize(view.frame.size).CGPath
-        grayLayer.strokeColor = UIColor.clearColor().CGColor
-        grayLayer.fillColor = UIColor(red: 0.941, green: 0.941, blue: 0.941, alpha: 1.0).CGColor
-        view.layer.addSublayer(grayLayer)
+        let lightGrayLayer = CAShapeLayer()
+        lightGrayLayer.path = doubleTriangelPathWithSize(view.frame.size).CGPath
+        lightGrayLayer.strokeColor = UIColor.clearColor().CGColor
+        lightGrayLayer.fillColor = UIColor(red: 0.941, green: 0.941, blue: 0.941, alpha: 1.0).CGColor
+        view.layer.addSublayer(lightGrayLayer)
 
         let darkGrayLayer = CAShapeLayer()
         darkGrayLayer.path = doubleTriangelPathWithSize(CGSize(width: view.frame.width*0.8, height: view.frame.height)).CGPath
@@ -107,11 +107,11 @@ extension ASTM30RgRfGraphicViewController {
         view.layer.addSublayer(layer)
     }
 
-    private func _setCoordinateMarksToView(view: UIView) {
-        let numberOfBlockAtX = 5
-        let numberOfBlockAtY = 8
+    private func _setCoordinateGridLinesAndLabelsToView(view: UIView) {
+        let numberOfBlockAtX = Int((coordinateSpace.xMax - coordinateSpace.xMin)/10.0)
+        let numberOfBlockAtY = Int((coordinateSpace.yMax - coordinateSpace.yMin)/10.0)
 
-        _addMainGridLinesAndMarkTextToView(view,
+        _addMainGridLinesAndNumberLabelToView(view,
             numberOfBlockAtX: numberOfBlockAtX,
             numberOfBlockAtY: numberOfBlockAtY
         )
@@ -168,7 +168,7 @@ extension ASTM30RgRfGraphicViewController {
         }
     }
 
-    private func _addMainGridLinesAndMarkTextToView(view: UIView, numberOfBlockAtX: Int, numberOfBlockAtY: Int) {
+    private func _addMainGridLinesAndNumberLabelToView(view: UIView, numberOfBlockAtX: Int, numberOfBlockAtY: Int) {
         var labelPositionsForXAxis = [CGPoint]()
         var labelPositionsForYAxis = [CGPoint]()
 
@@ -205,13 +205,13 @@ extension ASTM30RgRfGraphicViewController {
         view.layer.addSublayer(mainLineslayer)
         mainLineslayer.frame.origin = CGPoint.zero
 
-        _addCoordinateMarkLabelsToView(view,
+        _addCoordinateNumberLabelsToView(view,
             textStartValue: coordinateSpace.xMin,
             positions: labelPositionsForXAxis,
             offset: CGPoint(x: 0, y: 10)
         )
 
-        _addCoordinateMarkLabelsToView(view,
+        _addCoordinateNumberLabelsToView(view,
             textStartValue: coordinateSpace.yMin,
             textAlignmen: .Right,
             positions: labelPositionsForYAxis.reverse(),
@@ -253,11 +253,12 @@ extension ASTM30RgRfGraphicViewController {
         subLinesLayer.fillColor = UIColor.clearColor().CGColor
         subLinesLayer.strokeColor = UIColor.blackColor().CGColor
         subLinesLayer.lineWidth = 1
+
         view.layer.addSublayer(subLinesLayer)
         subLinesLayer.frame.origin = CGPoint.zero
     }
 
-    private func _addCoordinateMarkLabelsToView(view: UIView,
+    private func _addCoordinateNumberLabelsToView(view: UIView,
         textStartValue: CGFloat,
         textAlignmen: NSTextAlignment = .Center,
         positions: [CGPoint],

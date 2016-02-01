@@ -63,10 +63,10 @@
             </objects>
             <point key="canvasLocation" x="2902" y="18"/>
         </scene>
-        <!--RgRf Parent-->
+        <!--RfRg Parent-->
         <scene sceneID="cCm-eL-KHW">
             <objects>
-                <viewController id="1hQ-bw-iF8" userLabel="RgRf Parent" customClass="RgRfParentViewController" customModule="ASTM30View_Swift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="1hQ-bw-iF8" userLabel="RfRg Parent" customClass="RfRgParentViewController" customModule="ASTM30View_Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Zxh-yX-ziH"/>
                         <viewControllerLayoutGuide type="bottom" id="jQj-VJ-anG"/>
@@ -90,7 +90,7 @@
                             <constraint firstItem="kus-ga-VIp" firstAttribute="width" secondItem="wwj-V2-fsc" secondAttribute="width" multiplier="0.8" id="txi-Ga-i8R"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="RgRf" id="8X4-G7-vOU"/>
+                    <tabBarItem key="tabBarItem" title="RfRg" id="8X4-G7-vOU"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RRJ-od-dEb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -132,10 +132,10 @@
             </objects>
             <point key="canvasLocation" x="2090" y="18"/>
         </scene>
-        <!--Rg Rf Graphic View Controller-->
+        <!--RfRg View Controller-->
         <scene sceneID="ytS-rZ-EvX">
             <objects>
-                <viewController id="8fM-3H-XF0" customClass="ASTM30RgRfGraphicViewController" customModule="ASTM30View_Swift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="8fM-3H-XF0" userLabel="RfRg View Controller" customClass="ASTM30RfRgViewController" customModule="ASTM30View_Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="onH-47-5Hb"/>
                         <viewControllerLayoutGuide type="bottom" id="ezR-od-DRC"/>
