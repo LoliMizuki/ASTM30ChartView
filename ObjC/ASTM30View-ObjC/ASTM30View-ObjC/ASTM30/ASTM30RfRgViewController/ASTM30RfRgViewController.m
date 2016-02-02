@@ -156,7 +156,7 @@
 
 - (void)_setBoardLinesToView:(UIView *)view {
     mz_var(layer, [CAShapeLayer layer]);
-    layer.frame = CGRectSetSize(layer.frame, view.frame.size);
+    layer.frame = CGRectWithSize(layer.frame, view.frame.size);
     layer.path = [UIBezierPath bezierPathWithRect:CGRectFromSize(view.frame.size)].CGPath;
 
     layer.lineWidth = 2.0;
@@ -183,7 +183,7 @@
     [_pointsLayer removeFromSuperlayer];
 
     mz_var(layer, [CAShapeLayer layer]);
-    layer.frame = CGRectSetSize(layer.frame, view.frame.size);
+    layer.frame = CGRectWithSize(layer.frame, view.frame.size);
     layer.fillColor = [UIColor colorWithRed:0.129 green:0.286 blue:0.486 alpha:1.0].CGColor;
 
     [view.layer addSublayer:layer];
@@ -261,7 +261,7 @@
     mainLineslayer.lineWidth = 2.0;
 
     [view.layer addSublayer:mainLineslayer];
-    mainLineslayer.frame = CGRectSetOrigin(mainLineslayer.frame, CGPointZero);
+    mainLineslayer.frame = CGRectWithOrigin(mainLineslayer.frame, CGPointZero);
     
     [self _addCoordinateNumberLabelsToView:view
                             textStartValue:self.coordinateSpace.xMin
@@ -311,7 +311,7 @@
     subLinesLayer.lineWidth = 1.0;
 
     [view.layer addSublayer:subLinesLayer];
-    subLinesLayer.frame = CGRectSetOrigin(subLinesLayer.frame, CGPointZero);
+    subLinesLayer.frame = CGRectWithOrigin(subLinesLayer.frame, CGPointZero);
 }
 
 - (void)_addCoordinateNumberLabelsToView:(UIView *)view
@@ -339,7 +339,7 @@
     
     if (useCommonFrameSize) {
         [labels forEachWithAction:^(UILabel* label) {
-            label.frame = CGRectSetSize(label.frame, maxSize);
+            label.frame = CGRectWithSize(label.frame, maxSize);
         }];
     }
 }
@@ -383,7 +383,7 @@
     pointLayer.fillColor = [UIColor colorWithRed:0.129 green:0.286 blue:0.486 alpha:1.0].CGColor;
 
     mz_var(pointView, [[UIView alloc] init]);
-    pointView.frame = CGRectSetSize(pointView.frame, CGSizeMake(10, 10));
+    pointView.frame = CGRectWithSize(pointView.frame, CGSizeMake(10, 10));
     [pointView.layer addSublayer:pointLayer];
     pointLayer.position = CGPointMake(5, 5);
 
