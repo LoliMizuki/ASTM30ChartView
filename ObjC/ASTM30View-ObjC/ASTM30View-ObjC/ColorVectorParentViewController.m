@@ -1,29 +1,29 @@
 //
-//  ViewController.m
+//  ColorVectorParentViewController.m
 //  ASTM30View-ObjC
 //
 //  Created by Inaba Mizuki on 2016/1/26.
 //  Copyright © 2016年 Inaba Mizuki. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "ColorVectorParentViewController.h"
 #import "ASTM30CoordinateSpace.h"
 #import "ASTM30PointsInfo.h"
 #import "ASTM30ColorVectorViewController.h"
 #import "MZ.h"
 
-@interface ViewController (IB)
+@interface ColorVectorParentViewController (IB)
 - (IBAction)didTouchUpInsideMaskButton:(UIButton *)button;
 @end
 
-@interface ViewController (TestData)
+@interface ColorVectorParentViewController (TestData)
 - (NSArray<NSValue *> *)_referencePoints;
 - (NSArray<NSValue *> *)_testSourcePoints;
 @end
 
 
 
-@implementation ViewController {
+@implementation ColorVectorParentViewController {
     ASTM30ColorVectorViewController* _tm30ViewController;
 }
 
@@ -92,7 +92,7 @@
 
 @end
 
-@implementation ViewController (IB)
+@implementation ColorVectorParentViewController (IB)
 
 - (IBAction)didTouchUpInsideMaskButton:(UIButton *)sender {
     ASTM30GraphicType type =
@@ -105,7 +105,7 @@
 
 @end
 
-@implementation ViewController (TestData)
+@implementation ColorVectorParentViewController (TestData)
 
 - (NSArray<NSValue *> *)_referencePoints {
     return @[[NSValue valueWithCGPoint:CGPointMake(0.979482, 0.201533)],

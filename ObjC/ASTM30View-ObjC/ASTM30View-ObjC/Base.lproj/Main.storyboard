@@ -10,7 +10,7 @@
         <!--Color Vector-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ColorVectorParentViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -54,7 +54,7 @@
         <!--RfRg Parent View-->
         <scene sceneID="rkf-QO-XLx">
             <objects>
-                <viewController id="Wno-4H-Kaf" userLabel="RfRg Parent View" sceneMemberID="viewController">
+                <viewController id="Wno-4H-Kaf" userLabel="RfRg Parent View" customClass="RfRgParentViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="d0C-Xh-be2"/>
                         <viewControllerLayoutGuide type="bottom" id="wVn-TC-aE5"/>
@@ -106,6 +106,10 @@
         <scene sceneID="POT-bc-d2i">
             <objects>
                 <viewController id="4iD-60-NCe" customClass="ASTM30RfRgViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="FSB-l3-ABB"/>
+                        <viewControllerLayoutGuide type="bottom" id="XIN-Wz-VtF"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="pT2-09-snn">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

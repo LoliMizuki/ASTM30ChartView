@@ -67,7 +67,8 @@ extension RfRgParentViewController {
 
         var testPoints = [ASTM30Point]()
 
-        for _ in 0..<number {
+        (0..<number).forEach {
+            _ in
             let a = ASTM30Point(key: "a",
                 value: CGPoint(
                     x: MZ.Maths.randomFloat(min: coordinateSpace.xMin.mzFloatValue, max: coordinateSpace.xMax.mzFloatValue).cgFloatValue,
