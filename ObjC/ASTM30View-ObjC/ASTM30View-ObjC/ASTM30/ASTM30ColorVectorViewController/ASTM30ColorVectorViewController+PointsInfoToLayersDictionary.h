@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setObject:(CAShapeLayer *)layer forKeyedSubscript:(ASTM30PointsInfo *)info;
 - (void)removeObjectForKey:(ASTM30PointsInfo *)info;
 - (void)removeAllObjects;
-- (NSArray<MZPair *> *)filterWithFunc:(bool (^)(ASTM30PointsInfo* info, CAShapeLayer* layer))func;
+- (NSArray<MZPair *> *)filterWithFunc:(BOOL (^)(ASTM30PointsInfo* info, CAShapeLayer* layer))func;
 - (void)forEachWithAction:(void (^)(ASTM30PointsInfo* info, CAShapeLayer* layer))action;
 
 @end

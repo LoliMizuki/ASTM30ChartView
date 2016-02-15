@@ -52,7 +52,7 @@
     [_pointsLayersDict removeAllObjects];
 }
 
-- (NSArray<MZPair *> *)filterWithFunc:(bool (^)(ASTM30PointsInfo* info, CAShapeLayer* layer))func {
+- (NSArray<MZPair *> *)filterWithFunc:(BOOL (^)(ASTM30PointsInfo* info, CAShapeLayer* layer))func {
     mz_var(result, [NSMutableArray array]);
     mz_var(allNames, _pointsInfosDict.allKeys);
 
