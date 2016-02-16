@@ -217,7 +217,7 @@
         CGFloat yOffset = point.value.y - self.coordinateSpace.yMin;
 
         CGFloat realX = (view.frame.size.width/self.coordinateSpace.xLength)*xOffset;
-        CGFloat realY = (view.frame.size.height/self.coordinateSpace.yLength)*yOffset;
+        CGFloat realY = view.frame.size.height - (view.frame.size.height/self.coordinateSpace.yLength)*yOffset;
 
         return CGPointMake(realX, realY);
     };
