@@ -25,7 +25,7 @@ class ASTM30RfRgViewController: UIViewController {
 
     func refresh() {
         _setAndAddCoordinateViewToView(view)
-        _setGrayLayersToView(_coordinateView!)
+        _setColorZoneLayersToView(_coordinateView!)
         _setBoardLinesToView(_coordinateView!)
         _setCoordinateGridLinesAndLabelsToView(_coordinateView!)
         _setAndAddPointLayerToView(_coordinateView!)
@@ -60,7 +60,7 @@ extension ASTM30RfRgViewController {
         _coordinateView = coordinateView
     }
 
-    private func _setGrayLayersToView(view: UIView) {
+    private func _setColorZoneLayersToView(view: UIView) {
         func doubleTriangelPathWithSize(size: CGSize) -> UIBezierPath {
             let startPoint = CGPoint(x: view.frame.width, y: view.frame.height/2)
             let rect = CGRect(
@@ -82,13 +82,26 @@ extension ASTM30RfRgViewController {
             return path
         }
 
-        let lightGrayLayer = CAShapeLayer()
+        let whilteLayer = _newShaperLayer()
+        whilteLayer.path = {
+            let path = UIBezierPath()
+            path.moveToPoint(CGPoint(x: view.frame.size.width, y: view.frame.size.height/2))
+            path.addLineToPoint(CGPoint(x: 0, y: view.frame.size.height))
+            path.addLineToPoint(CGPoint(x: 0, y: 0))
+
+            return path.CGPath
+        }()
+        whilteLayer.strokeColor = UIColor.clearColor().CGColor
+        whilteLayer.fillColor = UIColor.whiteColor().CGColor
+        view.layer.addSublayer(whilteLayer)
+
+        let lightGrayLayer = _newShaperLayer()
         lightGrayLayer.path = doubleTriangelPathWithSize(view.frame.size).CGPath
         lightGrayLayer.strokeColor = UIColor.clearColor().CGColor
         lightGrayLayer.fillColor = UIColor(red: 0.941, green: 0.941, blue: 0.941, alpha: 1.0).CGColor
         view.layer.addSublayer(lightGrayLayer)
 
-        let darkGrayLayer = CAShapeLayer()
+        let darkGrayLayer = _newShaperLayer()
         darkGrayLayer.path = doubleTriangelPathWithSize(CGSize(width: view.frame.width*0.8, height: view.frame.height)).CGPath
         darkGrayLayer.strokeColor = UIColor.clearColor().CGColor
         darkGrayLayer.fillColor = UIColor(red: 0.745, green: 0.745, blue: 0.745, alpha: 1.0).CGColor
@@ -387,5 +400,13 @@ extension ASTM30RfRgViewController {
         }
 
         return path
+    }
+
+    private func _newShaperLayer() -> CAShapeLayer {
+        let layer = CAShapeLayer()
+        layer.rasterizationScale = UIScreen.mainScreen().scale
+        layer.shouldRasterize = true
+
+        return layer
     }
 }
