@@ -153,7 +153,7 @@ extension ASTM30RfRgViewController {
             let yOffset = point.value.y - coordinateSpace.yMin
 
             let realX = (view.frame.width/coordinateSpace.xLength)*xOffset
-            let realY = (view.frame.height/coordinateSpace.yLength)*yOffset
+            let realY = view.frame.height - (view.frame.height/coordinateSpace.yLength)*yOffset
 
             return CGPoint(x: realX, y: realY)
         }
