@@ -2,7 +2,7 @@
 //  ASTM30RfRgViewController.h
 //  ASTM30View-ObjC
 //
-//  Created by lolimizuki on 2016/2/1.
+//  Created by Inaba Mizuki on 2016/2/1.
 //  Copyright © 2016年 Inaba Mizuki. All rights reserved.
 //
 
@@ -15,8 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ASTM30RfRgViewController : UIViewController
 
-@property (nonatomic, readwrite, strong) ASTM30CoordinateSpace* coordinateSpace;
-@property (nonatomic, readwrite, strong) NSMutableArray<ASTM30Point*>* points;
+@property (nonatomic, strong, readwrite) ASTM30CoordinateSpace* coordinateSpace;
+@property (nonatomic, strong, readwrite) NSMutableArray<ASTM30Point*>* points;
+@property (nonatomic, strong, readwrite) UIColor* backgroundColor;
+@property (nonatomic, strong, readwrite) UIColor* pointColor;
+@property (nonatomic, strong, readwrite) UIColor* gridLineColor;
+@property (nonatomic, strong, readwrite) UIColor* coordinateLabelTextColor;
 
 - (void)refresh;
 

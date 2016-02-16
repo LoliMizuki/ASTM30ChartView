@@ -17,8 +17,8 @@
 @end
 
 @interface ColorVectorParentViewController (TestData)
-- (NSArray<NSValue *> *)_referencePoints;
-- (NSArray<NSValue *> *)_testSourcePoints;
+- (NSArray<NSValue *> *)__referencePoints;
+- (NSArray<NSValue *> *)__testSourcePoints;
 @end
 
 
@@ -58,7 +58,7 @@
     infoForReference.colorInMasked = [UIColor whiteColor];
     infoForReference.lineWidth = 4;
     infoForReference.points = ^{
-        NSArray<NSValue*>* rawPoints = [self _referencePoints];
+        NSArray<NSValue*>* rawPoints = [self __referencePoints];
         NSMutableArray* points = [NSMutableArray array];
 
         for (int i = 0; i < rawPoints.count; i++) {
@@ -76,7 +76,7 @@
     infoForTestSource.colorInMasked = [UIColor clearColor];
     infoForTestSource.lineWidth = 4;
     infoForTestSource.points = ^{
-        NSArray<NSValue*>* rawPoints = [self _testSourcePoints];
+        NSArray<NSValue*>* rawPoints = [self __testSourcePoints];
         NSMutableArray* points = [NSMutableArray array];
 
         for (int i = 0; i < rawPoints.count; i++) {
@@ -107,7 +107,7 @@
 
 @implementation ColorVectorParentViewController (TestData)
 
-- (NSArray<NSValue *> *)_referencePoints {
+- (NSArray<NSValue *> *)__referencePoints {
     return @[[NSValue valueWithCGPoint:CGPointMake(0.979482, 0.201533)],
              [NSValue valueWithCGPoint:CGPointMake(0.804753, 0.593609)],
              [NSValue valueWithCGPoint:CGPointMake(0.565791, 0.824548)],
@@ -127,19 +127,19 @@
              ];
 }
 
-- (NSArray<NSValue *> *)_testSourcePoints {
+- (NSArray<NSValue *> *)__testSourcePoints {
     return @[[NSValue valueWithCGPoint:CGPointMake(0.830428, 0.152285)],
              [NSValue valueWithCGPoint:CGPointMake(0.665421, 0.600832)],
              [NSValue valueWithCGPoint:CGPointMake(0.390513, 0.869416)],
              [NSValue valueWithCGPoint:CGPointMake(0.0299235, 1.03496)],
-             [NSValue valueWithCGPoint:CGPointMake(-0.184857,  1.03375)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.184857, 1.03375)],
              [NSValue valueWithCGPoint:CGPointMake(-0.521905,  0.903854)],
-             [NSValue valueWithCGPoint:CGPointMake(-0.78017,  0.570425)],
-             [NSValue valueWithCGPoint:CGPointMake(-0.87806,  0.12918)],
-             [NSValue valueWithCGPoint:CGPointMake(-0.81089,  -0.222912)],
-             [NSValue valueWithCGPoint:CGPointMake(-0.631358,  -0.654632)],
-             [NSValue valueWithCGPoint:CGPointMake(-0.386599,  -0.931485)],
-             [NSValue valueWithCGPoint:CGPointMake(-0.0546757,  -1.06064)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.78017, 0.570425)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.87806, 0.12918)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.81089, -0.222912)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.631358, -0.654632)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.386599, -0.931485)],
+             [NSValue valueWithCGPoint:CGPointMake(-0.0546757, -1.06064)],
              [NSValue valueWithCGPoint:CGPointMake(0.170136, -1.10126)],
              [NSValue valueWithCGPoint:CGPointMake(0.610058, -0.96514)],
              [NSValue valueWithCGPoint:CGPointMake(0.742329, -0.761882)],

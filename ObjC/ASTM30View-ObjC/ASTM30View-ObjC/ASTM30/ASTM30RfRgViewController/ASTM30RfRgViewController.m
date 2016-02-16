@@ -2,7 +2,7 @@
 //  ASTM30RfRgViewController.m
 //  ASTM30View-ObjC
 //
-//  Created by lolimizuki on 2016/2/1.
+//  Created by Inaba Mizuki on 2016/2/1.
 //  Copyright © 2016年 Inaba Mizuki. All rights reserved.
 //
 
@@ -12,11 +12,13 @@
 #import "MZ.h"
 
 @interface ASTM30RfRgViewController ()
+@property (nonatomic, assign, readwrite) UIView* _coordinateView;
+@property (nonatomic, assign, readwrite) CAShapeLayer* _pointsLayer;
 @end
 
 @interface ASTM30RfRgViewController (GraphicComponents)
 - (void)_setAndAddCoordinateViewToView:(UIView *)view;
-- (void)_setGrayLayersToView:(UIView *)view;
+- (void)_setColorZoneLayersToView:(UIView *)view;
 - (void)_setBoardLinesToView:(UIView *)view;
 - (void)_setCoordinateGridLinesAndLabelsToView:(UIView *)view;
 - (void)_setAndAddPointLayerToView:(UIView *)view;
@@ -62,21 +64,23 @@
                                    lengthOfLine:(CGFloat)lengthOfLine
                            isIncludeHeadAndTail:(BOOL)isIncludeHeadAndTail
                                      didAddLine:(void (^)(CGPoint pathFrom, CGPoint pathTo, UIBezierPath* path))didAddLine;
+- (CAShapeLayer *)_newShaperLayer;
 @end
 
 
 
-@implementation ASTM30RfRgViewController {
-    UIView* _Nullable _coordinateView;
-
-    CAShapeLayer* _Nullable _pointsLayer;
-}
+@implementation ASTM30RfRgViewController
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
 
     self.coordinateSpace = [[ASTM30CoordinateSpace alloc] initWithXMin:50 yMin:60 xMax:100 yMax:140];
     self.points = [NSMutableArray array];
+    self.backgroundColor = [UIColor whiteColor];
+
+    self.pointColor = [UIColor colorWithRed:0.129 green:0.286 blue:0.486 alpha:1.0];
+    self.gridLineColor = [UIColor blackColor];
+    self.coordinateLabelTextColor = [UIColor blackColor];
 
     return self;
 }
@@ -87,20 +91,22 @@
 }
 
 - (void)refresh {
+    self.view.backgroundColor = self.backgroundColor;
+
     [self _setAndAddCoordinateViewToView:self.view];
-    [self _setGrayLayersToView:_coordinateView];
-    [self _setBoardLinesToView:_coordinateView];
-    [self _setCoordinateGridLinesAndLabelsToView:_coordinateView];
-    [self _setAndAddPointLayerToView:_coordinateView];
-    [self _setPointViewsToView:_coordinateView];
+    [self _setColorZoneLayersToView:self._coordinateView];
+    [self _setBoardLinesToView:self._coordinateView];
+    [self _setCoordinateGridLinesAndLabelsToView:self._coordinateView];
+    [self _setAndAddPointLayerToView:self._coordinateView];
+    [self _setPointViewsToView:self._coordinateView];
 }
 
 
 # pragma mark - Private
 
 - (void)dealloc {
-    [_coordinateView removeFromSuperview];
-    [_pointsLayer removeFromSuperlayer];
+    [self._coordinateView removeFromSuperview];
+    [self._pointsLayer removeFromSuperlayer];
 }
 
 @end
@@ -108,18 +114,19 @@
 @implementation ASTM30RfRgViewController (GraphicComponents)
 
 - (void)_setAndAddCoordinateViewToView:(UIView *)view {
-    [_coordinateView removeFromSuperview];
+    [self._coordinateView removeFromSuperview];
 
     mz_var(frame, CGRectMake(0, 0, view.frame.size.width*0.8, view.frame.size.height*0.8));
     mz_var(coordinateView, [[UIView alloc] initWithFrame:frame]);
 
     [view addSubview:coordinateView];
     coordinateView.center = view.center;
+    coordinateView.backgroundColor = [UIColor clearColor];
 
-    _coordinateView = coordinateView;
+    self._coordinateView = coordinateView;
 }
 
-- (void)_setGrayLayersToView:(UIView *)view {
+- (void)_setColorZoneLayersToView:(UIView *)view {
     UIBezierPath* (^doubleTriangelPathWithSize)(CGSize size) = ^(CGSize size) {
         mz_var(startPoint, CGPointMake(view.frame.size.width, view.frame.size.height/2.0));
         mz_var(rect, CGRectMake(startPoint.x - size.width,
@@ -141,13 +148,26 @@
         return path;
     };
 
-    mz_var(lightGrayLayer, [CAShapeLayer layer]);
+    mz_var(whilteLayer, [self _newShaperLayer]);
+    whilteLayer.path = ^{
+        mz_var(path, [UIBezierPath bezierPath]);
+        [path moveToPoint:CGPointMake(view.frame.size.width, view.frame.size.height/2)];
+        [path addLineToPoint:CGPointMake(0, view.frame.size.height)];
+        [path addLineToPoint:CGPointMake(0, 0)];
+
+        return path.CGPath;
+    }();
+    whilteLayer.strokeColor = [UIColor clearColor].CGColor;
+    whilteLayer.fillColor = [UIColor whiteColor].CGColor;
+    [view.layer addSublayer:whilteLayer];
+
+    mz_var(lightGrayLayer, [self _newShaperLayer]);
     lightGrayLayer.path = doubleTriangelPathWithSize(view.frame.size).CGPath;
     lightGrayLayer.strokeColor = [UIColor clearColor].CGColor;
     lightGrayLayer.fillColor = [UIColor colorWithRed:0.941 green:0.941 blue:0.941 alpha:1.0].CGColor;
     [view.layer addSublayer:lightGrayLayer];
 
-    mz_var(darkGrayLayer, [CAShapeLayer layer]);
+    mz_var(darkGrayLayer, [self _newShaperLayer]);
     darkGrayLayer.path = doubleTriangelPathWithSize(CGSizeMake(view.frame.size.width*0.8, view.frame.size.height)).CGPath;
     darkGrayLayer.strokeColor = [UIColor clearColor].CGColor;
     darkGrayLayer.fillColor = [UIColor colorWithRed:0.745 green:0.745 blue:0.745 alpha:1.0].CGColor;
@@ -160,7 +180,7 @@
     layer.path = [UIBezierPath bezierPathWithRect:CGRectFromSize(view.frame.size)].CGPath;
 
     layer.lineWidth = 2.0;
-    layer.strokeColor = [UIColor blackColor].CGColor;
+    layer.strokeColor = self.gridLineColor.CGColor;
     layer.fillColor = [UIColor clearColor].CGColor;
 
     [view.layer addSublayer:layer];
@@ -180,7 +200,7 @@
 }
 
 - (void)_setAndAddPointLayerToView:(UIView *)view {
-    [_pointsLayer removeFromSuperlayer];
+    [self._pointsLayer removeFromSuperlayer];
 
     mz_var(layer, [CAShapeLayer layer]);
     layer.frame = CGRectWithSize(layer.frame, view.frame.size);
@@ -188,7 +208,7 @@
 
     [view.layer addSublayer:layer];
 
-    _pointsLayer = layer;
+    self._pointsLayer = layer;
 }
 
 - (void)_setPointViewsToView:(UIView *)view {
@@ -257,12 +277,12 @@
     }();
 
     mainLineslayer.fillColor = [UIColor clearColor].CGColor;
-    mainLineslayer.strokeColor = [UIColor blackColor].CGColor;
+    mainLineslayer.strokeColor = self.gridLineColor.CGColor;
     mainLineslayer.lineWidth = 2.0;
 
     [view.layer addSublayer:mainLineslayer];
     mainLineslayer.frame = CGRectWithOrigin(mainLineslayer.frame, CGPointZero);
-    
+
     [self _addCoordinateNumberLabelsToView:view
                             textStartValue:self.coordinateSpace.xMin
                                  positions:labelPositionsForXAxis
@@ -307,7 +327,7 @@
         return path.CGPath;
     }();
     subLinesLayer.fillColor = [UIColor clearColor].CGColor;
-    subLinesLayer.strokeColor = [UIColor blackColor].CGColor;
+    subLinesLayer.strokeColor = self.gridLineColor.CGColor;
     subLinesLayer.lineWidth = 1.0;
 
     [view.layer addSublayer:subLinesLayer];
@@ -336,7 +356,7 @@
 
         [labels addObject:label];
     }
-    
+
     if (useCommonFrameSize) {
         [labels forEachWithAction:^(UILabel* label) {
             label.frame = CGRectWithSize(label.frame, maxSize);
@@ -362,12 +382,13 @@
                               toView:(UIView *)view {
     mz_var(label, [[UILabel alloc] init]);
     label.text = text;
+    label.textColor = self.coordinateLabelTextColor;
     [label sizeToFit];
 
     [view addSubview:label];
     label.center = center;
     label.textAlignment = alignment;
-    
+
     return label;
 }
 
@@ -380,7 +401,7 @@
 
     mz_var(pointLayer, [CAShapeLayer layer]);
     pointLayer.path = pointPath.CGPath;
-    pointLayer.fillColor = [UIColor colorWithRed:0.129 green:0.286 blue:0.486 alpha:1.0].CGColor;
+    pointLayer.fillColor = self.pointColor.CGColor;
 
     mz_var(pointView, [[UIView alloc] init]);
     pointView.frame = CGRectWithSize(pointView.frame, CGSizeMake(10, 10));
@@ -389,14 +410,14 @@
 
     [view addSubview:pointView];
     pointView.center = center;
-    
+
     return pointView;
 }
 
 - (UIBezierPath *)_innerLinesPathAtXAxisFromMin:(CGFloat)min
                                           toMax:(CGFloat)max
                                   numberOfLines:(NSInteger)numberOfLines
-                                           yBase:(CGFloat)yBase
+                                          yBase:(CGFloat)yBase
                                    lengthOfLine:(CGFloat)lengthOfLine
                            isIncludeHeadAndTail:(BOOL)isIncludeHeadAndTail
                                      didAddLine:(void (^)(CGPoint pathFrom, CGPoint pathTo, UIBezierPath* path))didAddLine {
@@ -482,6 +503,14 @@
                                   lengthOfLine:lengthOfLine
                           isIncludeHeadAndTail:isIncludeHeadAndTail
                                     didAddLine:nil];
+}
+
+- (CAShapeLayer *)_newShaperLayer {
+    mz_var(layer, [CAShapeLayer layer]);
+    layer.rasterizationScale = [[UIScreen mainScreen] scale];
+    layer.shouldRasterize = true;
+    
+    return layer;
 }
 
 @end
