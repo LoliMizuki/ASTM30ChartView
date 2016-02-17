@@ -43,8 +43,11 @@
     graphicViewController.coordinateSpace = [[ASTM30CoordinateSpace alloc] initWithXMin:50
                                                                                    yMin:60
                                                                                    xMax:100
-                                                                                   yMax:100];
+                                                                                   yMax:140];
     graphicViewController.points = [[self __testPointsWithNumber:50] mutableCopy];
+
+    mz_var(onePoint, [[ASTM30Point alloc] initWithKey:@"a" value:CGPointMake(70, 130)]);
+    graphicViewController.points = [@[onePoint] mutableCopy];
 }
 
 - (NSArray<ASTM30Point *> *)__testPointsWithNumber:(NSInteger)number {
