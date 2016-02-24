@@ -13,13 +13,19 @@
 #import "MZ.h"
 
 @interface ASTM30ColorVectorViewController()
-@property (nonatomic, strong, readwrite) PointsInfoToLayersDictionary* _pointsInfoToLayersDict;
-@property (nonatomic, strong, readwrite) UIView* _pointsLinesLayerView;
-@property (nonatomic, strong, readwrite) CAShapeLayer* _sourceToReferenceArrowsLayer;
-@property (nonatomic, strong, readwrite) UIImageView* _graphicBackgroundView;
-@property (nonatomic, strong, readwrite) CAShapeLayer* _graphicBackgroundGridLayer;
-@property (nonatomic, strong, readwrite) UIImageView* _graphicBackgroundForFadeView;
-@property (nonatomic, strong, readwrite) CAShapeLayer* _graphicBackgroundMaskLayer;
+@property (readwrite, strong, nonatomic) PointsInfoToLayersDictionary* _pointsInfoToLayersDict;
+@property (readwrite, strong, nonatomic) UIView* _pointsLinesLayerView;
+@property (readwrite, strong, nonatomic) CAShapeLayer* _sourceToReferenceArrowsLayer;
+@property (readwrite, strong, nonatomic) UIImageView* _graphicBackgroundView;
+@property (readwrite, strong, nonatomic) CAShapeLayer* _graphicBackgroundGridLayer;
+@property (readwrite, strong, nonatomic) UIImageView* _graphicBackgroundForFadeView;
+@property (readwrite, strong, nonatomic) CAShapeLayer* _graphicBackgroundMaskLayer;
+@property (readwrite, strong, nonatomic) UIImage* _backgroundImageForNormal;
+@property (readwrite, strong, nonatomic) UIImage* _backgroundImageForMasked;
+@property (readwrite, strong, nonatomic) UILabel* _rfRgLabel;
+@property (readwrite, strong, nonatomic) UILabel* _testSourceDescLabel;
+@property (readwrite, strong, nonatomic) UILabel* _referenceDescLabel;
+
 @end
 
 @interface ASTM30ColorVectorViewController (PresentViewsAndLayers)
@@ -29,6 +35,8 @@
 - (void)_setAndAddAllPoinsInfoLayersToView:(UIView *)view;
 - (void)_setGraphicBackgroundMaskWithPointsInfoName:(nullable NSString *)name;
 - (void)_setAndAddReferenceToTestSourceArrowsLayerToView:(UIView *)view;
+- (void)_setAndAddRfRgLabelToView:(UIView *)view;
+- (void)_setAndAddDescLabelsToView:(UIView *)view;
 - (CAShapeLayer *)_shapeLayerWithPointsInfo:(ASTM30PointsInfo *)pointsInfo;
 - (CAShapeLayer *)_maskLayerFromLayer:(CAShapeLayer *)layer;
 - (UIBezierPath *)_arrowPathFromPoint:(CGPoint)from toPoint:(CGPoint)to;
@@ -40,6 +48,7 @@
 - (void)_animateMaskEnableToGraphicBackgroundForFade:(BOOL)maskEnable duration:(NSTimeInterval)duration;
 - (void)_animateFadeMaskEnableToLayer:(CAShapeLayer *)aLayer maskEnable:(BOOL)maskEnable duration:(NSTimeInterval)duration;
 - (void)_animateMaskEnableToPointsLinesLayer:(BOOL)maskEnable duration:(NSTimeInterval)duration;
+- (void)_animateMaskEnableToDescriptionLables:(BOOL)maskEnable duration:(NSTimeInterval)duration;
 @end
 
 @interface ASTM30ColorVectorViewController (Supports)
@@ -56,12 +65,29 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
 
+    mz_var(coordinate, 1.4);
+    self.coordinateSpace = [[ASTM30CoordinateSpace alloc] initWithXMin:-coordinate
+                                                                  yMin:-coordinate
+                                                                  xMax:coordinate
+                                                                  yMax:coordinate];
+
     self._pointsInfoToLayersDict = [[PointsInfoToLayersDictionary alloc] init];
     self._sourceToReferenceArrowsLayer = nil;
     self._graphicBackgroundView = nil;
     self._graphicBackgroundGridLayer = nil;
     self._graphicBackgroundForFadeView = nil;
     self._graphicBackgroundMaskLayer = nil;
+    self._rfRgLabel = nil;
+    self._testSourceDescLabel = nil;
+    self._referenceDescLabel = nil;
+
+    self._backgroundImageForNormal = [UIImage imageNamed:@"ColorVectorBackground"];
+    MZAssertIfNil(self._backgroundImageForNormal);
+    self._backgroundImageForMasked = [UIImage imageNamed:@"ColorVectorMaskedBackground"];
+    MZAssertIfNil(self._backgroundImageForMasked);
+
+    self.rf = NAN;
+    self.rg = NAN;
 
     return self;
 }
@@ -128,6 +154,8 @@
     [self _setAndAddAllPoinsInfoLayersToView:self._pointsLinesLayerView];
     [self _setGraphicBackgroundMaskWithPointsInfoName:self.testSourceName];
     [self _setAndAddReferenceToTestSourceArrowsLayerToView:self._pointsLinesLayerView];
+    [self _setAndAddRfRgLabelToView:self.view];
+    [self _setAndAddDescLabelsToView:self.view];
 }
 
 
@@ -144,6 +172,9 @@
     [self._graphicBackgroundGridLayer removeFromSuperlayer];
     [self._graphicBackgroundForFadeView removeFromSuperview];
     [self._graphicBackgroundMaskLayer removeFromSuperlayer];
+    [self._rfRgLabel removeFromSuperview];
+    [self._testSourceDescLabel removeFromSuperview];
+    [self._referenceDescLabel removeFromSuperview];
 }
 
 - (void)_setGraphicBackgroundWithMaskEnable:(bool)maskEnable {
@@ -169,13 +200,12 @@
     [self._graphicBackgroundForFadeView removeFromSuperview];
 
     UIImageView *(^newGraphicView)(void) = ^{
-        UIImage* bgImage = [UIImage imageNamed:@"ColorVectorBackground"];
-        MZAssertIfNilWithMessage(bgImage, @"Can not load image \"ColorVectorBackground\"");
+        UIImage* bgImage = self._backgroundImageForNormal;
 
         UIImageView* imageView = [[UIImageView alloc] initWithImage:bgImage];
         imageView.frame = view.frame;
         imageView.contentMode = UIViewContentModeScaleToFill;
-
+        
         return imageView;
     };
 
@@ -189,21 +219,28 @@
 - (void)_setAndAddGridLayerToView:(UIView *)view {
     [self._graphicBackgroundGridLayer removeFromSuperlayer];
 
-    CGFloat numberOfGrid = 5;
+    CGFloat numberOfXGrid = 6;
+    CGFloat numberOfYGrid = 5;
 
-    CGPoint interval = CGPointMake(view.frame.size.width/numberOfGrid,
-                                   view.frame.size.height/numberOfGrid);
+    CGPoint interval = CGPointMake(view.frame.size.width/numberOfXGrid,
+                                   view.frame.size.height/numberOfYGrid);
 
     UIBezierPath* path = [UIBezierPath bezierPath];
 
-    for (int i = 1; i <numberOfGrid; i++) {
+    for (int i = 1; i <numberOfXGrid; i++) {
+        UIBezierPath* linePath = [UIBezierPath bezierPath];
+
+        [linePath moveToPoint:CGPointMake(i*interval.x, 0)];
+        [linePath addLineToPoint:CGPointMake(i*interval.x, view.frame.size.height)];
+
+        [path appendPath:linePath];
+    }
+
+    for (int i = 0; i < numberOfYGrid; i++) {
         UIBezierPath* linePath = [UIBezierPath bezierPath];
 
         [linePath moveToPoint:CGPointMake(0, i*interval.y)];
         [linePath addLineToPoint:CGPointMake(view.frame.size.width, i*interval.y)];
-
-        [linePath moveToPoint:CGPointMake(i*interval.x, 0)];
-        [linePath addLineToPoint:CGPointMake(i*interval.x, view.frame.size.height)];
 
         [path appendPath:linePath];
     }
@@ -299,6 +336,93 @@
     self._sourceToReferenceArrowsLayer = layer;
 }
 
+- (void)_setAndAddRfRgLabelToView:(UIView *)view {
+    [self._rfRgLabel removeFromSuperview];
+
+    if (!(isnan(self.rf) && isnan(self.rg))) {
+        mz_var(label, [[UILabel alloc] init]);
+        label.text = [NSString stringWithFormat:@"Rf = %d\nRg = %d", (int)self.rf, (int)self.rg];
+        label.textColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:1.0];
+        label.numberOfLines = 2;
+
+        [self.view addSubview:label];
+        [label sizeToFit];
+
+        mz_var(labelFrame, label.frame);
+        mz_var(viewTopRight, CGRectGetTopRight(self.view.frame));
+
+        label.center = CGPointMake(viewTopRight.x - (labelFrame.size.width/2) + 4,
+                                   labelFrame.size.height/2 + 2);
+        [label setTextAlignment:NSTextAlignmentRight];
+
+        label.transform = CGAffineTransformMakeScale(0.8, 0.8);
+
+        self._rfRgLabel = label;
+    }
+}
+
+- (void)_setAndAddDescLabelsToView:(UIView *)view {
+    [self._testSourceDescLabel removeFromSuperview];
+    [self._referenceDescLabel removeFromSuperview];
+
+    mz_guard_let_return(testPointsInfo, [self poinsInfoWithName:self.testSourceName]);
+    mz_guard_let_return(referencePointsInfo, [self poinsInfoWithName:self.referenceName]);
+
+    UILabel* (^descLabel)(NSString*, UIColor*) = ^(NSString* title, UIColor* color) {
+        mz_var(label, [[UILabel alloc] init]);
+        label.font = [UIFont fontWithName:label.font.fontName size:label.font.pointSize*0.8];
+        label.text = title;
+        label.textColor = color;
+        [label sizeToFit];
+
+        mz_var(frame, label.frame);
+
+        mz_var(lineLayer, [CAShapeLayer layer]);
+        lineLayer.path = ^{
+            mz_var(yPos, frame.origin.y + frame.size.height/2);
+            mz_var(length, 20);
+
+            mz_var(from, CGPointMake(-2, yPos));
+            mz_var(to, CGPointMake(-length, yPos));
+
+            mz_var(path, [UIBezierPath bezierPath]);
+
+            [path moveToPoint:from];
+            [path addLineToPoint:to];
+
+            return path.CGPath;
+        }();
+        lineLayer.strokeColor = label.textColor.CGColor;
+        lineLayer.lineWidth = lineLayer.lineWidth*1.2;
+        [label.layer addSublayer:lineLayer];
+
+        return label;
+    };
+
+    mz_var(testDescLabel, descLabel(@"Test Source", testPointsInfo.color));
+    mz_var(referenceLabel, descLabel(@"Reference", referencePointsInfo.color));
+
+    [view addSubview:testDescLabel];
+    [view addSubview:referenceLabel];
+
+    // move to buttom-left
+    mz_var(maxFrameWidth, MAX(testDescLabel.frame.size.width, referenceLabel.frame.size.width));
+    mz_var(maxFrameHeigth, MAX(testDescLabel.frame.size.height, referenceLabel.frame.size.height));
+
+    mz_var(bottomRight, CGRectGetTopRight(view.frame));
+    mz_var(firstLabelTopLeft, CGPointAdd(bottomRight, CGPointMake(-maxFrameWidth, -maxFrameHeigth*2)));
+
+    testDescLabel.frame = CGRectOffset(testDescLabel.frame, firstLabelTopLeft.x, firstLabelTopLeft.y);
+    referenceLabel.frame = CGRectOffset(referenceLabel.frame, firstLabelTopLeft.x, firstLabelTopLeft.y + maxFrameHeigth);
+
+    // offset from buttom-left
+    mz_var(offset, CGPointMake(-4, -4));
+    testDescLabel.center = CGPointAdd(testDescLabel.center, offset);
+    referenceLabel.center = CGPointAdd(referenceLabel.center, offset);
+
+    self._testSourceDescLabel = testDescLabel;
+    self._referenceDescLabel = referenceLabel;
+}
 
 - (CAShapeLayer *)_shapeLayerWithPointsInfo:(ASTM30PointsInfo *)pointsInfo {
     NSArray* points = [pointsInfo.points mapWithFunc:^(ASTM30Point* point) {
@@ -384,6 +508,7 @@
     [self _animateFadeMaskEnableToLayer:self._graphicBackgroundGridLayer maskEnable:maskEnable duration:duration];
     [self _animateFadeMaskEnableToLayer:self._sourceToReferenceArrowsLayer maskEnable:maskEnable duration:duration];
     [self _animateMaskEnableToPointsLinesLayer:maskEnable duration:duration];
+    [self _animateMaskEnableToDescriptionLables:maskEnable duration:duration];
 }
 
 - (void)_animateMaskEnableToGraphicBackground:(BOOL)maskEnable duration:(NSTimeInterval)duration {
@@ -393,6 +518,8 @@
     if (view.layer.mask == nil) {
         view.layer.mask = maskLayer;
     }
+
+    view.image = (maskEnable)? self._backgroundImageForMasked : self._backgroundImageForNormal;
 
     CGFloat maxScale = 5.0;
     CGFloat minScale = 1.0;
@@ -451,16 +578,30 @@
     }];
 }
 
+- (void)_animateMaskEnableToDescriptionLables:(BOOL)maskEnable duration:(NSTimeInterval)duration {
+    mz_guard_let_return(testPointsInfo, [self poinsInfoWithName:self.testSourceName]);
+    mz_guard_let_return(referencePointsInfo, [self poinsInfoWithName:self.referenceName]);
+
+    void (^updateColor)(UILabel*, ASTM30PointsInfo*) = ^(UILabel* label, ASTM30PointsInfo* info) {
+        label.textColor = (maskEnable)? info.colorInMasked : info.color;
+        CAShapeLayer* lineLayer = (CAShapeLayer*)label.layer.sublayers.firstObject;
+        lineLayer.strokeColor = label.textColor.CGColor;
+    };
+
+    updateColor(self._testSourceDescLabel, testPointsInfo);
+    updateColor(self._referenceDescLabel, referencePointsInfo);
+}
+
 @end
 
 @implementation ASTM30ColorVectorViewController (Supports)
 
 - (CGPoint)_pointFrom:(CGPoint)point inCoordinateSpace:(ASTM30CoordinateSpace*)coordinateSpace {
     mz_var(size, self.view.frame.size);
-    
+
     mz_var(realX, size.width*((point.x - coordinateSpace.xMin)/coordinateSpace.xLength));
     mz_var(realY, size.height - size.height*((point.y - coordinateSpace.yMin)/coordinateSpace.yLength));
-    
+
     return CGPointMake(realX, realY);
 }
 

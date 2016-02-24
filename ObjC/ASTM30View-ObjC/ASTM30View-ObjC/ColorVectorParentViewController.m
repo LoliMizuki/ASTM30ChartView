@@ -46,10 +46,6 @@
 }
 
 - (void)__addTestData {
-    _tm30ViewController.coordinateSpace = [[ASTM30CoordinateSpace alloc] initWithXMin:-1.2
-                                                                                 yMin:-1.2
-                                                                                 xMax:1.2
-                                                                                 yMax:1.2];
     _tm30ViewController.testSourceName = @"TestSource";
     _tm30ViewController.referenceName = @"Reference";
 

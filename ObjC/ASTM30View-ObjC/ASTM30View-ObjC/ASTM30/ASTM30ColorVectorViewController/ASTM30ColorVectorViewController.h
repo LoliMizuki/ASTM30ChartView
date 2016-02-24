@@ -21,9 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ASTM30ColorVectorViewController : UIViewController
 
-@property (nonatomic, readwrite, strong) ASTM30CoordinateSpace* coordinateSpace;
-@property (nonatomic, readwrite, strong, nullable) NSString* testSourceName;
-@property (nonatomic, readwrite, strong, nullable) NSString* referenceName;
+@property (readwrite, strong, nonatomic) ASTM30CoordinateSpace* coordinateSpace;
+@property (readwrite, nullable, strong, nonatomic) NSString* testSourceName;
+@property (readwrite, nullable, strong, nonatomic) NSString* referenceName;
+@property (readwrite, nonatomic) CGFloat rf;
+@property (readwrite, nonatomic) CGFloat rg;
 
 @property (nonatomic, readonly) ASTM30GraphicType graphicType;
 
