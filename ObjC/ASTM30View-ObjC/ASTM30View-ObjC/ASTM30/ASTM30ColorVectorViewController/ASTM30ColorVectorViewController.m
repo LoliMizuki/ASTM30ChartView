@@ -13,6 +13,7 @@
 #import "MZ.h"
 
 @interface ASTM30ColorVectorViewController()
+
 @property (readwrite, strong, nonatomic) PointsInfoToLayersDictionary* _pointsInfoToLayersDict;
 @property (readwrite, strong, nonatomic) UIView* _pointsLinesLayerView;
 @property (readwrite, strong, nonatomic) CAShapeLayer* _sourceToReferenceArrowsLayer;
@@ -22,13 +23,19 @@
 @property (readwrite, strong, nonatomic) CAShapeLayer* _graphicBackgroundMaskLayer;
 @property (readwrite, strong, nonatomic) UIImage* _backgroundImageForNormal;
 @property (readwrite, strong, nonatomic) UIImage* _backgroundImageForMasked;
-@property (readwrite, strong, nonatomic) UILabel* _rfRgLabel;
-@property (readwrite, strong, nonatomic) UILabel* _testSourceDescLabel;
-@property (readwrite, strong, nonatomic) UILabel* _referenceDescLabel;
+@property (readwrite, weak, nonatomic) UILabel* _rfRgLabel;
+@property (readwrite, weak, nonatomic) UILabel* _testSourceDescLabel;
+@property (readwrite, weak, nonatomic) UILabel* _referenceDescLabel;
+
+// Irreversible action: if set to true once, view no long switch it's graphic type
+@property (readwrite, nonatomic) BOOL _forceToColorDistortion;
+
+- (void)_init;
 
 @end
 
 @interface ASTM30ColorVectorViewController (PresentViewsAndLayers)
+
 - (void)_setAndAddGraphicBackgroundViewToView:(UIView *)view;
 - (void)_setAndAddGridLayerToView:(UIView *)view;
 - (void)_setAndAddPointsLayersViewToView:(UIView *)view;
@@ -40,6 +47,9 @@
 - (CAShapeLayer *)_shapeLayerWithPointsInfo:(ASTM30PointsInfo *)pointsInfo;
 - (CAShapeLayer *)_maskLayerFromLayer:(CAShapeLayer *)layer;
 - (UIBezierPath *)_arrowPathFromPoint:(CGPoint)from toPoint:(CGPoint)to;
+
+- (void)_forceToGraphicTypeColorDistortionIfNeed;
+
 @end
 
 @interface ASTM30ColorVectorViewController (ASTM30GraphicTypeSwitchAnimations)
@@ -62,33 +72,24 @@
 
 @synthesize graphicType;
 
+- (instancetype)init {
+    self = [super init];
+    [self _init];
+    return self;
+}
+
+- (instancetype)initWithAlwaysColorDistortionType {
+    MZLog(@"WARNIG: View will no long to change graphic tpye \\>///</");
+
+    self = [super init];
+    self._forceToColorDistortion = true;
+    [self _init];
+    return self;
+}
+
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
-
-    mz_var(coordinate, 1.4);
-    self.coordinateSpace = [[ASTM30CoordinateSpace alloc] initWithXMin:-coordinate
-                                                                  yMin:-coordinate
-                                                                  xMax:coordinate
-                                                                  yMax:coordinate];
-
-    self._pointsInfoToLayersDict = [[PointsInfoToLayersDictionary alloc] init];
-    self._sourceToReferenceArrowsLayer = nil;
-    self._graphicBackgroundView = nil;
-    self._graphicBackgroundGridLayer = nil;
-    self._graphicBackgroundForFadeView = nil;
-    self._graphicBackgroundMaskLayer = nil;
-    self._rfRgLabel = nil;
-    self._testSourceDescLabel = nil;
-    self._referenceDescLabel = nil;
-
-    self._backgroundImageForNormal = [UIImage imageNamed:@"ColorVectorBackground"];
-    MZAssertIfNil(self._backgroundImageForNormal);
-    self._backgroundImageForMasked = [UIImage imageNamed:@"ColorVectorMaskedBackground"];
-    MZAssertIfNil(self._backgroundImageForMasked);
-
-    self.rf = NAN;
-    self.rg = NAN;
-
+    [self _init];
     return self;
 }
 
@@ -156,6 +157,9 @@
     [self _setAndAddReferenceToTestSourceArrowsLayerToView:self._pointsLinesLayerView];
     [self _setAndAddRfRgLabelToView:self.view];
     [self _setAndAddDescLabelsToView:self.view];
+
+    
+    [self _forceToGraphicTypeColorDistortionIfNeed];
 }
 
 
@@ -175,6 +179,32 @@
     [self._rfRgLabel removeFromSuperview];
     [self._testSourceDescLabel removeFromSuperview];
     [self._referenceDescLabel removeFromSuperview];
+}
+
+- (void)_init {
+    mz_var(coordinate, 1.4);
+    self.coordinateSpace = [[ASTM30CoordinateSpace alloc] initWithXMin:-coordinate
+                                                                  yMin:-coordinate
+                                                                  xMax:coordinate
+                                                                  yMax:coordinate];
+
+    self._pointsInfoToLayersDict = [[PointsInfoToLayersDictionary alloc] init];
+    self._sourceToReferenceArrowsLayer = nil;
+    self._graphicBackgroundView = nil;
+    self._graphicBackgroundGridLayer = nil;
+    self._graphicBackgroundForFadeView = nil;
+    self._graphicBackgroundMaskLayer = nil;
+    self._rfRgLabel = nil;
+    self._testSourceDescLabel = nil;
+    self._referenceDescLabel = nil;
+
+    self._backgroundImageForNormal = [UIImage imageNamed:@"ColorVectorBackground"];
+    MZAssertIfNil(self._backgroundImageForNormal);
+    self._backgroundImageForMasked = [UIImage imageNamed:@"ColorVectorMaskedBackground"];
+    MZAssertIfNil(self._backgroundImageForMasked);
+
+    self.rf = NAN;
+    self.rg = NAN;
 }
 
 - (void)_setGraphicBackgroundWithMaskEnable:(bool)maskEnable {
@@ -220,7 +250,7 @@
     [self._graphicBackgroundGridLayer removeFromSuperlayer];
 
     CGFloat numberOfXGrid = 6;
-    CGFloat numberOfYGrid = 5;
+    CGFloat numberOfYGrid = 6;
 
     CGPoint interval = CGPointMake(view.frame.size.width/numberOfXGrid,
                                    view.frame.size.height/numberOfYGrid);
@@ -339,26 +369,27 @@
 - (void)_setAndAddRfRgLabelToView:(UIView *)view {
     [self._rfRgLabel removeFromSuperview];
 
-    if (!(isnan(self.rf) && isnan(self.rg))) {
-        mz_var(label, [[UILabel alloc] init]);
-        label.text = [NSString stringWithFormat:@"Rf = %d\nRg = %d", (int)self.rf, (int)self.rg];
-        label.textColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:1.0];
-        label.numberOfLines = 2;
+    if ((isnan(self.rf) || isnan(self.rg))) return;
 
-        [self.view addSubview:label];
-        [label sizeToFit];
+    mz_var(label, [[UILabel alloc] init]);
 
-        mz_var(labelFrame, label.frame);
-        mz_var(viewTopRight, CGRectGetTopRight(self.view.frame));
+    label.text = [NSString stringWithFormat:@"Rf = %0.0f\nRg = %0.0f", self.rf, self.rg];
+    label.textColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:1.0];
+    label.numberOfLines = 2;
 
-        label.center = CGPointMake(viewTopRight.x - (labelFrame.size.width/2) + 4,
-                                   labelFrame.size.height/2 + 2);
-        [label setTextAlignment:NSTextAlignmentRight];
+    [self.view addSubview:label];
+    [label sizeToFit];
 
-        label.transform = CGAffineTransformMakeScale(0.8, 0.8);
+    mz_var(labelFrame, label.frame);
+    mz_var(viewTopRight, CGRectGetTopRight(self.view.frame));
 
-        self._rfRgLabel = label;
-    }
+    label.center = CGPointMake(viewTopRight.x - (labelFrame.size.width/2) + 4,
+                               labelFrame.size.height/2 + 2);
+    [label setTextAlignment:NSTextAlignmentRight];
+
+    label.transform = CGAffineTransformMakeScale(0.8, 0.8);
+
+    self._rfRgLabel = label;
 }
 
 - (void)_setAndAddDescLabelsToView:(UIView *)view {
@@ -498,6 +529,34 @@
     return path;
 }
 
+- (void)_forceToGraphicTypeColorDistortionIfNeed {
+    if (!self._forceToColorDistortion) return;
+
+    mz_guard_let_return(graphicBackgroundView, self._graphicBackgroundView);
+    mz_guard_let_return(graphicBackgroundForFadeView, self._graphicBackgroundForFadeView);
+    mz_guard_let_return(graphicBackgroundMaskLayer, self._graphicBackgroundMaskLayer);
+
+    graphicBackgroundView.layer.mask = graphicBackgroundMaskLayer;
+    graphicBackgroundView.image = self._backgroundImageForMasked;
+    graphicBackgroundForFadeView.alpha = 0;
+
+    self._testSourceDescLabel.hidden = true;
+
+    mz_var(testInfo, [self poinsInfoWithName:self.testSourceName]);
+    mz_var(referenceInfo, [self poinsInfoWithName:self.referenceName]);
+
+    self._pointsInfoToLayersDict[testInfo].strokeColor = testInfo.colorInMasked.CGColor;
+    self._pointsInfoToLayersDict[referenceInfo].strokeColor = referenceInfo.colorInMasked.CGColor;
+
+    self._testSourceDescLabel.textColor = [self poinsInfoWithName:self.testSourceName].colorInMasked;
+    self._referenceDescLabel.textColor = [self poinsInfoWithName:self.referenceName].colorInMasked;
+    CAShapeLayer* lineLayer = (CAShapeLayer*)self._referenceDescLabel.layer.sublayers.firstObject;
+    lineLayer.strokeColor = self._referenceDescLabel.textColor.CGColor;
+
+    self._sourceToReferenceArrowsLayer.hidden = true;
+    self._graphicBackgroundGridLayer.hidden = true;
+}
+
 @end
 
 @implementation ASTM30ColorVectorViewController (ASTM30GraphicTypeSwitchAnimations)
@@ -563,7 +622,7 @@
 }
 
 - (void)_animateMaskEnableToPointsLinesLayer:(BOOL)maskEnable duration:(NSTimeInterval)duration {
-    [self._pointsInfoToLayersDict forEachWithAction:^(ASTM30PointsInfo *info, CAShapeLayer *shapeLayer) {
+    [self._pointsInfoToLayersDict forEachWithAction:^(ASTM30PointsInfo* info, CAShapeLayer* shapeLayer) {
         UIColor* nextColorValue = (maskEnable)? info.colorInMasked : info.color;
 
         mz_guard_let_return(nextColor, nextColorValue);

@@ -10,7 +10,16 @@
 #import "ASTM30RfRgViewController.h"
 #import "ASTM30CoordinateSpace.h"
 #import "ASTM30PointsInfo.h"
+#import "Utilities.h"
 #import "MZ.h"
+
+@interface RfRgParentViewController ()
+@property (readwrite, strong, nonatomic) ASTM30RfRgViewController* _graphicViewController;
+@end
+
+@interface RfRgParentViewController (IB)
+- (IBAction)takeSnapshot:(id)sender;
+@end
 
 @interface RfRgParentViewController (Test)
 - (void)__testSetting;
@@ -20,7 +29,7 @@
 
 
 @implementation RfRgParentViewController {
-    ASTM30RfRgViewController* _graphicViewController;
+
 }
 
 - (void)viewDidLoad {
@@ -31,15 +40,35 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    _graphicViewController = segue.destinationViewController;
+    self._graphicViewController = segue.destinationViewController;
 }
+
+@end
+
+@implementation RfRgParentViewController (IB)
+
+- (IBAction)takeSnapshot:(id)sender {
+    mz_var(snapshotImage, [Utilities imageWithView:self._graphicViewController.view]);
+
+    mz_var(imageData, UIImagePNGRepresentation(snapshotImage));
+
+    mz_var(docPath, NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true).firstObject);
+    NSString* path = [NSString stringWithFormat:@"%@/%@.png", docPath, @"niya2"];
+
+    BOOL success = [[NSFileManager defaultManager] createFileAtPath:path
+                                                           contents:imageData
+                                                         attributes:nil];
+    MZLogMessageBool(@"Success", success);
+    MZLog(@"Save to: %@", path);
+}
+
 
 @end
 
 @implementation RfRgParentViewController (Test)
 
 - (void)__testSetting {
-    mz_var(graphicViewController, _graphicViewController);
+    mz_var(graphicViewController, self._graphicViewController);
     graphicViewController.coordinateSpace = [[ASTM30CoordinateSpace alloc] initWithXMin:50
                                                                                    yMin:60
                                                                                    xMax:100
@@ -51,7 +80,7 @@
 }
 
 - (NSArray<ASTM30Point *> *)__testPointsWithNumber:(NSInteger)number {
-    mz_var(graphicViewController, _graphicViewController);
+    mz_var(graphicViewController, self._graphicViewController);
     if (graphicViewController == nil) return nil;
 
     mz_var(coordinateSpace, graphicViewController.coordinateSpace);

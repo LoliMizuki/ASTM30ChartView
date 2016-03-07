@@ -10,10 +10,16 @@
 #import "ASTM30CoordinateSpace.h"
 #import "ASTM30PointsInfo.h"
 #import "ASTM30ColorVectorViewController.h"
+#import "Utilities.h"
 #import "MZ.h"
 
+@interface ColorVectorParentViewController ()
+@property (readwrite, strong, nonatomic) ASTM30ColorVectorViewController* _tm30ViewController;
+@end
+
 @interface ColorVectorParentViewController (IB)
-- (IBAction)didTouchUpInsideMaskButton:(UIButton *)button;
+- (IBAction)triggerMask:(id)sender;
+- (IBAction)takeSnapshot:(id)sender;
 @end
 
 @interface ColorVectorParentViewController (TestData)
@@ -23,9 +29,7 @@
 
 
 
-@implementation ColorVectorParentViewController {
-    ASTM30ColorVectorViewController* _tm30ViewController;
-}
+@implementation ColorVectorParentViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -36,7 +40,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     [super prepareForSegue:segue sender:sender];
-    _tm30ViewController = (ASTM30ColorVectorViewController *)segue.destinationViewController;
+    self._tm30ViewController = (ASTM30ColorVectorViewController *)segue.destinationViewController;
 }
 
 # pragma mark - Test
@@ -46,8 +50,8 @@
 }
 
 - (void)__addTestData {
-    _tm30ViewController.testSourceName = @"TestSource";
-    _tm30ViewController.referenceName = @"Reference";
+    self._tm30ViewController.testSourceName = @"TestSource";
+    self._tm30ViewController.referenceName = @"Reference";
 
     mz_var(infoForReference, [[ASTM30PointsInfo alloc] initWithName:@"Reference"]);
     infoForReference.color = [UIColor blackColor];
@@ -65,7 +69,7 @@
 
         return points;
     }();
-    [_tm30ViewController addPointsInfo:infoForReference];
+    [self._tm30ViewController addPointsInfo:infoForReference];
 
     mz_var(infoForTestSource, [[ASTM30PointsInfo alloc] initWithName:@"TestSource"]);
     infoForTestSource.color = [UIColor redColor];
@@ -83,20 +87,34 @@
 
         return points;
     }();
-    [_tm30ViewController addPointsInfo:infoForTestSource];
+    [self._tm30ViewController addPointsInfo:infoForTestSource];
 }
 
 @end
 
 @implementation ColorVectorParentViewController (IB)
 
-- (IBAction)didTouchUpInsideMaskButton:(UIButton *)sender {
-    ASTM30GraphicType type =
-        (_tm30ViewController.graphicType == ASTM30GraphicType_ColorVector)?
+- (IBAction)triggerMask:(id)sender {
+    ASTM30GraphicType type = (self._tm30ViewController.graphicType == ASTM30GraphicType_ColorVector)?
         ASTM30GraphicType_ColorDistortion :
         ASTM30GraphicType_ColorVector;
 
-    [_tm30ViewController setGraphicType:type];
+    [self._tm30ViewController setGraphicType:type];
+}
+
+- (IBAction)takeSnapshot:(id)sender {
+    mz_var(snapshotImage, [Utilities imageWithView:self._tm30ViewController.view]);
+
+    mz_var(imageData, UIImagePNGRepresentation(snapshotImage));
+
+    mz_var(docPath, NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true).firstObject);
+    NSString* path = [NSString stringWithFormat:@"%@/%@.png", docPath, @"niya1"];
+
+    BOOL success = [[NSFileManager defaultManager] createFileAtPath:path
+                                                           contents:imageData
+                                                         attributes:nil];
+    MZLogMessageBool(@"Success", success);
+    MZLog(@"Save to: %@", path);
 }
 
 @end
@@ -119,8 +137,7 @@
              [NSValue valueWithCGPoint:CGPointMake(0.112917, -0.993604)],
              [NSValue valueWithCGPoint:CGPointMake(0.597958, -0.801528)],
              [NSValue valueWithCGPoint:CGPointMake(0.827279, -0.561791)],
-             [NSValue valueWithCGPoint:CGPointMake(0.983755, -0.179517)],
-             ];
+             [NSValue valueWithCGPoint:CGPointMake(0.983755, -0.179517)]];
 }
 
 - (NSArray<NSValue *> *)__testSourcePoints {
@@ -139,8 +156,7 @@
              [NSValue valueWithCGPoint:CGPointMake(0.170136, -1.10126)],
              [NSValue valueWithCGPoint:CGPointMake(0.610058, -0.96514)],
              [NSValue valueWithCGPoint:CGPointMake(0.742329, -0.761882)],
-             [NSValue valueWithCGPoint:CGPointMake(0.903637, -0.259266)],
-             ];
+             [NSValue valueWithCGPoint:CGPointMake(0.903637, -0.259266)]];
 }
 
 @end

@@ -10,10 +10,6 @@
 
 @implementation ASTM30CoordinateSpace
 
-@synthesize xMin;
-@synthesize yMin;
-@synthesize xMax;
-@synthesize yMax;
 @synthesize xLength;
 @synthesize yLength;
 
@@ -28,12 +24,16 @@
     return self;
 }
 
-- (CGFloat)xLength { return fabs(xMax - xMin); }
+- (CGFloat)xLength { return fabs(self.xMax - self.xMin); }
 
-- (CGFloat)yLength { return fabs(yMax - yMin); }
+- (CGFloat)yLength { return fabs(self.yMax - self.yMin); }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"x: [%0.2f, %0.2f], y: [%0.2f, %0.2f]", xMin, xMax, yMin, yMax];
+    return [NSString stringWithFormat:@"x: [%0.2f, %0.2f], y: [%0.2f, %0.2f]",
+            self.xMin,
+            self.xMax,
+            self.yMin,
+            self.yMax];
 }
 
 @end

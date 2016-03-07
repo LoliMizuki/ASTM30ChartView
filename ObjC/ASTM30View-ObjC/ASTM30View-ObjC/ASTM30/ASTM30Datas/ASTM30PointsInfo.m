@@ -7,6 +7,7 @@
 //
 
 #import "ASTM30PointsInfo.h"
+#import "MZ.h"
 
 @implementation ASTM30Point
 
@@ -17,7 +18,7 @@
     self = [super init];
 
     self.key = aKey;
-    self.value = aValue;
+    self.value = (!CGPointIsNaN(aValue))? aValue : CGPointInvalid;
 
     return self;
 }

@@ -26,8 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readwrite, nullable, strong, nonatomic) NSString* referenceName;
 @property (readwrite, nonatomic) CGFloat rf;
 @property (readwrite, nonatomic) CGFloat rg;
+@property (readwrite, nonatomic) ASTM30GraphicType graphicType;
 
-@property (nonatomic, readonly) ASTM30GraphicType graphicType;
+- (instancetype)initWithAlwaysColorDistortionType;
 
 - (void)addPointsInfo:(ASTM30PointsInfo *)info;
 - (nullable ASTM30PointsInfo *)poinsInfoWithName:(NSString *)name;

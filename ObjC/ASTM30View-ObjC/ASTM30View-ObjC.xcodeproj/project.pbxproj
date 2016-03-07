@@ -21,6 +21,7 @@
 		DF2EA6DB1C5F327000B7139C /* ASTM30PointsInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DF2EA6D61C5F327000B7139C /* ASTM30PointsInfo.m */; };
 		DF2EA6E11C5F32D600B7139C /* MZMath.m in Sources */ = {isa = PBXBuildFile; fileRef = DF2EA6E01C5F32D600B7139C /* MZMath.m */; };
 		DF2EA6E41C5F32FF00B7139C /* MZNSCollectionExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = DF2EA6E31C5F32FF00B7139C /* MZNSCollectionExtensions.m */; };
+		DF68F2741C7FFAB00090ED13 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = DF68F2731C7FFAB00090ED13 /* Utilities.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,8 @@
 		DF2EA6E31C5F32FF00B7139C /* MZNSCollectionExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZNSCollectionExtensions.m; path = "../../../../../../iOS/src/lolimizuki/Projects/MZ-ObjC/MZNSCollectionExtensions.m"; sourceTree = "<group>"; };
 		DF2EA6E51C5F330800B7139C /* MZCGExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MZCGExtensions.h; path = "../../../../../../iOS/src/lolimizuki/Projects/MZ-ObjC/MZCGExtensions.h"; sourceTree = "<group>"; };
 		DF2EA6E61C5F332200B7139C /* MZCodeMiracle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MZCodeMiracle.h; path = "../../../../../../iOS/src/lolimizuki/Projects/MZ-ObjC/MZCodeMiracle.h"; sourceTree = "<group>"; };
+		DF68F2721C7FFAB00090ED13 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		DF68F2731C7FFAB00090ED13 /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +92,8 @@
 			children = (
 				8E5C9BCE1C571956000E819B /* AppDelegate.h */,
 				8E5C9BCF1C571956000E819B /* AppDelegate.m */,
+				DF68F2721C7FFAB00090ED13 /* Utilities.h */,
+				DF68F2731C7FFAB00090ED13 /* Utilities.m */,
 				8E5C9BD11C571956000E819B /* ColorVectorParentViewController.h */,
 				8E5C9BD21C571956000E819B /* ColorVectorParentViewController.m */,
 				DF2E31981C6046D70061AF89 /* RfRgParentViewController.h */,
@@ -245,6 +250,7 @@
 				DF00474A1C5F3EE600A5C4F4 /* ASTM30RfRgViewController.m in Sources */,
 				DF2EA6DA1C5F327000B7139C /* ASTM30CoordinateSpace.m in Sources */,
 				DF2E319A1C6046D70061AF89 /* RfRgParentViewController.m in Sources */,
+				DF68F2741C7FFAB00090ED13 /* Utilities.m in Sources */,
 				DF2EA6DB1C5F327000B7139C /* ASTM30PointsInfo.m in Sources */,
 				DF2EA6E11C5F32D600B7139C /* MZMath.m in Sources */,
 				8E5C9BCD1C571956000E819B /* main.m in Sources */,

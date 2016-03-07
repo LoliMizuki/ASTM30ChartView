@@ -15,14 +15,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ASTM30RfRgViewController : UIViewController
 
-@property (nonatomic, strong, readwrite) ASTM30CoordinateSpace* coordinateSpace;
-@property (nonatomic, strong, readwrite) NSMutableArray<ASTM30Point*>* points;
-@property (nonatomic, strong, readwrite) UIColor* backgroundColor;
-@property (nonatomic, strong, readwrite) UIColor* pointColor;
-@property (nonatomic, strong, readwrite) UIColor* gridLineColor;
-@property (nonatomic, strong, readwrite) UIColor* coordinateLabelTextColor;
+// General
+@property (readwrite, strong, nonatomic) ASTM30CoordinateSpace* coordinateSpace;
+@property (readwrite, strong, nonatomic) NSMutableArray<ASTM30Point*>* points;
+@property (readwrite, strong, nonatomic) UIColor* backgroundColor;
+
+// Points
+@property (readwrite, nonatomic) CGFloat pointSize;
+@property (readwrite, strong, nonatomic) UIColor* pointColor;
+@property (readwrite, strong, nonatomic) UIColor* pointColorForFocused;
+@property (readwrite, strong, nonatomic) UIColor* pointStrokeColorForFocused;
+@property (readwrite, strong, nonatomic) UIColor* pointColorForNonfocused;
+@property (readwrite, strong, nonatomic) UIColor* pointStrokeColorForNonfocused;
+
+// Grid, Labels
+@property (readwrite, strong, nonatomic) UIColor* gridLineColor;
+@property (readwrite, strong, nonatomic) UIColor* coordinateLabelTextColor;
+@property (readwrite, nonatomic) CGPoint coordinateViewOffset;
+@property (readwrite, nonatomic) CGFloat coordinateLabelTextSize;
+@property (readwrite, nonatomic) CGPoint coordinateXLabelOffset;
+@property (readwrite, nonatomic) CGPoint coordinateYLabelOffset;
 
 - (void)refresh;
+- (void)setFocusPointWithKey:(NSString *)key;
 
 @end
 

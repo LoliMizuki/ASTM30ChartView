@@ -12,11 +12,21 @@
 #import "MZ.h"
 
 @interface ASTM30RfRgViewController ()
-@property (nonatomic, assign, readwrite) UIView* _coordinateView;
-@property (nonatomic, assign, readwrite) CAShapeLayer* _pointsLayer;
+
+@property (readonly, nonatomic) CGFloat _defaultTextSize;
+@property (readwrite, weak, nonatomic) UIView* _coordinateView;
+@property (readwrite, weak, nonatomic) CAShapeLayer* _pointsLayer;
+@property (readwrite, weak, nonatomic) ASTM30Point* _focusPoint;
+@property (readwrite, weak, nonatomic) UILabel* _xCoordinateDescriptionLabel;
+@property (readwrite, weak, nonatomic) UILabel* _yCoordinateDescriptionLabel;
+@property (readwrite, strong, nonatomic) NSMutableDictionary<NSString*, UIView*>* _pointToViewDict;
+
+- (void)_init;
+
 @end
 
 @interface ASTM30RfRgViewController (GraphicComponents)
+
 - (void)_setAndAddCoordinateViewToView:(UIView *)view;
 - (void)_setColorZoneLayersToView:(UIView *)view;
 - (void)_setBoardLinesToView:(UIView *)view;
@@ -40,6 +50,7 @@
                                positions:(NSArray<NSValue *> *)positions
                                   offset:(CGPoint)offset
                       useCommonFrameSize:(BOOL)useCommonFrameSize;
+- (void)_addXYCoordinateDescriptionLabelsToView:(UIView *)view;
 - (void)_addCoordinateNumberLabelsToView:(UIView *)view
                           textStartValue:(CGFloat)textStartValue
                                positions:(NSArray<NSValue *> *)positions
@@ -64,24 +75,29 @@
                                    lengthOfLine:(CGFloat)lengthOfLine
                            isIncludeHeadAndTail:(BOOL)isIncludeHeadAndTail
                                      didAddLine:(void (^)(CGPoint pathFrom, CGPoint pathTo, UIBezierPath* path))didAddLine;
+- (void)_modifyLayout;
 - (CAShapeLayer *)_newShaperLayer;
+- (void)_setPointViewForNormal:(UIView *)pointView;
+- (void)_setPointViewForFocus:(UIView *)pointView bringToTop:(BOOL)needBringToTop;
+- (void)_setPointViewForNonFocus:(UIView *)pointView;
+
 @end
 
 
 
 @implementation ASTM30RfRgViewController
 
+@synthesize _defaultTextSize;
+
+- (instancetype)init {
+    self = [super init];
+    [self _init];
+    return self;
+}
+
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
-
-    self.coordinateSpace = [[ASTM30CoordinateSpace alloc] initWithXMin:50 yMin:60 xMax:100 yMax:140];
-    self.points = [NSMutableArray array];
-    self.backgroundColor = [UIColor whiteColor];
-
-    self.pointColor = [UIColor colorWithRed:0.129 green:0.286 blue:0.486 alpha:1.0];
-    self.gridLineColor = [UIColor blackColor];
-    self.coordinateLabelTextColor = [UIColor blackColor];
-
+    [self _init];
     return self;
 }
 
@@ -99,14 +115,56 @@
     [self _setCoordinateGridLinesAndLabelsToView:self._coordinateView];
     [self _setAndAddPointLayerToView:self._coordinateView];
     [self _setPointViewsToView:self._coordinateView];
+    [self _addXYCoordinateDescriptionLabelsToView:self.view];
+    [self _modifyLayout];
+}
+
+- (void)setFocusPointWithKey:(NSString *)key {
+    mz_var(focusPointView, self._pointToViewDict[key]);
+
+    if (focusPointView == nil) {
+        [self._pointToViewDict.allValues forEachWithAction:^(UIView* pointView) {
+            [self _setPointViewForNormal:pointView];
+        }];
+    } else {
+        [self._pointToViewDict.allValues forEachWithAction:^(UIView* pointView) {
+            if (pointView == focusPointView) return;
+            [self _setPointViewForNonFocus:pointView];
+        }];
+
+        [self _setPointViewForFocus:focusPointView bringToTop:true];
+    }
 }
 
 
 # pragma mark - Private
 
 - (void)dealloc {
+    [self._pointToViewDict removeAllObjects];
     [self._coordinateView removeFromSuperview];
     [self._pointsLayer removeFromSuperlayer];
+}
+
+- (void)_init {
+    _defaultTextSize = 14;
+
+    self.coordinateSpace = [[ASTM30CoordinateSpace alloc] initWithXMin:50 yMin:60 xMax:100 yMax:140];
+    self.points = [NSMutableArray array];
+    self.backgroundColor = [UIColor blackColor];
+    self.pointSize = 2.0;
+    self.pointColor = [UIColor colorWithRed:0.129 green:0.286 blue:0.486 alpha:1.0];
+    self.pointColorForFocused = [UIColor colorWithRed:0.1788 green:0.3857 blue:0.7481 alpha:1.0];
+    self.pointColorForNonfocused = [UIColor colorWithRed:0.564 green:0.639 blue:0.737 alpha:1.0];
+    self.pointStrokeColorForFocused = [UIColor clearColor];
+    self.pointStrokeColorForNonfocused = [UIColor clearColor];
+    self.gridLineColor = [UIColor blackColor];
+    self.coordinateLabelTextColor = [UIColor whiteColor];
+    self.coordinateViewOffset = CGPointZero;
+    self.coordinateLabelTextSize = 14.0;
+    self.coordinateXLabelOffset = CGPointZero;
+    self.coordinateYLabelOffset = CGPointZero;
+    
+    self._pointToViewDict = [NSMutableDictionary<NSString*, UIView*> dictionary];
 }
 
 @end
@@ -120,7 +178,7 @@
     mz_var(coordinateView, [[UIView alloc] initWithFrame:frame]);
 
     [view addSubview:coordinateView];
-    coordinateView.center = view.center;
+    coordinateView.center = CGPointAdd(view.center, self.coordinateViewOffset);
     coordinateView.backgroundColor = [UIColor clearColor];
 
     self._coordinateView = coordinateView;
@@ -225,6 +283,10 @@
     mz_var(pointViews, [NSMutableArray<UIView *> array]);
     [self.points forEachWithAction: ^(ASTM30Point* point) {
         UIView* pointView = [self _addAndGetPointViewToView:view at: realPointPositionFromTm30Point(point)];
+        MZAssertIfNil(pointView);
+
+        self._pointToViewDict[point.key] = pointView;
+
         [pointViews addObject: pointView];
     }];
 
@@ -286,13 +348,13 @@
     [self _addCoordinateNumberLabelsToView:view
                             textStartValue:self.coordinateSpace.xMin
                                  positions:labelPositionsForXAxis
-                                    offset:CGPointMake(0, 10)];
+                                    offset:CGPointAdd(CGPointMake(0, 6), self.coordinateXLabelOffset)];
 
     [self _addCoordinateNumberLabelsToView:view
                             textStartValue:self.coordinateSpace.yMin
                               textAlignmen:NSTextAlignmentRight
                                  positions:[labelPositionsForYAxis reversedArray]
-                                    offset:CGPointMake(-20, 0)
+                                    offset:CGPointAdd(CGPointMake(-16, 0), self.coordinateYLabelOffset)
                         useCommonFrameSize:true];
 }
 
@@ -364,6 +426,70 @@
     }
 }
 
+- (void)_addXYCoordinateDescriptionLabelsToView:(UIView *)view {
+    [self._xCoordinateDescriptionLabel removeFromSuperview];
+    [self._yCoordinateDescriptionLabel removeFromSuperview];
+
+    UILabel* (^descLabel)(NSString*) = ^(NSString* title){
+        mz_var(label, [[UILabel alloc] init]);
+        mz_var(fontSize, label.font.pointSize*self.coordinateLabelTextSize/self._defaultTextSize);
+
+        mz_var(fontDescriptor, [label.font.fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold]);
+        label.font = [UIFont fontWithDescriptor:fontDescriptor
+                                           size:fontSize];
+        label.text = title;
+        [label sizeToFit];
+        label.textColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0];
+
+        [view addSubview:label];
+
+        return label;
+    };
+
+    mz_var(viewFrame, view.frame);
+
+    mz_var(xLabel, descLabel(@"Fidelity Index, Rf"));
+    xLabel.center = CGPointMake(viewFrame.size.width/2,
+                                viewFrame.size.height - xLabel.frame.size.height/2);
+
+    mz_var(yLabel, descLabel(@"Gamut Index, Rg"));
+    yLabel.center = CGPointMake(0,
+                                viewFrame.size.height/2);
+    yLabel.transform = CGAffineTransformRotate(yLabel.transform, -M_PI_2);
+
+    self._xCoordinateDescriptionLabel = xLabel;
+    self._yCoordinateDescriptionLabel = yLabel;
+}
+
+- (void)_modifyLayout {
+    if (self._coordinateView == nil) return;
+    if (self._xCoordinateDescriptionLabel == nil) return;
+    if (self._yCoordinateDescriptionLabel == nil) return;
+
+    self._coordinateView.center = CGPointAdd(self._coordinateView.center, CGPointMake(8, -8));
+
+    mz_var(coordinateViewCenter, self._coordinateView.center);
+    mz_var(coordinateViewFrame, self._coordinateView.frame);
+
+    mz_var(xLabelFrame, self._xCoordinateDescriptionLabel.frame);
+    mz_var(xLabelCenter, CGPointAdd(coordinateViewCenter,
+                                    CGPointMake(0,
+                                                coordinateViewFrame.size.height/2 +
+                                                xLabelFrame.size.height/2 +
+                                                self.coordinateLabelTextSize +
+                                                2)));   // 主觀修正 :D
+    self._xCoordinateDescriptionLabel.center = xLabelCenter;
+
+    mz_var(yLabelFrame, self._yCoordinateDescriptionLabel.frame);
+    mz_var(yLabelCenter, CGPointAdd(coordinateViewCenter,
+                                    CGPointMake(-(coordinateViewFrame.size.width/2 +
+                                                  yLabelFrame.size.width/2 +
+                                                  self.coordinateLabelTextSize*2 + // modify for 3 digits
+                                                  4), // 主觀修正 :D
+                                                0)));
+    self._yCoordinateDescriptionLabel.center = yLabelCenter;
+}
+
 - (void)_addCoordinateNumberLabelsToView:(UIView *)view
                           textStartValue:(CGFloat)textStartValue
                                positions:(NSArray<NSValue *> *)positions
@@ -382,6 +508,7 @@
                               toView:(UIView *)view {
     mz_var(label, [[UILabel alloc] init]);
     label.text = text;
+    label.font = [UIFont fontWithName:label.font.fontName size:self.coordinateLabelTextSize];
     label.textColor = self.coordinateLabelTextColor;
     [label sizeToFit];
 
@@ -394,7 +521,7 @@
 
 - (UIView *)_addAndGetPointViewToView:(UIView *)view at:(CGPoint)center {
     mz_var(pointPath, [UIBezierPath bezierPathWithArcCenter:CGPointZero
-                                                     radius:2.0*[UIScreen mainScreen].scale
+                                                     radius:self.pointSize*[UIScreen mainScreen].scale
                                                  startAngle:0.0
                                                    endAngle:M_PI*2.0
                                                   clockwise:true]);
@@ -412,6 +539,10 @@
     pointView.center = center;
 
     return pointView;
+}
+
+- (CAShapeLayer *)_pointShapeLayerFromView:(UIView *)pointView {
+    return (CAShapeLayer*) pointView.layer.sublayers.firstObject;
 }
 
 - (UIBezierPath *)_innerLinesPathAtXAxisFromMin:(CGFloat)min
@@ -511,6 +642,43 @@
     layer.shouldRasterize = true;
     
     return layer;
+}
+
+- (void)_setPointViewForNormal:(UIView *)pointView {
+    mz_var(pointLayer, [self _pointShapeLayerFromView:pointView]);
+    MZAssertIfNil(pointLayer);
+
+    pointLayer.fillColor = self.pointColor.CGColor;
+    pointLayer.strokeColor = [UIColor clearColor].CGColor;
+    pointLayer.transform = CATransform3DIdentity;
+}
+
+- (void)_setPointViewForFocus:(UIView *)pointView bringToTop:(BOOL)needBringToTop {
+    mz_var(pointLayer, [self _pointShapeLayerFromView:pointView]);
+    MZAssertIfNil(pointLayer);
+
+    mz_var(scale, 1.05);
+
+    pointLayer.fillColor = self.pointColorForFocused.CGColor;
+    pointLayer.strokeColor = self.pointStrokeColorForFocused.CGColor;
+    pointLayer.transform = CATransform3DScale(CATransform3DIdentity, scale, scale, 1.0);
+
+    if (needBringToTop) {
+        mz_var(superview, pointView.superview);
+        [pointView removeFromSuperview];
+        [superview addSubview:pointView];
+    }
+}
+
+- (void)_setPointViewForNonFocus:(UIView *)pointView {
+    mz_var(pointLayer, [self _pointShapeLayerFromView:pointView]);
+    MZAssertIfNil(pointLayer);
+
+    mz_var(scale, 0.4);
+
+    pointLayer.fillColor = self.pointColorForNonfocused.CGColor;
+    pointLayer.strokeColor = self.pointStrokeColorForNonfocused.CGColor;
+    pointLayer.transform = CATransform3DScale(CATransform3DIdentity, scale, scale, 1.0);
 }
 
 @end

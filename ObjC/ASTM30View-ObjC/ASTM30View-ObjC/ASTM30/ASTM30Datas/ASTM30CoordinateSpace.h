@@ -13,13 +13,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ASTM30CoordinateSpace : NSObject
 
-@property (nonatomic, readwrite) CGFloat xMin;
-@property (nonatomic, readwrite) CGFloat yMin;
-@property (nonatomic, readwrite) CGFloat xMax;
-@property (nonatomic, readwrite) CGFloat yMax;
+@property (readwrite, nonatomic) CGFloat xMin;
+@property (readwrite, nonatomic) CGFloat yMin;
+@property (readwrite, nonatomic) CGFloat xMax;
+@property (readwrite, nonatomic) CGFloat yMax;
 
-@property (nonatomic, readonly) CGFloat xLength;
-@property (nonatomic, readonly) CGFloat yLength;
+@property (readonly, nonatomic) CGFloat xLength;
+@property (readonly, nonatomic) CGFloat yLength;
 
 - (instancetype)initWithXMin:(CGFloat)xMin yMin:(CGFloat)yMin xMax:(CGFloat)xMax yMax:(CGFloat)yMax;
 

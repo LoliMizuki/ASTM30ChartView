@@ -28,19 +28,28 @@
                                     <segue destination="y5m-ft-y4P" kind="embed" id="Ecg-D1-N6j"/>
                                 </connections>
                             </containerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hhQ-XE-UKF">
+                                <rect key="frame" x="249" y="20" width="102" height="30"/>
+                                <state key="normal" title="Take Snapshot"/>
+                                <connections>
+                                    <action selector="takeSnapshot:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EMF-8g-zoq"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NTr-xV-VJ2">
                                 <rect key="frame" x="282" y="458" width="37" height="30"/>
                                 <state key="normal" title="Mask"/>
                                 <connections>
-                                    <action selector="didTouchUpInsideMaskButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OZ6-G7-QNI"/>
+                                    <action selector="triggerMask:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TcJ-cZ-TvU"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="hhQ-XE-UKF" firstAttribute="centerX" secondItem="IF8-9z-tPK" secondAttribute="centerX" id="98X-3H-VDH"/>
                             <constraint firstItem="NTr-xV-VJ2" firstAttribute="centerX" secondItem="IF8-9z-tPK" secondAttribute="centerX" id="KW2-Lx-m7e"/>
                             <constraint firstItem="IF8-9z-tPK" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Wwe-Bx-srk"/>
                             <constraint firstItem="NTr-xV-VJ2" firstAttribute="top" secondItem="IF8-9z-tPK" secondAttribute="bottom" constant="8" id="Z8N-lE-Rgc"/>
+                            <constraint firstItem="hhQ-XE-UKF" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="bqg-JU-52w"/>
                             <constraint firstItem="IF8-9z-tPK" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.5" id="dUp-LU-nHy"/>
                             <constraint firstItem="IF8-9z-tPK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fVf-LR-NAz"/>
                         </constraints>
@@ -72,11 +81,21 @@
                                     <segue destination="4iD-60-NCe" kind="embed" id="tA4-2u-Twc"/>
                                 </connections>
                             </containerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rnA-K6-Lge">
+                                <rect key="frame" x="268" y="20" width="65" height="30"/>
+                                <state key="normal" title="Snapshot"/>
+                                <connections>
+                                    <action selector="takeSnapshot:" destination="Wno-4H-Kaf" eventType="touchUpInside" id="TVr-2Q-Rur"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="rnA-K6-Lge" firstAttribute="top" secondItem="d0C-Xh-be2" secondAttribute="bottom" id="BJN-kT-YIy"/>
                             <constraint firstItem="wI0-Pd-YDn" firstAttribute="width" secondItem="8ps-Cm-iT4" secondAttribute="width" multiplier="0.65" id="MAX-dT-eJS"/>
                             <constraint firstItem="wI0-Pd-YDn" firstAttribute="centerY" secondItem="8ps-Cm-iT4" secondAttribute="centerY" id="f5D-a2-oES"/>
+                            <constraint firstItem="rnA-K6-Lge" firstAttribute="centerX" secondItem="wI0-Pd-YDn" secondAttribute="centerX" id="iuR-b5-FYM"/>
+                            <constraint firstItem="wI0-Pd-YDn" firstAttribute="top" secondItem="rnA-K6-Lge" secondAttribute="bottom" constant="55" id="jvN-IU-Awl"/>
                             <constraint firstItem="wI0-Pd-YDn" firstAttribute="centerX" secondItem="8ps-Cm-iT4" secondAttribute="centerX" id="s2R-9p-HFG"/>
                         </constraints>
                     </view>

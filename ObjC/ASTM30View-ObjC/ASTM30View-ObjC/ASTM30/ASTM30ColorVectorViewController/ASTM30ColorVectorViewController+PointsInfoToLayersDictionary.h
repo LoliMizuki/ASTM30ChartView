@@ -19,8 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PointsInfoToLayersDictionary : NSObject
 
-@property (nonatomic, readonly) NSArray<ASTM30PointsInfo *>* allKeys;
-@property (nonatomic, readonly) NSArray<CAShapeLayer *>* allValues;
+@property (readonly, nonatomic) NSArray<ASTM30PointsInfo *>* allKeys;
+@property (readonly, nonatomic) NSArray<CAShapeLayer *>* allValues;
 
 - (CAShapeLayer *)objectForKeyedSubscript:(ASTM30PointsInfo *)info;
 - (void)setObject:(CAShapeLayer *)layer forKeyedSubscript:(ASTM30PointsInfo *)info;
